@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href='{% static "/css/stile.css" %}'>
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<header>
+</header>
+
+<center>
+
+    <div> 
+        <h1>  {{title}} </h1> 
+    </div>
+
+    {%if listaprodotti.count > 0 %}
+
+        <div>
+        {% if listaprodotti.count == 1 %}
+             È presente un solo prodotto.  <br>
+        {% else %}
+         Ci sono {{listaprodotti.count}} prodotti.  <br>
+        {% endif %}
+         Categoria selezionata: <b>{{category}} </b>
+
+        </div>
+        <br> <br>
+
+        <div class="container-fluid">
+            <div class="row">
+            {% for l in listaprodotti %}
+                    <div class="col-3">
+                            <br> <br>
+                            <p> <h3> <b> {{ l.name }} </b></h3> </p>
+                            <a href = "./category/{{l.product_code}}">  <img src="{{ l.image.url }}" class="img-thumbnail" />  </a> 
+                    </div>
+            {% endfor%}
+            </div>
+        </div>
+       <br> <br>
+
+    {% else %}
+        <p> Non ci sono prodotti </p>
+    {% endif %}
+
+    <br> <br>
+    <div>
+        <a href = "../ "> Torna alla Homepage </a>
+    </div>
+</center>
+
+{% endblock %}
+        
+        

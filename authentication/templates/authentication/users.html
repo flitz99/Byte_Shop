@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+
+{% endblock %}
+
+{% block title %}{{title}} {% endblock %}
+
+{% block content %}
+
+<header>
+    
+</header>
+
+
+<center>
+    
+    {% if listaclients.count > 0 %}
+    <div align=left>
+        <font size=5> <b>Ci sono {{listaclients.count }} utenti registrati: </b> </font> <br> <br>
+        {% for l in listaclients %}
+
+            <div class="form-group">
+                <label for="username"> <b> Username: </b> {{l.user.username}}
+            </div>
+
+            <div class="form-group">
+                <label for="name"> <b> Nome: </b> {{l.user.first_name}}
+            </div>
+
+            <div class="form-group">
+                <label for="surname"> <b> Cognome: </b> {{l.user.last_name}}
+            </div>
+
+            <div class="form-group">
+                <label for="email"> <b> Email: </b> {{l.user.email}}
+            </div>
+
+            <div class="form-group">
+                <label for="birth_date"> <b> Data Nascita: </b> {{l.birth_date}}
+            </div>
+
+            <div class="form-group">
+                <label for="telephone"> <b> Telefono: </b> {{l.telephone}}
+            </div>
+
+            <div class="form-group">
+                <label for="address"> <b> Indirizzo: </b> {{l.address}}
+            </div>
+
+            <div class="form-group">
+                <label for="house_number"> <b> Numero Civico: </b> {{l.house_number}}
+            </div>
+
+            <div class="form-group">
+                <label for="city"> <b> Città: </b> {{l.city}}
+            </div>
+
+            <div class="form-group">
+                <label for="province"> <b> Province: </b> {{l.province}}
+            </div>
+
+            <div class="form-group">
+                <label for="cap"> <b> CAP: </b> {{l.cap}}
+            </div>
+
+            <br>
+            <button class="delete" type="submit" onclick="return confirm('Sei sicuro di voler eliminare questo utente?')" >  <a href="delete_user/{{l.id}}"> <font size=4> Elimina Utente </a> </button> </font>
+
+            <br> <br>
+
+
+
+        {% endfor %}
+    </div>
+    {% else %}
+        <font size=5> <b>Non sono presenti utenti registrati </b> </font> <br> <br> 
+
+    {% endif %}
+
+    <br> <a href="../../" >Torna alla Homepage </a>
+  
+</center>
+
+{% endblock %}
