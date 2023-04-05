@@ -86,7 +86,7 @@
                         <div class="orders d-flex flex-row align-items-center justify-content-end">
                             <div class="orders_icon"><img src="{% static '/img/shop_cart.jpg' %}"height="30" width="20"  alt=""></div>
                             <div class="orders_content">
-                                <div class="orders_text"><a href="#">My orders</a></div>
+                                <div class="orders_text"><a href="products/orders/{{user.id}}">My orders</a></div>
                             </div>
                         </div>
 
@@ -174,10 +174,6 @@
 <!-- Visualizzazione prodotti -->
 <center>
 
-     {% if listaprodotti.count == 0 %}
-       <br>  <h3> Nessun prodotto visionabile  </h3> <br>
-    {% endif %}
-
     
     {% if user.is_authenticated and user.is_staff%} <!--Se utente autenticato è amministratore -->
         <br>
@@ -185,7 +181,7 @@
         <h3> Prodotti che hai inserito: </h3>
     {% endif %}
    
-
+    {% if listaprodotti.count > 0%}
     <div class="container-fluid">
         <div class="row">
         {% for l in listaprodotti %}
@@ -205,6 +201,9 @@
         {% endfor%}
         </div>
     </div>
+    {% else %}
+        Nessun prodotto caricato.
+    {% endif %}
    <br> <br>
 
    {% if  not user.is_authenticated %} <!--Se utente non autenticato -->

@@ -64,14 +64,24 @@ def prodotto(request,prod_code):
                         order.save() #Aggiungo ordine
                         product.save() #Aggiungo modifiche al prodotto ( quantità diminuita )
 
-                        #messages.success(request, "Ordine effettuato correttamente")
-                        return redirect("home")
+                        messages.success(request, "Ordine effettuato correttamente")
+
                 else:
                         messages.error(request,"Inserire una quantità per effettuare l'acquisto!")
                 
 
         return render(request,template_name=templ,context=ctx)
 
+def orders(request,client_id):
+
+        templ="products/orders.html"
+
+        lista_ordini=Ordine.objects.filter(client_id=client_id) #Acquisisco lista ordini per dato cliente
+
+        ctx={"client":client_id, "listaordini":lista_ordini}
+
+        return render(request,template_name=templ,context=ctx)
+        
 #Aggiunta nuovo Product di tipo Computer
 def add_product(request,category):
     

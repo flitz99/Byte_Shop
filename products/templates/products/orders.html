@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/stile.css' %}">
+{% endblock %}
+
+{% block title %}
+    {{title}}
+{% endblock %}
+
+{% block content %}
+<header>
+    <br> <br> <h2> I tuoi ordini: </h2>
+</header>
+
+<center>
+
+    {% if listaordini.count > 0%}
+    <div class="container text-center">
+        <br> <br>
+
+        {% for l in listaordini %}
+        <div class="row"> 
+            <div class="col-md-6">
+                <h4> {{l.product.name}} </h4> <br>
+                <img src="{{ l.product.image.url}}" /> 
+            </div>
+            <div class="col-md-6">
+                <br> <br>
+                <b> <h4> Dettagli ordine: </b> </h4> <br>
+                <b> Id ordine: </b> {{l.id_ordine}} <br>
+                <b> Data ordine: </b> {{l.date}} <br>
+                <b> Quantità acquistata: </b> {{l.quantity}} <br>
+                <b> Prezzo: </b> {{l.product.price*l.quantity}} <br>
+            </div>
+        </div>
+        <br> <br>
+                
+        {% endfor%}
+        </div>
+    </div>
+
+    {% else %}
+        Nessun prodotto caricato.
+    {% endif %}
+   <br> <br>
+
+
+   <div>
+    <a href = "../../{{title}}"> Torna alla Home </a>
+   </div>
+
+</center>
+
+{% endblock %}

@@ -21,6 +21,8 @@ from . import views
 from django.conf.urls.static import static 
 from django.conf import settings
 
+from .initdb import * #definizione di erase e init_db
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r"^$|^/$|^home/$",views.home,name="home"), #mostra template html per il login
@@ -29,3 +31,6 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+erase_db() #Cancello DB
+init_db() #Inizializzo DB

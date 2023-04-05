@@ -13,7 +13,7 @@ urlpatterns = [
     path("add_product/<str:category>",add_product,name="add_product"), #aggiunta prodotto
     path("delete_product/<int:id>",delete_product,name="delete_product"), #cancellazione prodotto
     path("update_product/<int:id>",update_product,name="update_product"), #aggiornamento prodotto
-
+    path("orders/<int:client_id>",orders,name="ordini") #ordini di un cliente
 
     
 ]

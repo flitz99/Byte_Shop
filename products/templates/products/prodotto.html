@@ -15,97 +15,110 @@
 </header>
 
 <center>
-    <div>
-        <br> <br> <h3> <b> {{prodotto.product.name}}  </b> </h3> <br>
-        <img src="{{ prodotto.product.image.url}}" /> <br>
-    
-    <div>
-        <b> Disponibilità: </b>
-            {% if prodotto.product.available == 0 %}
-                Prodotto non disponibile
-            {% else %}
-                Prodotto disponibile <br>
-                Quantità disponibile: {{prodotto.product.quantity}}
-            {% endif %}
-        
-    </div>
 
-        {{prodotto.product.price}}€  <br> <br>
+    <div class="container text-center">
+        <br> <br>
 
+        <div class="row">
+             <h3> <b> {{prodotto.product.name}}  </b> </h3> <br>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ prodotto.product.image.url}}" /> 
+
+                <p class="text-center">
+                     <b> Disponibilità: </b>
+                
+                    {% if prodotto.product.available == 0 %}
+                    Prodotto non disponibile
+                    {% else %}
+                    Prodotto disponibile <br>
+                    Quantità disponibile: {{prodotto.product.quantity}}
+                    {% endif %}
+                    <br>
+                    {{prodotto.product.price}}€  <br> <br>
+
+                    {% if user.is_authenticated and user.is_staff == 0 %}
+
+                    <! Bottone acquista e quantità >
+                    <form method="post">
+                        {% csrf_token %}
+                        <label for="quantity">Quantità:  </label>
+
+                        {% if prodotto.product.available == 0 %}
+                            <input type="number" id="quantity" name="quantity" readonly="readonly" min="0" max={{prodotto.product.quantity}}>
+                        {% else %}
+                            <input type="number" id="quantity" name="quantity" min="1" max={{prodotto.product.quantity}}>
+                        {% endif%}
+                        <br><br> 
+                        <button type="submit"  value="checkout" name="checkout" class="btn btn-primary btn-sm update"> Acquista </button>
+                    </form>
+                </p>
+
+                {% endif %}
+
+                <br>
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    <strong>Message:</strong> {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                <br> <br>   
+            </div>
+
+            <div class="col-md-6 ">
+                <br> <br>
+                <b> <h4> Specifiche: </h4> </b> <br> <br>
+
+                <b> Produttore: </b> {{prodotto.product.productor }}  <br>
+                <b> Colore:  </b> {{prodotto.product.color}} <br>
+                <b> Dimensioni: </b> {{prodotto.product.size}} cm <br>
+                <b> Peso: </b> {{prodotto.product.weight }} Kg  <br>
+            
+            <! Dati tecnici >
+
+                {% if prodotto.product.type == "computer"%} <! Se è un computer>
+                    <b> Dimensione display: </b> {{prodotto.display_size}} pollici <br>
+                    <b> Risoluzione display: </b> {{prodotto.display_resolution}} pixel <br>
+                    <b> Processore:  </b> {{prodotto.cpu}}  <br>
+                    <b> Memoria ram: </b> {{prodotto.ram }} GB  <br>
+                    <b> Dimensione disco: </b> {{prodotto.disk_size}} GB <br>
+                    <b> Tipo Disco: </b> {{prodotto.disk_type}}  <br>
+                    <b> Sistem Operativo: </b> {{prodotto.operating_system}}  <br>
+                    <b> Scheda grafica: </b> {{prodotto.graphic_card}}  <br>
+                    <b> Autonomia Batteria: </b> {{prodotto.battery_autonomy}} h <br>
+                    <b> Funzioni Aggiuntive: </b> {{prodotto.additional_function }} <br>
+                {% endif %}
+
+                {% if prodotto.product.type == "smartphone"%} <! Se è uno smartphone>
+                    <b> Dimensione display: </b> {{prodotto.display_size}} pollici <br>
+                    <b> Processore: </b> {{prodotto.cpu}}  <br>
+                    <b> Memoria ram: </b> {{prodotto.ram }} GB  <br>
+                    <b> Dimensione disco: </b> {{prodotto.disk_size}} GB <br>
+                    <b> Sistem Operativo: </b> {{prodotto.operating_system}}  <br>
+                    <b> Autonomia Batteria: </b> {{prodotto.battery_autonomy}} h <br>
+                    <b> Fotocamera: </b> {{prodotto.camera}} Mpx <br>
+                    <b> Funzioni Aggiuntive: </b> {{prodotto.additional_function }} <br>
+
+                {% endif %}
+            </div>
+
+        </div>
+        <div class="row">
+            <br> <br>
         {% if user.is_authenticated and user.is_staff == 0 %}
 
-        <! Bottone acquista e quantità >
-        <form method="post">
-            {% csrf_token %}
-            <label for="quantity">Quantità:  </label>
-
-            {% if prodotto.product.available == 0 %}
-                <input type="number" id="quantity" name="quantity" readonly="readonly" min="0" max={{prodotto.product.quantity}}>
-            {% else %}
-                <input type="number" id="quantity" name="quantity" min="1" max={{prodotto.product.quantity}}>
-            {% endif%}
-            <br><br> 
-            <button type="submit"  value="checkout" name="checkout" class="btn btn-primary btn-sm update"> Acquista </button>
-        </form>
-
+            <b> <h4> Recensioni: </h4> </b> <br> <br>
+    
         {% endif %}
-        <br>
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-            <strong>Message:</strong> {{ message }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-        </div>
-        {% endfor %}
-        <br>
-        <br>    
-    
-    
+        </div>  
     <div>
+         
 
-       
-        <b> <h4> Specifiche: </h4> </b> <br> <br>
-
-        <b> Produttore: </b> {{prodotto.product.productor }}  <br>
-        <b> Colore:  </b> {{prodotto.product.color}} <br>
-        <b> Dimensioni: </b> {{prodotto.product.size}} cm <br>
-        <b> Peso: </b> {{prodotto.product.weight }} Kg  <br>
-       
-    <! Dati tecnici >
-
-        {% if prodotto.product.type == "computer"%} <! Se è un computer>
-            <b> Dimensione display: </b> {{prodotto.display_size}} pollici <br>
-            <b> Risoluzione display: </b> {{prodotto.display_resolution}} pixel <br>
-            <b> Processore:  </b> {{prodotto.cpu}}  <br>
-            <b> Memoria ram: </b> {{prodotto.ram }} GB  <br>
-            <b> Dimensione disco: </b> {{prodotto.disk_size}} GB <br>
-            <b> Tipo Disco: </b> {{prodotto.disk_type}}  <br>
-            <b> Sistem Operativo: </b> {{prodotto.operating_system}}  <br>
-            <b> Scheda grafica: </b> {{prodotto.graphic_card}}  <br>
-            <b> Autonomia Batteria: </b> {{prodotto.battery_autonomy}} h <br>
-            <b> Funzioni Aggiuntive: </b> {{prodotto.additional_function }} <br>
-        {% endif %}
-
-        {% if prodotto.product.type == "smartphone"%} <! Se è uno smartphone>
-            <b> Dimensione display: </b> {{prodotto.display_size}} pollici <br>
-            <b> Processore: </b> {{prodotto.cpu}}  <br>
-            <b> Memoria ram: </b> {{prodotto.ram }} GB  <br>
-            <b> Dimensione disco: </b> {{prodotto.disk_size}} GB <br>
-            <b> Sistem Operativo: </b> {{prodotto.operating_system}}  <br>
-            <b> Autonomia Batteria: </b> {{prodotto.battery_autonomy}} h <br>
-            <b> Fotocamera: </b> {{prodotto.camera}} Mpx <br>
-            <b> Funzioni Aggiuntive: </b> {{prodotto.additional_function }} <br>
-        {% endif %}
-
-    </div>
-
-    <br> <br>
-    {% if user.is_authenticated and user.is_staff == 0 %}
-
-    <b> <h4> Recensioni: </h4> </b> <br> <br>
-    
-        {% endif %}
     <div>
         
             <a href = "../../{{title}}"> Torna alla Home </a>
