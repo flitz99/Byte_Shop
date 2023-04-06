@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% load static %}
+
+{% endblock %}
+
+{% block title %}
+    {{title}}
+{% endblock %}
+
+{% block content %}
+<header>
+</header>
+
+<center>
+    <h3> La ricerca ha prodotto {{listaricerca.count}} risultati </h3>
+    <br> <br>
+    {% if listaricerca.count > 0%}
+    <div class="container-fluid">
+        <div class="row"> 
+            {% for l in listaricerca %}
+            <div class="col-3">
+                <h4> <b> {{l.name}} </h4> </b> <br>
+                <a href = "../../products/category/{{l.product_code}}"> <img src="{{ l.image.url }}" style="width: 100%;">  </a>   <!--collegamento a specifiche prodotto -->
+            </div>
+        <br> <br>     
+        {% endfor%}
+        </div>
+    </div>
+
+    {% else %}
+        Nessun prodotto Trovato.
+    {% endif %}
+
+   <br> <br>
+
+</center>
+
+{% endblock %}

@@ -70,8 +70,8 @@
                     <div class="header_search">
                         <div class="header_search_content">
                             <div class="header_search_form_container">
-                                <form action="#" class="header_search_form clearfix">
-                                    <input type="search" required="required" class="header_search_input" placeholder="Search for products...">
+                                <form method="GET" action="{% url 'products:search' %}" class="header_search_form clearfix" >
+                                    <input type="search" name="search" required="required" class="header_search_input" placeholder="Search for products...">
                                     <button type="submit" class="header_search_button trans_300" value="Submit"><img src="{% static '/img/search.png' %}" class="img-fluid" ></button>
                                 </form>
                             </div>
@@ -86,7 +86,7 @@
                         <div class="orders d-flex flex-row align-items-center justify-content-end">
                             <div class="orders_icon"><img src="{% static '/img/shop_cart.jpg' %}"height="30" width="20"  alt=""></div>
                             <div class="orders_content">
-                                <div class="orders_text"><a href="products/orders/{{user.id}}">My orders</a></div>
+                                <div class="orders_text"><a href="products/orders/{{user.id}}">I miei ordini</a></div>
                             </div>
                         </div>
 
@@ -150,10 +150,10 @@
                                         <a href="#">Categorie<i class="fas fa-chevron-down"></i></a>
                                         <ul>
                                             <li>
-                                                <a href="products/computer">Computer<i class="fas fa-chevron-down"></i></a>
+                                                <a href="products/results/?search=computer">Computer<i class="fas fa-chevron-down"></i></a>
                                             </li>
                                             <li>
-                                                <a href="products/smartphone">Smartphone<i class="fas fa-chevron-down"></i></a>
+                                                <a href="products/results/?search=smartphone">Smartphone<i class="fas fa-chevron-down"></i></a>
                                             </li>
                                         </ul>
                                 </li>

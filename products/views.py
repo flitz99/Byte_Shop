@@ -8,23 +8,12 @@ from django.contrib import messages
 import string
 import random
 import datetime
+from django.views.generic.list import ListView
+from django.db.models import Q
 
 def home(request):
     return redirect('../')
 
-def categoria_prodotto(request,category):
-       if category=="computer" or category=="smartphone":
-                templ="products/categoria_prodotto.html"
-        
-                products = Product.objects.filter(type=category)
-
-                ctx={"listaprodotti":products,
-             "category":category
-                }
-        
-                return render(request,template_name=templ,context=ctx)
-       else:
-                return HTTPResponse("ERROR: page not found")
 
 def prodotto(request,prod_code):
 
@@ -219,3 +208,20 @@ def update_product(request,id):
                 return redirect('home')
 
         return render(request,template_name=templ,context=ctx)
+
+class SearchView(ListView):
+    model = Product
+    template_name = 'products/search.html'
+    context_object_name = 'listaricerca'
+
+    def get_queryset(self):
+        result = super(SearchView, self).get_queryset()
+        query = self.request.GET.get('search')
+        if query:
+            postresult = Product.objects.filter(
+                  Q(name__contains=query) | Q(type=query) | Q(product_code=query) | Q(productor__contains=query) | Q(color=query)
+            )
+            result = postresult
+        else:
+            result = None
+        return result

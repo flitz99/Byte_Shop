@@ -32,5 +32,5 @@ urlpatterns = [
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-erase_db() #Cancello DB
-init_db() #Inizializzo DB
+#erase_db() #Cancello DB Product
+#init_db() #Inizializzo DB Product
