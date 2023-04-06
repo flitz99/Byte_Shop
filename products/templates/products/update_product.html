@@ -1,156 +1,135 @@
 {% extends 'base.html' %}
 
-{% block title %} Prodotti {% endblock%}
+{% block head %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+
+{% endblock %}
+
+{% block title %}
+    {{title}}
+{% endblock %}
 
 {% block content %}
-<header>
 
-</header>
+{% include "header.html" %}
+
 <center>
     <br>
     <br>
-    <font size=5>Modifica del prodotto: <b> {{prodotto.name}} </b> <br>
-        Codice del prodotto: <b> {{prodotto.product_code}} </b> <br> </font>
-    <font size=5>Categoria del prodotto:<b> {{prodotto.type}} </b> </font>
 
-    <form method="post" enctype="multipart/form-data" style= "width:700px">
+    <h4> Modifica del prodotto:  <b> {{prodotto.name}} </b> </h4>
+    <h4> Codice del prodotto: <b> {{prodotto.product_code}} </b> </h4> 
+    <h4> Categoria del prodotto: <b> {{prodotto.type}} </b> </h4>
+
+    <img src="{{ prodotto.image.url}}" style= "width:700px"/> <br>
+    <br>
+    <h3> <b> Dati prodotto: </b> </h3>
+
+    <form method="post" enctype="multipart/form-data" style= "width:500px">
+
         {% csrf_token %}
-
-        <img src="{{ prodotto.image.url}}" /> <br>
-        <font size=5> <b> Dati prodotto: </b> </font> <br> <br>
         
-            
-            Immagine attuale: <b> {{prodotto.image}} </b> <br> 
-                <label for="image">New Image: </label>
-                <input type="file" name="image" accept="image/*">
-        
-
-        <div class="form-group">
-            <label for="name">Nome: </label>
-            <input type="text"  class="vTextField" id="name" name="name" value={{prodotto.name}} Required>
-        </div>
-
-        <div class="form-group">
-            <label for="product_code">Codice Prodotto: </label>
-            <input type="text" class="form-control" id="product_code" name="product_code" value={{prodotto.product_code}} Required>
-        </div>
-        <div class="form-group">
-            <label for="productor">Produttore: </label>
-            <input type="text" class="form-control" id="productor" name="productor" value= {{prodotto.productor}} Required>
-        </div>
-        <div class="form-group">
-            <label for="color">Colore: </label>
-            <input type="text" class="form-control" id="color" name="color" value={{prodotto.color}} Required>
-        </div>
-        <div class="form-group">
-            <label for="size">Dimensione: (L/A/P)</label>
-            <input type="text" class="form-control" id="size" name="size" value={{prodotto.size}} Required>
-        </div>
-        <div class="form-group">
-            <label for="size">Peso: (Kg) </label>
-            <input type="number" step="0.01" class="form-control" id="weight" name="weight" value={{prodotto.weight}} Required>
-        </div>
-        <div class="form-group">
-            <label for="price">Prezzo: (€) </label>
-            <input type="number" step="0.01" class="form-control" id="price" name="price" value={{prodotto.price}} Required>
-        </div>
-        <div class="form-group">
-            <label for="quantity">Quantità: </label>
-            <input type="number" class="form-control" id="quantity" name="quantity" value={{prodotto.quantity}} Required>
-        </div>
+        Immagine attuale: <b> {{prodotto.image}} </b> <br> 
+        <label for="image">Nuova immagine: </label>
+        <input type="file" name="image" accept="image/*">
+    
         <br> <br>
+        <label for="name">Nome: </label>
+        <input type="text"  class="form-control" id="name" name="name" value={{prodotto.name}} Required>
+
+        <label for="product_code">Codice Prodotto: </label>
+        <input type="text" class="form-control" id="product_code" name="product_code" value={{prodotto.product_code}} Required>
+
+        <label for="productor">Produttore: </label>
+        <input type="text" class="form-control" id="productor" name="productor" value= {{prodotto.productor}} Required>
+
+        <label for="color">Colore: </label>
+        <input type="text" class="form-control" id="color" name="color" value={{prodotto.color}} Required>
+
+        <label for="size">Dimensione: (L/A/P)</label>
+        <input type="text" class="form-control" id="size" name="size" value={{prodotto.size}} Required>
+    
+        <label for="size">Peso: (Kg) </label>
+        <input type="number" step="0.01" class="form-control" id="weight" name="weight" value={{prodotto.weight}} Required>
+    
+        <label for="price">Prezzo: (€) </label>
+        <input type="number" step="0.01" class="form-control" id="price" name="price" value={{prodotto.price}} Required>
+    
+        <label for="quantity">Quantità: </label>
+        <input type="number" class="form-control" id="quantity" name="quantity" value={{prodotto.quantity}} Required>
+        
+        <br> <br>
+
+        <h3> <b> Specifiche Tecniche: </b> </h3> <br>
 
         {% if prodotto.type == "computer" %}
 
-        <font size=5> <b> Specifiche Tecniche: </b> </font> <br> <br>
+        <label for="display_size">Dimensione Display: (pollici)</label>
+        <input type="number" step="0.01" class="form-control" id="display_size" name="display_size" value={{computer.display_size}} Required>
 
-            <div class="form-group">
-                <label for="display_size">Dimensione Display: (pollici)</label>
-                <input type="number" step="0.01" class="form-control" id="display_size" name="display_size" value={{computer.display_size}} Required>
-            </div>
-            <div class="form-group">
-                <label for="display_resolution">Risoluzione Display: (pixel)</label>
-                <input type="text" class="form-control" id="display_resolution" name="display_resolution" value={{computer.display_resolution}} Required>
-            </div>
-            <div class="form-group">
-                <label for="cpu">CPU: </label>
-                <input type="text" class="form-control" id="cpu" name="cpu" value={{computer.cpu}} Required>
-            </div>
-            <div class="form-group">
-                <label for="ram">RAM: (GB) </label>
-                <input type="number" class="form-control" id="ram" name="ram" value={{computer.ram}} Required>
-            </div>
-            <div class="form-group">
-                <label for="disk_size">Dimensione disco: (GB)</label>
-                <input type="number" step="0.01" class="form-control" id="disk_size" name="disk_size" value={{computer.disk_size}} Required>
-            </div>
-            <div class="form-group">
-                <label for="display_type">Tipo di disco: </label>
-                <input type="text" class="form-control" id="disk_type" name="disk_type" value={{computer.disk_type}} Required>
-            </div>
-            <div class="form-group">
-                <label for="operating_system">Sistema Operativo: </label>
-                <input type="text" class="form-control" id="operating_system" name="operating_system" value={{computer.operating_system}} Required>
-            </div>
-            <div class="form-group">
-                <label for="graphic_card">Scheda Grafica: </label>
-                <input type="text" class="form-control" id="graphic_card" name="graphic_card" value={{computer.graphic_card}} Required>
-            </div>
-            <div class="form-group">
-                <label for="battery_autonomy">Autonomia batteria: (ore) </label>
-                <input type="number" step="0.01" class="form-control" id="battery_autonomy" name="battery_autonomy" value={{computer.battery_autonomy}} Required>
-            </div>
-            <div class="form-group">
-                <label for="additional_function">Funzioni aggiuntive: </label>
-                <input type="text" class="form-control" id="additional_function" name="additional_function" value={{computer.additional_function}} Required>
-            </div>
-
-
+        <label for="display_resolution">Risoluzione Display: (pixel)</label>
+        <input type="text" class="form-control" id="display_resolution" name="display_resolution" value={{computer.display_resolution}} Required>    
+    
+        <label for="cpu">CPU: </label>
+        <input type="text" class="form-control" id="cpu" name="cpu" value={{computer.cpu}} Required>
+    
+        <label for="ram">RAM: (GB) </label>
+        <input type="number" class="form-control" id="ram" name="ram" value={{computer.ram}} Required>
+    
+        <label for="disk_size">Dimensione disco: (GB)</label>
+        <input type="number" step="0.01" class="form-control" id="disk_size" name="disk_size" value={{computer.disk_size}} Required>
+    
+        <label for="display_type">Tipo di disco: </label>
+        <input type="text" class="form-control" id="disk_type" name="disk_type" value={{computer.disk_type}} Required>
+    
+        <label for="operating_system">Sistema Operativo: </label>
+        <input type="text" class="form-control" id="operating_system" name="operating_system" value="{{computer.operating_system}}" Required>
+    
+        <label for="graphic_card">Scheda Grafica: </label>
+        <input type="text" class="form-control" id="graphic_card" name="graphic_card" value="{{computer.graphic_card}}" Required>
+    
+        <label for="battery_autonomy">Autonomia batteria: (ore) </label>
+        <input type="number" step="0.01" class="form-control" id="battery_autonomy" name="battery_autonomy" value={{computer.battery_autonomy}} Required>
+    
+        <label for="additional_function">Funzioni aggiuntive: </label>
+        <input type="text" class="form-control" id="additional_function" name="additional_function" value="{{computer.additional_function}}" Required>
+            
         {% endif%}
+
         {% if prodotto.type == "smartphone" %}
 
-        <div class="form-group">
             <label for="display_size">Dimensione Display: (pollici)</label>
             <input type="number" step="0.01" class="form-control" id="display_size" name="display_size" value={{smartphone.display_size}} Required>
-        </div>
-        <div class="form-group">
+        
             <label for="cpu">CPU: </label>
             <input type="text" class="form-control" id="cpu" name="cpu" value={{smartphone.cpu}} Required>
-        </div>
-        <div class="form-group">
+        
             <label for="ram">RAM: (GB) </label>
             <input type="number" class="form-control" id="ram" name="ram" value={{smartphone.ram}}  Required>
-        </div>
-        <div class="form-group">
+        
             <label for="disk_size">Dimensione disco: (GB)</label>
             <input type="number" step="0.01" class="form-control" id="disk_size" name="disk_size" value={{smartphone.disk_size}}  Required>
-        </div>
-        <div class="form-group">
+        
             <label for="operating_system">Sistema Operativo: </label>
-            <input type="text" class="form-control" id="operating_system" name="operating_system" value={{smartphone.operating_system}}  Required>
-        </div>
-        <div class="form-group">
+            <input type="text" class="form-control" id="operating_system" name="operating_system" value="{{smartphone.operating_system}}"  Required>
+        
             <label for="battery_autonomy">Autonomia batteria: (ore) </label>
             <input type="number" step="0.01" class="form-control" id="battery_autonomy" name="battery_autonomy" value={{smartphone.battery_autonomy}}  Required>
-        </div>
-        <div class="form-group">
+        
             <label for="camera">Fotocamera: (Mpx) </label>
             <input type="number" step="0.01" class="form-control" id="camera" name="camera" value={{smartphone.camera}}  Required>
-        </div>
-        <div class="form-group">
+        
             <label for="additional_function">Funzioni aggiuntive: </label>
-            <input type="text" class="form-control" id="additional_function" name="additional_function" value={{smartphone.additional_function}}  Required>
-        </div>
-
-
+            <input type="text" class="form-control" id="additional_function" name="additional_function" value="{{smartphone.additional_function}}"  Required>
+        
         {% endif%}
         <br>
         <button type="submit" class="btn btn-primary update_product">Aggiorna Prodotto</button>
         <br> <br>
 
     </form>
-
-    <br>  <a href="../../"> Torna alla Homepage</a>
 
 </center>
 

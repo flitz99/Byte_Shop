@@ -3,7 +3,8 @@
 {% block head %}
 
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static '/css/stile.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+
 {% endblock %}
 
 {% block title %}
@@ -11,15 +12,14 @@
 {% endblock %}
 
 {% block content %}
-<header>
-    <br> <br> <h2> I tuoi ordini: </h2>
-</header>
+
+{% include "header.html" %}
 
 <center>
-
+    <br>
     {% if listaordini.count > 0%}
     <div class="container text-center">
-        <br> <br>
+        <br>
 
         {% for l in listaordini %}
         <div class="row"> 
@@ -33,7 +33,7 @@
                 <b> Id ordine: </b> {{l.id_ordine}} <br>
                 <b> Data ordine: </b> {{l.date}} <br>
                 <b> Quantità acquistata: </b> {{l.quantity}} <br>
-                <b> Prezzo: </b> {{l.product.price*l.quantity}} <br>
+                <b> Prezzo: </b> {{l.product.price}} <br>
             </div>
         </div>
         <br> <br>
@@ -43,14 +43,9 @@
     </div>
 
     {% else %}
-        Nessun prodotto caricato.
+        <h4> Nessun ordine effettuato </h4>
     {% endif %}
    <br> <br>
-
-
-   <div>
-    <a href = "../../{{title}}"> Torna alla Home </a>
-   </div>
 
 </center>
 

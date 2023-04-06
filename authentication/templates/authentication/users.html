@@ -11,77 +11,48 @@
 
 {% block content %}
 
-<header>
-    
-</header>
-
+{% include "header.html" %}
 
 <center>
-    
+    <br>
     {% if listaclients.count > 0 %}
-    <div align=left>
-        <font size=5> <b>Ci sono {{listaclients.count }} utenti registrati: </b> </font> <br> <br>
-        {% for l in listaclients %}
+        <div class="container-fluid">
+            <div class="row"> 
 
-            <div class="form-group">
-                <label for="username"> <b> Username: </b> {{l.user.username}}
+                {% if listaclients.count == 1 %}
+                    <h3>  Un solo utente registrato  </h3> 
+                    <br> <br>
+                {% else %}
+                    <h3> <b> {{listaclients.count}} utenti registrati </b> </h3> 
+                    <br> <br>
+                {% endif %}
+
+                {% for l in listaclients %}
+                    <div class="col-2">
+                        <label for="username"> <b> Username: </b> {{l.user.username}} <br>
+                        <label for="name"> <b> Nome: </b> {{l.user.first_name}} <br>
+                        <label for="surname"> <b> Cognome: </b> {{l.user.last_name}} <br>
+                        <label for="email"> <b> Email: </b> {{l.user.email}} <br>
+                        <label for="birth_date"> <b> Data Nascita: </b> {{l.birth_date}} <br>
+                        <label for="telephone"> <b> Telefono: </b> {{l.telephone}} <br>
+                        <label for="address"> <b> Indirizzo: </b> {{l.address}} <br>
+                        <label for="house_number"> <b> Numero Civico: </b> {{l.house_number}} <br>
+                        <label for="city"> <b> Città: </b> {{l.city}} <br>
+                        <label for="province"> <b> Province: </b> {{l.province}} <br>
+                        <label for="cap"> <b> CAP: </b> {{l.cap}} <br>
+                        <br>
+                        <a class="btn btn-primary" onclick="return confirm('Sei sicuro di voler eliminare questo utente?')" href="delete_user/{{l.id}}" role="button">Elimina Utente</a>
+
+                        <br> <br>
+                    </div>
+                {% endfor %}
             </div>
-
-            <div class="form-group">
-                <label for="name"> <b> Nome: </b> {{l.user.first_name}}
-            </div>
-
-            <div class="form-group">
-                <label for="surname"> <b> Cognome: </b> {{l.user.last_name}}
-            </div>
-
-            <div class="form-group">
-                <label for="email"> <b> Email: </b> {{l.user.email}}
-            </div>
-
-            <div class="form-group">
-                <label for="birth_date"> <b> Data Nascita: </b> {{l.birth_date}}
-            </div>
-
-            <div class="form-group">
-                <label for="telephone"> <b> Telefono: </b> {{l.telephone}}
-            </div>
-
-            <div class="form-group">
-                <label for="address"> <b> Indirizzo: </b> {{l.address}}
-            </div>
-
-            <div class="form-group">
-                <label for="house_number"> <b> Numero Civico: </b> {{l.house_number}}
-            </div>
-
-            <div class="form-group">
-                <label for="city"> <b> Città: </b> {{l.city}}
-            </div>
-
-            <div class="form-group">
-                <label for="province"> <b> Province: </b> {{l.province}}
-            </div>
-
-            <div class="form-group">
-                <label for="cap"> <b> CAP: </b> {{l.cap}}
-            </div>
-
-            <br>
-            <button class="delete" type="submit" onclick="return confirm('Sei sicuro di voler eliminare questo utente?')" >  <a href="delete_user/{{l.id}}"> <font size=4> Elimina Utente </a> </button> </font>
-
-            <br> <br>
-
-
-
-        {% endfor %}
-    </div>
+        </div>
     {% else %}
-        <font size=5> <b>Non sono presenti utenti registrati </b> </font> <br> <br> 
+
+        <h4> <b>Non sono presenti utenti registrati </b> </h4> <br> <br> 
 
     {% endif %}
-
-    <br> <a href="../../" >Torna alla Homepage </a>
   
 </center>
 

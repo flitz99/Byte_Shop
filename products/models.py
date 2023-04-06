@@ -17,10 +17,13 @@ class Product(models.Model):
     color= models.CharField(max_length=40)
     size=models.CharField(max_length=100)
     weight=models.FloatField(default=0)
-    price= models.FloatField(default=0)
+    full_price= models.FloatField(default=0)
+    discount=models.PositiveIntegerField(default=0)
+    final_price=models.FloatField(default=0)
     available= models.BooleanField(default=False) #booleano per verifica disponibilita
     quantity= models.PositiveIntegerField(default=0)
     supplier= models.ForeignKey(User,on_delete=models.CASCADE) #Utente staff che ha inserito il prodotto
+
 
 #Classe per gli acquisiti effettuati da un utente
 class Ordine(models.Model):

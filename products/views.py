@@ -53,10 +53,10 @@ def prodotto(request,prod_code):
                         order.save() #Aggiungo ordine
                         product.save() #Aggiungo modifiche al prodotto ( quantità diminuita )
 
-                        messages.success(request, "Ordine effettuato correttamente")
+                        messages.success(request, "Prodotto inserito correttamente nel carrello!")
 
                 else:
-                        messages.error(request,"Inserire una quantità per effettuare l'acquisto!")
+                        messages.error(request,"selezionare una quantità per inserire il prodotto nel carrello!")
                 
 
         return render(request,template_name=templ,context=ctx)

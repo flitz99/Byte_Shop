@@ -11,99 +11,78 @@
 
 {% block content %}
 
-<header>
-    
-</header>
+{% include "header.html" %}
 
 <center>
 
-<form method="post" enctype="multipart/form-data" style= "width:700px">
+<form method="post" enctype="multipart/form-data" style= "width:500px">
     {% csrf_token %}
 
     <br>
-    <font size=5> Ciao <b> {{user.first_name}}</b>, Modifica i dati del tuo profilo! </font> <br> <br>
+    <h3>  Modifica dati del tuo profilo: </h3> <br> 
 
-    {% if user.is_staff == 0%}
-    <img src="{{ client.profile_image.url}}" /> <br>
+    {% if user.is_staff == 0%} <!-- Utente cliente -->
+
+    <img src="{{ client.profile_image.url}}" style= "width:300px"/> <br> <br>
     <label for="image">Carica una nuova immagine: </label> <br>
     <input type="file" name="image" accept="image/*"> <br>
+
     {% endif %}
 
-    <div class="form-group">
+    
         <label for="username">Username</label>
         <input type="text" class="form-control" id="username" name="username" value={{user.username}} Required>
-    </div>
-    <div class="form-group">
+    
         <label for="fname">Nome:</label>
         <input type="text" class="form-control" id="fname" name="fname" value= {{user.first_name}} Required>
-    </div>
-    <div class="form-group">
+    
         <label for="lname">Cognome:</label>
         <input type="text" class="form-control" id="lname" name="lname" value={{user.last_name}} Required>
-    </div>
-    <div class="form-group">
+    
         <label for="email">Email:</label>
         <input type="email" class="form-control" id="email" name="email" value={{user.email}} Required>
-    </div>
-
-    {% if user.is_staff == 0 %} <! Se utente cliente>
+    
+    {% if user.is_staff == 0 %} <!-- Utente cliente -->
         
+        <label for="birth_date">Data di Nascita:</label> <br>
+        <input type="date" name="birth_date" id="birth_date" style= "width:500px; height:40px"  value="{{ client.birth_date|date:'Y-m-d' }}">
+        <br>
+        <label for="telephone">Telefono:</label>
+        <input type="number" class="form-control" id="telephone" name="telephone" value={{client.telephone}} Required>
+    
+        <label for="address">Indirizzo:</label>
+        <input type="text" class="form-control" id="address" name="address" value="{{client.address}}" Required>
+    
+        <label for="house_number">Numero civico:</label>
+        <input type="number" class="form-control" id="house_number" name="house_number" value={{client.house_number}} Required>
+    
+        <label for="city">Città:</label>
+        <input type="text" class="form-control" id="city" name="city" value={{client.city}} Required>
+    
+        <label for="province">Provincia:</label>
+        <input type="text" class="form-control" id="province" name="province" value={{client.province}} Required>
+    
+        <label for="cap">CAP:</label>
+        <input type="number" class="form-control" id="cap" name="cap" value={{client.cap}} Required>
         
-        </div class="form-group">
-            <label for="birth_date">Data di Nascita:</label>
-            <input type="date" name="birth_date" id="birth_date" value="{{ client.birth_date|date:'Y-m-d' }}">
-        </div>
-
-        <div class="form-group">
-            <label for="telephone">Telefono:</label>
-            <input type="number" class="form-control" id="telephone" name="telephone" value={{client.telephone}} Required>
-        </div>
-
-        <div class="form-group">
-            <label for="address">Indirizzo:</label>
-            <input type="text" class="form-control" id="address" name="address" value="{{client.address}}" Required>
-        </div>
-
-        <div class="form-group">
-            <label for="house_number">Numero civico:</label>
-            <input type="number" class="form-control" id="house_number" name="house_number" value={{client.house_number}} Required>
-        </div>
-
-        <div class="form-group">
-            <label for="city">Città:</label>
-            <input type="text" class="form-control" id="city" name="city" value={{client.city}} Required>
-        </div>
-
-        <div class="form-group">
-            <label for="province">Provincia:</label>
-            <input type="text" class="form-control" id="province" name="province" value={{client.province}} Required>
-        </div>
-
-        <div class="form-group">
-            <label for="cap">CAP:</label>
-            <input type="number" class="form-control" id="cap" name="cap" value={{client.cap}} Required>
-        </div>
-
     {% endif %}
 
         <br>
         <button type="submit" class="btn btn-primary update_profile">Modifica Profilo</button>
+        <br>
 
-        <br>
-        <br>
         {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-            <strong>Message:</strong> {{ message }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                <strong>Message:</strong> {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
         {% endfor %}
-        <br>
-        
-        <br> <a href="profile/change_password"><h5> Modifica la password </h5> </a>
 
-        <br> <a href="../../"> <h5> Torna alla Homepage </h5> </a>
+        <br> <a href="profile/change_password"><h5> Modifica la password </h5> </a>
+        <br> <br>
+
     
 </form>
 

@@ -3,6 +3,8 @@
 {% block head %}
 
 {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/css/stile.css' %}">
 
 {% endblock %}
 
@@ -11,8 +13,8 @@
 {% endblock %}
 
 {% block content %}
-<header>
-</header>
+
+{% include "header.html" %}
 
 <center>
 
@@ -20,50 +22,55 @@
         <br> <br>
 
         <div class="row">
-             <h3> <b> {{prodotto.product.name}}  </b> </h3> <br>
+             <h2> <b> {{prodotto.product.name}}  </b> </h2> 
+             <br> <br> <br>
         </div>
 
         <div class="row">
             <div class="col-md-6">
                 <img src="{{ prodotto.product.image.url}}" /> 
-
-                <p class="text-center">
-                     <b> Disponibilità: </b>
-                
-                    {% if prodotto.product.available == 0 %}
-                    Prodotto non disponibile
-                    {% else %}
-                    Prodotto disponibile <br>
-                    Quantità disponibile: {{prodotto.product.quantity}}
-                    {% endif %}
+            
+                <div class="text-center">
                     <br>
-                    {{prodotto.product.price}}€  <br> <br>
+                     <b> Disponibilità: </b>
+                        
+                    {% if prodotto.product.available == 0 %}
+                        Prodotto non disponibile
+                    {% else %}
+                        Prodotto disponibile <br>
+                        Quantità disponibile: {{prodotto.product.quantity}}
+                    {% endif %}
+                    
+                    <br> <br>
+                        <h4 class="prezzo_1"> Prezzo: <del> {{prodotto.product.full_price}}€ </del> &nbsp; {{prodotto.product.discount}}%  </h4>
+                        <h4 style="color:red"> {{prodotto.product.final_price}}€ </h4>
 
                     {% if user.is_authenticated and user.is_staff == 0 %}
 
-                    <! Bottone acquista e quantità >
-                    <form method="post">
-                        {% csrf_token %}
-                        <label for="quantity">Quantità:  </label>
+                        <form method="post">
+                            {% csrf_token %}
+                                <label for="quantity">Quantità:  </label>
 
-                        {% if prodotto.product.available == 0 %}
-                            <input type="number" id="quantity" name="quantity" readonly="readonly" min="0" max={{prodotto.product.quantity}}>
-                        {% else %}
-                            <input type="number" id="quantity" name="quantity" min="1" max={{prodotto.product.quantity}}>
-                        {% endif%}
-                        <br><br> 
-                        <button type="submit"  value="checkout" name="checkout" class="btn btn-primary btn-sm update"> Acquista </button>
-                    </form>
-                </p>
+                            {% if prodotto.product.available == 0 %}
+                                <input type="number" id="quantity" name="quantity" disabled="disabled" readonly="readonly" min="0" max={{prodotto.product.quantity}}> <br> <br>
+                                <button type="submit"  value="checkout" disabled="disabled" name="checkout" class="btn btn-primary"> Aggiungi al carrello </button>
+                            {% else %}
+                                <input type="number" id="quantity" name="quantity" min="1" max={{prodotto.product.quantity}}> <br> <br>
+                                <button type="submit"  value="checkout" name="checkout" class="btn btn-primary"> Aggiungi al carrello </button>
+                            {% endif%}
+                            <br><br> 
+                        </form>
 
-                {% endif %}
+                    {% endif %}
+
+                </div>
 
                 <br>
                 {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                <div class="alert alert-{{ message.tags}} alert-dismissible fade show" role="alert">
                     <strong>Message:</strong> {{ message }}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 {% endfor %}
@@ -72,7 +79,7 @@
 
             <div class="col-md-6 ">
                 <br> <br>
-                <b> <h4> Specifiche: </h4> </b> <br> <br>
+                <h3> <b> Specifiche: </b> </h3>  <br> 
 
                 <b> Produttore: </b> {{prodotto.product.productor }}  <br>
                 <b> Colore:  </b> {{prodotto.product.color}} <br>
@@ -112,18 +119,11 @@
             <br> <br>
         {% if user.is_authenticated and user.is_staff == 0 %}
 
-            <b> <h4> Recensioni: </h4> </b> <br> <br>
+            <h3>  <b> Recensioni:  </b> </h3> <br> <br>
     
         {% endif %}
         </div>  
     <div>
-         
-
-    <div>
-        
-            <a href = "../../{{title}}"> Torna alla Home </a>
-      
-    </div>
 
 </center>
 

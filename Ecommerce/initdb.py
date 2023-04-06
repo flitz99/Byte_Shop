@@ -35,7 +35,8 @@ def init_db():
         "productor" : ["Apple","Apple","Acer","Apple","Apple","Acer"  ],
         "color" : ["Black","Gray","Silver","Black","Gray","Black"  ],
         "size" : ["7x14x0.7","31.2x1.5x22","36.3x1.79x23.8","7.5x15x0.8","30.4x1.1x21.5","39.8x2.6x27.5"  ],
-        "price" : [789.99,2499.99,799.99,549.99,1249.99,1599.99  ],
+        "full_price" : [939.00,2849.00,999.99,609.00,1529.00,1750.00],
+        "discount":[15,12,20,9,17,13],
         "available" : [True,True,True,False,True,True  ],
         "quantity" : [13,7,5,0,4,2 ],
         "supplier_id" : [1,1,1,1,1,1  ],
@@ -89,8 +90,10 @@ def init_db():
                 p.color=productdict[k][i]
             if k =="size":
                 p.size=productdict[k][i]
-            if k=="price":
-                p.price=productdict[k][i]
+            if k=="full_price":
+                p.full_price=productdict[k][i]
+            if k=="discount":
+                p.discount=productdict[k][i]
             if k =="available":
                 p.available=productdict[k][i] 
             if k=="quantity":
@@ -99,6 +102,8 @@ def init_db():
                 p.supplier=admin_1
             if k=="weight":
                 p.weight=productdict[k][i]
+
+        p.final_price= round(p.full_price-((p.full_price/100)*p.discount),2) #Calcolo prezzo finale scontato
 
         lista_prodotti.append(p)
         p.save() #Salvo prodotti nel DB

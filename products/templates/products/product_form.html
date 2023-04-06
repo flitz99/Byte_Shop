@@ -10,149 +10,124 @@
 {% block title %}{{title}} {% endblock %}
 
 {% block content %}
-<header>
 
-
-
-</header>
+{% include "header.html" %}
 
 <center>
 
     <br>
-    <font size=6>Inserimento nuovo prodotto <br> </font>
-    <font size=5>Categoria selezionata:<b> {{title}} </b> </font>
+    <h4> Inserimento nuovo prodotto </h4>
+    <h4> Categoria selezionata:<b> {{title}} </b> </h4> 
     <br>
-    <form method="post" enctype="multipart/form-data" style= "width:700px">
+    <h3> <b> Dati prodotto: </b> </h3>
+    <br>
+
+    <form method="post" enctype="multipart/form-data" style= "width:500px">
         {% csrf_token %}
-        
-        <br> <br>
-        <font size=5> <b> Dati prodotto: </b> </font> <br> <br>
-            <label for="image">Immagine: </label>
-            <input type="file" id="image" name="image" accept="image/*">
 
-        <div class="form-group">
-            <label for="name">Nome: </label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Enter the name of the product" Required>
-        </div>
-        <div class="form-group">
-            <label for="product_code">Codice Prodotto: </label>
-            <input type="text" class="form-control" id="product_code" name="product_code" placeholder="Enter the code of the product" Required>
-        </div>
-        <div class="form-group">
-            <label for="productor">Produttore: </label>
-            <input type="text" class="form-control" id="productor" name="productor" placeholder="Enter the productor" Required>
-        </div>
-        <div class="form-group">
-            <label for="color">Colore: </label>
-            <input type="text" class="form-control" id="color" name="color" placeholder="Enter the color of the product" Required>
-        </div>
-        <div class="form-group">
-            <label for="size">Dimensione: (L/A/P)</label>
-            <input type="text" class="form-control" id="size" name="size" placeholder="Enter the size of the product" Required>
-        </div>
-        <div class="form-group">
-            <label for="size">Peso: (Kg) </label>
-            <input type="number" step="0.01" class="form-control" id="weight" name="weight" placeholder="Enter the weight of the product" Required>
-        </div>
-        <div class="form-group">
-            <label for="price">Prezzo: (€) </label>
-            <input type="number" step="0.01" class="form-control" id="price" name="price" placeholder="Enter the price of the product" Required>
-        </div>
-        <div class="form-group">
-            <label for="quantity">Quantità: </label>
-            <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Enter the quantity" Required>
-        </div>
+        <label for="image">Immagine: </label>
+        <input type="file" id="image" name="image" accept="image/*">
+        <br> 
+
+        <label for="name">Nome: </label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Enter the name of the product" Required>
+    
+        <label for="product_code">Codice Prodotto: </label>
+        <input type="text" class="form-control" id="product_code" name="product_code" placeholder="Enter the code of the product" Required>
+    
+        <label for="productor">Produttore: </label>
+        <input type="text" class="form-control" id="productor" name="productor" placeholder="Enter the productor" Required>
+    
+        <label for="color">Colore: </label>
+        <input type="text" class="form-control" id="color" name="color" placeholder="Enter the color of the product" Required>
+    
+        <label for="size">Dimensione: (L/A/P)</label>
+        <input type="text" class="form-control" id="size" name="size" placeholder="Enter the size of the product" Required>
+    
+        <label for="size">Peso: (Kg) </label>
+        <input type="number" step="0.01" class="form-control" id="weight" name="weight" placeholder="Enter the weight of the product" Required>
+    
+        <label for="price">Prezzo: (€) </label>
+        <input type="number" step="0.01" class="form-control" id="price" name="price" placeholder="Enter the price of the product" Required>
+    
+        <label for="quantity">Quantità: </label>
+        <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Enter the quantity" Required>
+    
         <br> <br>
 
+        <h3> <b> Specifiche Tecniche: </b> </h3> <br>
 
         <!-- Attributi categoria Computer-->
-        <font size=5> <b> Specifiche Tecniche: </b> </font> <br> <br>
+
         {% if title == "computer" %}
-        <div class="form-group">
+
             <label for="display_size">Dimensione Display: (pollici)</label>
             <input type="number" step="0.01" class="form-control" id="display_size" name="display_size" placeholder="Enter the size of the display" Required>
-        </div>
-        <div class="form-group">
+        
             <label for="display_resolution">Risoluzione Display: (pixel)</label>
             <input type="text" class="form-control" id="display_resolution" name="display_resolution" placeholder="Enter the resolution of the display" Required>
-        </div>
-        <div class="form-group">
+        
             <label for="cpu">CPU: </label>
             <input type="text" class="form-control" id="cpu" name="cpu" placeholder="Enter the cpu" Required>
-        </div>
-        <div class="form-group">
+        
             <label for="ram">RAM: (GB) </label>
             <input type="number" class="form-control" id="ram" name="ram" placeholder="Enter the ram" Required>
-        </div>
-        <div class="form-group">
+        
             <label for="disk_size">Dimensione Disco: (GB)</label>
             <input type="number" step="0.01" class="form-control" id="disk_size" name="disk_size" placeholder="Enter the size of the disk" Required>
-        </div>
-        <div class="form-group">
+        
             <label for="display_type">Tipo di disco: </label>
             <input type="text" class="form-control" id="disk_type" name="disk_type" placeholder="Enter the type of the disk" Required>
-        </div>
-        <div class="form-group">
+        
             <label for="operating_system">Sistema Operativo: </label>
             <input type="text" class="form-control" id="operating_system" name="operating_system" placeholder="Enter the os installed" Required>
-        </div>
-        <div class="form-group">
+        
             <label for="graphic_card">Scheda grafica: </label>
             <input type="text" class="form-control" id="graphic_card" name="graphic_card" placeholder="Enter the graphic card" Required>
-        </div>
-        <div class="form-group">
+        
             <label for="battery_autonomy">Autonomia batteria: (ore) </label>
             <input type="number" step="0.01" class="form-control" id="battery_autonomy" name="battery_autonomy" placeholder="Enter the autonomy of the battery" Required>
-        </div>
-        <div class="form-group">
+        
             <label for="additional_function">Funzioni aggiuntive: </label>
             <input type="text" class="form-control" id="additional_function" name="additional_function" placeholder="Enter other additional function" Required>
-        </div>
+        
         {% endif %}
 
         <!-- Attributi categoria Smartphone-->
+
         {% if title == "smartphone" %}
-        <div class="form-group">
+        
             <label for="display_size">Dimensione display: (pollici)</label>
             <input type="number" step="0.01" class="form-control" id="display_size" name="display_size" placeholder="Enter the size of the display" Required>
-        </div>
-        <div class="form-group">
+        
             <label for="cpu">CPU: </label>
             <input type="text" class="form-control" id="cpu" name="cpu" placeholder="Enter the cpu" Required>
-        </div>
-        <div class="form-group">
+        
             <label for="ram">RAM: (GB) </label>
             <input type="number" class="form-control" id="ram" name="ram" placeholder="Enter the ram" Required>
-        </div>
-        <div class="form-group">
+        
             <label for="disk_size">Dimensione disco: (GB)</label>
             <input type="number" step="0.01" class="form-control" id="disk_size" name="disk_size" placeholder="Enter the size of the disk" Required>
-        </div>
-        <div class="form-group">
+        
             <label for="operating_system">Sistema operativo: </label>
             <input type="text" class="form-control" id="operating_system" name="operating_system" placeholder="Enter the os installed" Required>
-        </div>
-        <div class="form-group">
+        
             <label for="battery_autonomy">Autonomia batteria: (ore) </label>
             <input type="number" step="0.01" class="form-control" id="battery_autonomy" name="battery_autonomy" placeholder="Enter the autonomy of the battery" Required>
-        </div>
-        <div class="form-group">
+        
             <label for="camera">Fotocamera: (Mpx) </label>
             <input type="number" step="0.01" class="form-control" id="camera" name="camera" placeholder="Enter the camera megapixel" Required>
-        </div>
-        <div class="form-group">
+        
             <label for="additional_function">Funzioni aggiuntive: </label>
             <input type="text" class="form-control" id="additional_function" name="additional_function" placeholder="Enter other additional function" Required>
-        </div>
+        
         {% endif %}
 
         <br>
         <button type="submit" class="btn btn-primary">Aggiungi Prodotto</button>
        
     </form>
-
-    <br> <a href="../../" >Torna alla Homepage </a> 
-
+<br> <br>
 </center>
 
 {% endblock %}

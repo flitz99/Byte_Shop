@@ -3,6 +3,7 @@
 {% block head %}
 
 {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
 
 {% endblock %}
 
@@ -11,18 +12,19 @@
 {% endblock %}
 
 {% block content %}
-<header>
-</header>
+
+{% include "header.html" %}
 
 <center>
-    <h3> La ricerca ha prodotto {{listaricerca.count}} risultati </h3>
+    <br> <br>
+    <h3> <b> La ricerca ha prodotto {{listaricerca.count}} risultati </b> </h3>
     <br> <br>
     {% if listaricerca.count > 0%}
     <div class="container-fluid">
         <div class="row"> 
             {% for l in listaricerca %}
             <div class="col-3">
-                <h4> <b> {{l.name}} </h4> </b> <br>
+                <h3> <b> {{l.name}} </b> </h3> <br>
                 <a href = "../../products/category/{{l.product_code}}"> <img src="{{ l.image.url }}" style="width: 100%;">  </a>   <!--collegamento a specifiche prodotto -->
             </div>
         <br> <br>     
