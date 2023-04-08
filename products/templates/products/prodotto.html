@@ -42,8 +42,12 @@
                     {% endif %}
                     
                     <br> <br>
-                        <h4 class="prezzo_1"> Prezzo: <del> {{prodotto.product.full_price}}€ </del> &nbsp; {{prodotto.product.discount}}%  </h4>
+                    {% if prodotto.product.discount > 0 %}
+                        <h4 class="prezzo_1"> Prezzo: <del> {{prodotto.product.full_price}}€ </del> &nbsp; -{{prodotto.product.discount}}%  </h4>
                         <h4 style="color:red"> {{prodotto.product.final_price}}€ </h4>
+                    {% else %}
+                        <h4 class="prezzo_1"> Prezzo: {{prodotto.product.full_price}}€ </h4>
+                    {% endif %}
 
                     {% if user.is_authenticated and user.is_staff == 0 %}
 

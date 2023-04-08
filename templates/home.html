@@ -32,7 +32,7 @@
                         <p> <h3> <b> {{ l.name }} </b></h3> </p>
 
                         {% if user.is_authenticated and user.is_staff%}
-                            <img src="{{ l.image.url }}" class="img-thumbnail">
+                            <img src="{{ l.image.url }}" style="width: 100%;" class="img-thumbnail">
                             <br>
                             <button type="submit" onclick="location.href='products/update_product/{{l.id}}'" class="btn btn-primary btn-sm update"> Modifica </button>
                             <button class="btn btn-primary btn-sm delete" type="submit" onclick="return confirm('Sei sicuro di voler eliminare il prodotto?')"> <a href="products/delete_product/{{l.id}}">  Elimina </a> </button> 

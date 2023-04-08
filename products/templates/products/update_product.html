@@ -16,120 +16,142 @@
 {% include "header.html" %}
 
 <center>
-    <br>
-    <br>
-
-    <h4> Modifica del prodotto:  <b> {{prodotto.name}} </b> </h4>
-    <h4> Codice del prodotto: <b> {{prodotto.product_code}} </b> </h4> 
-    <h4> Categoria del prodotto: <b> {{prodotto.type}} </b> </h4>
-
-    <img src="{{ prodotto.image.url}}" style= "width:700px"/> <br>
-    <br>
-    <h3> <b> Dati prodotto: </b> </h3>
-
-    <form method="post" enctype="multipart/form-data" style= "width:500px">
-
-        {% csrf_token %}
-        
-        Immagine attuale: <b> {{prodotto.image}} </b> <br> 
-        <label for="image">Nuova immagine: </label>
-        <input type="file" name="image" accept="image/*">
-    
-        <br> <br>
-        <label for="name">Nome: </label>
-        <input type="text"  class="form-control" id="name" name="name" value={{prodotto.name}} Required>
-
-        <label for="product_code">Codice Prodotto: </label>
-        <input type="text" class="form-control" id="product_code" name="product_code" value={{prodotto.product_code}} Required>
-
-        <label for="productor">Produttore: </label>
-        <input type="text" class="form-control" id="productor" name="productor" value= {{prodotto.productor}} Required>
-
-        <label for="color">Colore: </label>
-        <input type="text" class="form-control" id="color" name="color" value={{prodotto.color}} Required>
-
-        <label for="size">Dimensione: (L/A/P)</label>
-        <input type="text" class="form-control" id="size" name="size" value={{prodotto.size}} Required>
-    
-        <label for="size">Peso: (Kg) </label>
-        <input type="number" step="0.01" class="form-control" id="weight" name="weight" value={{prodotto.weight}} Required>
-    
-        <label for="price">Prezzo: (€) </label>
-        <input type="number" step="0.01" class="form-control" id="price" name="price" value={{prodotto.price}} Required>
-    
-        <label for="quantity">Quantità: </label>
-        <input type="number" class="form-control" id="quantity" name="quantity" value={{prodotto.quantity}} Required>
-        
-        <br> <br>
-
-        <h3> <b> Specifiche Tecniche: </b> </h3> <br>
-
-        {% if prodotto.type == "computer" %}
-
-        <label for="display_size">Dimensione Display: (pollici)</label>
-        <input type="number" step="0.01" class="form-control" id="display_size" name="display_size" value={{computer.display_size}} Required>
-
-        <label for="display_resolution">Risoluzione Display: (pixel)</label>
-        <input type="text" class="form-control" id="display_resolution" name="display_resolution" value={{computer.display_resolution}} Required>    
-    
-        <label for="cpu">CPU: </label>
-        <input type="text" class="form-control" id="cpu" name="cpu" value={{computer.cpu}} Required>
-    
-        <label for="ram">RAM: (GB) </label>
-        <input type="number" class="form-control" id="ram" name="ram" value={{computer.ram}} Required>
-    
-        <label for="disk_size">Dimensione disco: (GB)</label>
-        <input type="number" step="0.01" class="form-control" id="disk_size" name="disk_size" value={{computer.disk_size}} Required>
-    
-        <label for="display_type">Tipo di disco: </label>
-        <input type="text" class="form-control" id="disk_type" name="disk_type" value={{computer.disk_type}} Required>
-    
-        <label for="operating_system">Sistema Operativo: </label>
-        <input type="text" class="form-control" id="operating_system" name="operating_system" value="{{computer.operating_system}}" Required>
-    
-        <label for="graphic_card">Scheda Grafica: </label>
-        <input type="text" class="form-control" id="graphic_card" name="graphic_card" value="{{computer.graphic_card}}" Required>
-    
-        <label for="battery_autonomy">Autonomia batteria: (ore) </label>
-        <input type="number" step="0.01" class="form-control" id="battery_autonomy" name="battery_autonomy" value={{computer.battery_autonomy}} Required>
-    
-        <label for="additional_function">Funzioni aggiuntive: </label>
-        <input type="text" class="form-control" id="additional_function" name="additional_function" value="{{computer.additional_function}}" Required>
-            
-        {% endif%}
-
-        {% if prodotto.type == "smartphone" %}
-
-            <label for="display_size">Dimensione Display: (pollici)</label>
-            <input type="number" step="0.01" class="form-control" id="display_size" name="display_size" value={{smartphone.display_size}} Required>
-        
-            <label for="cpu">CPU: </label>
-            <input type="text" class="form-control" id="cpu" name="cpu" value={{smartphone.cpu}} Required>
-        
-            <label for="ram">RAM: (GB) </label>
-            <input type="number" class="form-control" id="ram" name="ram" value={{smartphone.ram}}  Required>
-        
-            <label for="disk_size">Dimensione disco: (GB)</label>
-            <input type="number" step="0.01" class="form-control" id="disk_size" name="disk_size" value={{smartphone.disk_size}}  Required>
-        
-            <label for="operating_system">Sistema Operativo: </label>
-            <input type="text" class="form-control" id="operating_system" name="operating_system" value="{{smartphone.operating_system}}"  Required>
-        
-            <label for="battery_autonomy">Autonomia batteria: (ore) </label>
-            <input type="number" step="0.01" class="form-control" id="battery_autonomy" name="battery_autonomy" value={{smartphone.battery_autonomy}}  Required>
-        
-            <label for="camera">Fotocamera: (Mpx) </label>
-            <input type="number" step="0.01" class="form-control" id="camera" name="camera" value={{smartphone.camera}}  Required>
-        
-            <label for="additional_function">Funzioni aggiuntive: </label>
-            <input type="text" class="form-control" id="additional_function" name="additional_function" value="{{smartphone.additional_function}}"  Required>
-        
-        {% endif%}
+    <div class="container-fluid">
+       
         <br>
-        <button type="submit" class="btn btn-primary update_product">Aggiorna Prodotto</button>
-        <br> <br>
+        <br> 
+        <div class="row">
+            <div class="col-4">
+                <h4> Prodotto:  <b> {{prodotto.name}} </b> </h4>
+                <h4> Codice: <b> {{prodotto.product_code}} </b> </h4> 
+                <h4> Categoria: <b> {{prodotto.type}} </b> </h4> <br>
+                <img src="{{ prodotto.image.url}}" style="width:500px"/>
+            </div>
 
-    </form>
+            <div class="col-4">
+            <h3> <b> Dati prodotto: </b> </h3>
+
+                <form method="post" enctype="multipart/form-data" style="width:500px" >
+
+                    {% csrf_token %}
+                    
+                    Immagine attuale: <b> {{prodotto.image}} </b> <br> 
+                    <label for="image" class="form-label">Nuova immagine: </label>
+                    <input type="file" class="form-control" name="image" accept="image/*">
+                
+                    <label for="name" class="form-label">Nome: </label>
+                    <input type="text"  class="form-control" name="name" value={{prodotto.name}} Required>
+
+                    <label for="product_code" class="form-label">Codice Prodotto: </label>
+                    <input type="text" class="form-control" name="product_code" value={{prodotto.product_code}} Required>
+
+                    <label for="productor" class="form-label">Produttore: </label>
+                    <input type="text" class="form-control" name="productor" value= {{prodotto.productor}} Required>
+
+                    <label for="color" class="form-label">Colore: </label>
+                    <input type="text" class="form-control" name="color" value={{prodotto.color}} Required>
+
+                    <label for="size" class="form-label">Dimensione: (L/A/P)</label>
+                    <input type="text" class="form-control" name="size" value={{prodotto.size}} Required>
+                
+                    <label for="size" class="form-label">Peso: (Kg) </label>
+                    <input type="number" step="0.01" class="form-control" name="weight" value={{prodotto.weight}} Required>
+                
+                    <label for="full_price" class="form-label">Prezzo Pieno: (€) </label>
+                    <input type="number" step="0.01" class="form-control" name="full_price" value={{prodotto.full_price}} Required>
+
+                    <label for="discount" class="form-label">Sconto: (%) </label>
+                    <input type="number" step="1" class="form-control" name="discount" value={{prodotto.discount}} Required>
+                
+                    <label for="quantity" class="form-label">Quantità: </label>
+                    <input type="number" class="form-control" name="quantity" value={{prodotto.quantity}} Required>
+
+                    <br> <br>
+            </div>
+            <div class="col-md-4" style= "width:500px">
+                <h3> <b> Specifiche Tecniche: </b> </h3> <br>
+
+                        {% if prodotto.type == "computer" %}
+                        
+                        <label for="display_size" class="form-label">Dimensione Display: (pollici)</label>
+                        <input type="number" step="0.01" class="form-control" name="display_size" value={{computer.display_size}} Required>
+
+                        <label for="display_resolution" class="form-label">Risoluzione Display: (pixel)</label>
+                        <input type="text" class="form-control" name="display_resolution" value={{computer.display_resolution}} Required>    
+                    
+                        <label for="cpu" class="form-label">CPU: </label>
+                        <input type="text" class="form-control" name="cpu" value="{{computer.cpu}}" Required>
+                    
+                        <label for="ram" class="form-label">RAM: (GB) </label>
+                        <input type="number" class="form-control" name="ram" value={{computer.ram}} Required>
+                    
+                        <label for="disk_size" class="form-label">Dimensione disco: (GB)</label>
+                        <input type="number" step="0.01" class="form-control" name="disk_size" value={{computer.disk_size}} Required>
+                    
+                        <label for="display_type" class="form-label">Tipo di disco: </label>
+                        <input type="text" class="form-control" name="disk_type" value="{{computer.disk_type}}" Required>
+                    
+                        <label for="operating_system" class="form-label">Sistema Operativo: </label>
+                        <input type="text" class="form-control" name="operating_system" value="{{computer.operating_system}}" Required>
+                    
+                        <label for="graphic_card" class="form-label">Scheda Grafica: </label>
+                        <input type="text" class="form-control" name="graphic_card" value="{{computer.graphic_card}}" Required>
+                    
+                        <label for="battery_autonomy" class="form-label">Autonomia batteria: (ore) </label>
+                        <input type="number" step="0.01" class="form-control" name="battery_autonomy" value={{computer.battery_autonomy}} Required>
+                    
+                        <label for="additional_function" class="form-label">Funzioni aggiuntive: </label>
+                        <input type="text" class="form-control" name="additional_function" value="{{computer.additional_function}}" Required>
+                    
+                        {% endif%}
+
+                    {% if prodotto.type == "smartphone" %}
+
+                    <label for="display_size" class="form-label">Dimensione Display: (pollici)</label>
+                    <input type="number" step="0.01" class="form-control" name="display_size" value={{smartphone.display_size}} Required>
+                
+                    <label for="cpu" class="form-label">CPU: </label>
+                    <input type="text" class="form-control" name="cpu" value={{smartphone.cpu}} Required>
+                
+                    <label for="ram" class="form-label">RAM: (GB) </label>
+                    <input type="number" class="form-control" name="ram" value={{smartphone.ram}}  Required>
+                
+                    <label for="disk_size" class="form-label">Dimensione disco: (GB)</label>
+                    <input type="number" step="0.01" class="form-control" name="disk_size" value={{smartphone.disk_size}}  Required>
+                
+                    <label for="operating_system" class="form-label">Sistema Operativo: </label>
+                    <input type="text" class="form-control" name="operating_system" value="{{smartphone.operating_system}}"  Required>
+                
+                    <label for="battery_autonomy" class="form-label">Autonomia batteria: (ore) </label>
+                    <input type="number" step="0.01" class="form-control" name="battery_autonomy" value={{smartphone.battery_autonomy}}  Required>
+                
+                    <label for="camera" class="form-label">Fotocamera: (Mpx) </label>
+                    <input type="number" step="0.01" class="form-control" name="camera" value={{smartphone.camera}}  Required>
+                
+                    <label for="additional_function" class="form-label">Funzioni aggiuntive: </label>
+                    <input type="text" class="form-control" name="additional_function" value="{{smartphone.additional_function}}"  Required>
+                
+                    {% endif%}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary">Aggiorna Prodotto</button>
+                <br> <br>
+            </div>
+                </form>
+        </div>   
+        {% for message in messages %}
+                <div class="alert alert-{{ message.tags}} alert-dismissible fade show" role="alert">
+                    <strong>Message:</strong> {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+        {% endfor %}
+    </div>
+        
+
 
 </center>
 

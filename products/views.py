@@ -87,16 +87,19 @@ def add_product(request,category):
         color=request.POST['color']
         size=request.POST['size']
         weight=request.POST['weight']
-        price= request.POST['price']
+        full_price= float(request.POST['full_price'])
+        discount=float(request.POST['discount'])
         quantity= int(request.POST['quantity'])
 
         if quantity>0:
                 available=True 
         else:
                 available=False
+                
         # controlli aggiuntivi ......
-
-        prod = Product.objects.create(image=image,name=name,product_code=product_code,productor=productor,color=color,size=size,weight=weight,price=price,available=available,supplier=request.user, type=type,quantity=quantity)
+        
+        final_price=round(full_price-((full_price/100)*discount),2) #Calcolo prezzo finale scontato
+        prod = Product.objects.create(image=image,name=name,product_code=product_code,productor=productor,color=color,size=size,weight=weight,full_price=full_price,discount=discount,final_price=final_price,available=available,supplier=request.user, type=type,quantity=quantity)
         prod.save()
 
         if category == "computer":
@@ -167,7 +170,8 @@ def update_product(request,id):
                 product.color=request.POST.get('color',product.color)
                 product.size=request.POST.get('size',product.size)
                 product.weight=request.POST.get('weight',product.weight)
-                product.price= request.POST.get('price',product.price)
+                product.full_price= float(request.POST.get('full_price',product.full_price))
+                product.discount= float(request.POST.get('discount',product.discount))
 
                 quantity= int(request.POST.get('quantity',product.quantity))
                 if quantity>0:
@@ -176,6 +180,7 @@ def update_product(request,id):
                         product.available=False
                 product.quantity=quantity
                 
+                product.final_price=round(product.full_price-((product.full_price/100)*product.discount),2) #Calcolo prezzo finale scontato
                 product.save()
                 
 
