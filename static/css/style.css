@@ -545,21 +545,39 @@ select option
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
-.orders_cart
+.orders_cart_profile
 {
-	height: 90px;
+	height: 80px;
+	right:50px;
+	
 }
-.orders
-{
-	margin-right: 50px;
+/* Carrello */
+.cart_icon{
+	left:10px;
+	top:5px;
 }
-.orders_icon img
-{
-	width: 100%;
+.cart_content{
+	right: +30px;
 }
-.orders_content
+.cart_text a:hover
 {
-	margin-left: 7px;
+	color: #0e8ce4;
+}
+.cart_text a{
+	font-size: 18px;
+	font-weight: 400;
+	color: #000000;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+
+/* Ordine */
+.orders_icon{
+	left:32px;
+	top:5px;
 }
 .orders_text a
 {
@@ -576,16 +594,21 @@ select option
 {
 	color: #0e8ce4;
 }
-.profile_icon img
-{
-	width: 100%;
-}
+
+/*Profilo*/
 .profile_content
 {
-	margin-left: 8px;
+	left: 30px;
+	top:2px;
 }
+.profile_icon{
+	left:27px;
+	top:3px;
+}
+
 .profile_text a
-{
+{	
+	left:10px;
 	font-size: 18px;
 	font-weight: 400;
 	color: #000000;
@@ -600,8 +623,24 @@ select option
 	color: #0e8ce4;
 }
 
+/*Logout */
 .logout-content{
-    left:+20px;
+    left:+55px;
+	top:13px;
+}
+.logout_text a{
+	font-size: 18px;
+	font-weight: 400;
+	color: #870606;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+.logout_text a:hover
+{
+	color: #0e8ce4;
 }
 
 /*********************************

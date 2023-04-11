@@ -1,17 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
-from authentication.models import Client # importo la classe Client
 
-category = (
-    ('1', 'computer'),
-    ('2', 'smartphone')
-
-)
 #Classe prodotto generico
 class Product(models.Model):
     image= models.ImageField(blank=True, null=True)
     name= models.CharField(max_length=200)
-    type= models.CharField(max_length=20, choices= category , default=1)
+    type=models.CharField(max_length=30)
     product_code=models.CharField(max_length=20, unique=True)
     productor= models.CharField(max_length=50) #tolto anno uscita....
     color= models.CharField(max_length=40)
@@ -20,19 +14,20 @@ class Product(models.Model):
     full_price= models.FloatField(default=0)
     discount=models.PositiveIntegerField(default=0)
     final_price=models.FloatField(default=0)
-    available= models.BooleanField(default=False) #booleano per verifica disponibilita
     quantity= models.PositiveIntegerField(default=0)
     supplier= models.ForeignKey(User,on_delete=models.CASCADE) #Utente staff che ha inserito il prodotto
 
+    def __str__(self):
+        return self.name
 
 #Classe per gli acquisiti effettuati da un utente
 class Ordine(models.Model):
     id_ordine= models.CharField(max_length=20, unique=True)
     date = models.DateField(blank=False)
-    product=models.ForeignKey(Product,on_delete=models.CASCADE)
+    product=models.ManyToManyField(Product)
     client= models.ForeignKey(User, on_delete=models.CASCADE)
-    quantity=models.PositiveIntegerField(default=0)
-    total_price=models.FloatField(default=0)
+    #quantity=models.PositiveIntegerField(default=0)
+    #total_price=models.FloatField(default=0)
 
 #Classe recensione 
 class Recensione(models.Model):
@@ -42,8 +37,7 @@ class Recensione(models.Model):
     client= models.ForeignKey(User,on_delete=models.CASCADE) #cliente che ha acquistato il prodotto
 
 #Classe prodotto della categoria smartphone
-class Smartphone(models.Model):
-    product = models.OneToOneField(Product, on_delete=models.CASCADE)
+class Smartphone(Product):
     display_size= models.FloatField(default=0)
     cpu= models.CharField(max_length=50)
     ram= models.PositiveIntegerField(default=0)
@@ -54,8 +48,7 @@ class Smartphone(models.Model):
     additional_function= models.CharField(max_length=1000) 
 
 #Classe prodotto della categoria computer
-class Computer(models.Model):
-    product= models.OneToOneField(Product, on_delete=models.CASCADE)
+class Computer(Product):
     display_size= models.FloatField(default=0)
     display_resolution= models.CharField(max_length=20)
     cpu= models.CharField(max_length=50)

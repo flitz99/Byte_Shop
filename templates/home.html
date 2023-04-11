@@ -34,10 +34,10 @@
                         {% if user.is_authenticated and user.is_staff%}
                             <img src="{{ l.image.url }}" style="width: 100%;" class="img-thumbnail">
                             <br>
-                            <button type="submit" onclick="location.href='products/update_product/{{l.id}}'" class="btn btn-primary btn-sm update"> Modifica </button>
-                            <button class="btn btn-primary btn-sm delete" type="submit" onclick="return confirm('Sei sicuro di voler eliminare il prodotto?')"> <a href="products/delete_product/{{l.id}}">  Elimina </a> </button> 
+                            <button type="submit" onclick="location.href='products/update_product/{{l.product_code}}'" class="btn btn-primary btn-sm update"> Modifica </button>
+                            <button class="btn btn-primary btn-sm delete" type="submit" onclick="return confirm('Sei sicuro di voler eliminare il prodotto?')"> <a href="products/delete_product/{{l.product_code}}">  Elimina </a> </button> 
                         {% else %}
-                        <a href = "products/category/{{l.product_code}}"> <img src="{{ l.image.url }}" style="width: 100%;">  </a>   <!--collegamento a specifiche prodotto -->
+                        <a href = "products/{{l.product_code}}"> <img src="{{ l.image.url }}" style="width: 100%;">  </a>   <!--collegamento a specifiche prodotto -->
                         {% endif %}
                 </div>
         {% endfor%}

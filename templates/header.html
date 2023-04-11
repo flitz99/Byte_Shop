@@ -66,34 +66,52 @@
                     </div>
                 </div>
 
-                <!-- I miei ordini -->
+                <!-- Carrello, I miei ordini, profilo e logout -->
                 {% if user.is_authenticated %}
-                <div class="col-lg-4 col-9 order-lg-3 order-2 text-lg-left text-right">
-                    <div class="orders_cart d-flex flex-row align-items-center justify-content-end">
+                <div class="col-lg-4 col-9 order-lg-3 order-4 text-lg-left text-right">
+                    <div class="orders_cart_profile d-flex flex-row align-items-center justify-content-end">
                         <div class="orders d-flex flex-row align-items-center justify-content-end">
                             {% if not user.is_staff %} <!-- Se utente amministratore nascondo "I miei ordini" -->
-                            <div class="orders_icon"><img src="../../static/img/shop_cart.jpg"height="30" width="20"  alt=""></div>
+                            
+                            <!-- Carrello -->
+                            <div class="cart_content">
+                                <div class="cart_icon">
+                                    <img src="../../static/img/shop_cart.jpg"height="30" width="30"  alt="">
+                                </div>
+                                <div class="cart_text">
+                                    <a href="../../products/orders/{{user.id}}">Carrello</a>
+                                </div>
+                            </div>
+
+                            <!-- I miei ordini -->
                             <div class="orders_content">
-                                <div class="orders_text"><a href="../../products/orders/{{user.id}}">I miei ordini</a></div>
+                                <div class="orders_icon">
+                                    <img src="../../static/img/orders_icon.png" height="30" width="25" alt="">
+                                </div>
+                                <div class="orders_text">
+                                    <a href="../../products/orders/{{user.id}}">I miei ordini</a>
+                                </div>
                             </div>
                             {% endif %}
-                        </div>
 
-                        <!-- Mio profilo-->
-                        <div class="profile">
-                            <div class="profile_container d-flex flex-row align-items-center justify-content-end">
+                            <!-- Mio profilo-->
+                            <div class="profile_content">
                                 <div class="profile_icon">
-                                    <img src="../../static/img/icona_profilo.png" height="30" width="20" alt="">
+                                    <img src="../../static/img/icona_profilo.png" height="25" width="25" alt="">
                                 </div>
-                                <div class="profile_content">
-                                    <div class="profile_text"><a href="../../authentication/profile"> Mio profilo</a></div>
-                                </div>
-                                {% if user.is_authenticated %}
-                                <div class="logout-content">
-                                    <button type="button" class="btn btn-link"><a href="../../authentication/signout">  Logout </a> </button>
-                                </div>
-                                {% endif%}
+                                    <div class="profile_text">
+                                        <a href="../../authentication/profile"> Mio profilo</a>
+                                    </div>
                             </div>
+                            
+                            <!-- Logout-->
+                            {% if user.is_authenticated %}
+                            <div class="logout-content">
+                                <div class="logout_text">
+                                    <a href="../../authentication/signout"> Logout </a> 
+                                </div>
+                            </div>
+                            {% endif%}
                         </div>
                     </div>
                 </div>

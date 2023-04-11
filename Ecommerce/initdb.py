@@ -1,9 +1,11 @@
 from products.models import *
 from authentication.models import *
+from cart.models import *
 from django.db import connection
+import datetime
 
-def erase_db():
-    print("-- Cancello il DB --\n")
+def erase_db_Products():
+    print("-- Cancello il DB Product --\n")
     Product.objects.all().delete() #Cancello oggetti table products
 
     cursor = connection.cursor()
@@ -11,39 +13,27 @@ def erase_db():
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='products_smartphone'; ''') #Resetta ID table products_smartphone
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='products_computer'; ''') #Resetta ID table products_computer
 
-    
 
-category = (
-    ('computer'),
-    ('smartphone')
-
-)
-
-def init_db():
+def init_db_Products():
 
     if len(Product.objects.all()) != 0:
         return
 
     #Se vuoto lo inizializzo
 
-    #Lista prodotti
-    productdict = {
-        "image" : ["Apple_Iphone_13.jpg","Macbook_pro_M1Pro.jpg","Acer_aspire.jpg","Apple_Iphone_11.jpg","Macbook_air_2022.jpg","Acer_Predator_helios.jpg"],
-        "name" : ["Iphone 13","Macbook Pro 14","Acer Aspire","Iphone 11","Macbook Air 2022","Acer Predator Helios 300"],
-        "type" : [category[1],category[0],category[0],category[1],category[0],category[0]],
-        "product_code" : ["172081","172534","183359","172013","176212","164300"  ],
-        "productor" : ["Apple","Apple","Acer","Apple","Apple","Acer"  ],
-        "color" : ["Black","Gray","Silver","Black","Gray","Black"  ],
-        "size" : ["7x14x0.7","31.2x1.5x22","36.3x1.79x23.8","7.5x15x0.8","30.4x1.1x21.5","39.8x2.6x27.5"  ],
-        "full_price" : [939.00,2849.00,999.99,609.00,1529.00,1750.00],
-        "discount":[15,12,20,9,17,13],
-        "available" : [True,True,True,False,True,True  ],
-        "quantity" : [13,7,5,0,4,2 ],
-        "supplier_id" : [1,1,1,1,1,1  ],
-        "weight" : [0.17,1.71,1.9,0.19,1.24,2.9  ],
-    }
-
+    #Lista computer
     computerdict = {
+        "image" : ["Macbook_pro_M1Pro.jpg","Acer_aspire.jpg","Macbook_air_2022.jpg","Acer_Predator_helios.jpg"],
+        "name" : ["Macbook Pro 14","Acer Aspire","Macbook Air 2022","Acer Predator Helios 300"],
+        "product_code" : ["172534","183359","176212","164300"  ],
+        "productor" : ["Apple","Acer","Apple","Acer"  ],
+        "color" : ["Gray","Silver","Gray","Black"  ],
+        "size" : ["31.2x1.5x22","36.3x1.79x23.8","30.4x1.1x21.5","39.8x2.6x27.5"  ],
+        "full_price" : [2849.00,999.99,1529.00,1750.00],
+        "discount":[12,20,17,13],
+        "quantity" : [7,5,4,2 ],
+        "weight" : [1.71,1.9,1.24,2.9 ],
+
         "display_resolution":["3024x1964","1920x1080","2560x1664","1920x1080"],
         "cpu":["M1 PRO CPU 10-Core","Core i7 1165G7","M2 CPU 8-Core","Core i7 11800H"],
         "ram":[16,16,8,16],
@@ -57,6 +47,18 @@ def init_db():
     }
 
     smartphonedict = {
+        "image" : ["Apple_Iphone_13.jpg","Apple_Iphone_11.jpg"],
+        "name" : ["Iphone 13","Iphone 11"],
+        "product_code" : ["172081","172013"],
+        "productor" : ["Apple","Apple"],
+        "color" : ["Black","Black"],
+        "size" : ["7x14x0.7","7.5x15x0.8" ],
+        "full_price" : [939.00,609.00],
+        "discount":[15,9],
+        "quantity" : [13,0],
+        "supplier_id" : [1,1],
+        "weight" : [0.17,0.19],
+
         "cpu":["A15 Bionic","A13 Bionic"],
         "ram":[4,4],
         "disk_size":[128,128],
@@ -68,103 +70,218 @@ def init_db():
 
     }
 
-    admin_1=User.objects.get(id=1) #Acquisisco oggetto amministratore 1
+    admin_1=User.objects.get(username="Filippo") #Acquisisco utente Filippo
 
-    lista_prodotti =[] #Creo lista contenente i prodotti per smistarli in base alla categoria dopo
-
-    #Aggiungo prodotti
-    for i in range(6): # 6 prodotti
-        p = Product() #Oggetto prodotto
-        for k in productdict:
+    #Aggiungo prodotti di tipo computer
+    for i in range(4): # 4 prodotti computer
+        c = Computer() #Oggetto prodotto
+        for k in computerdict:
             if k =="image":
-                p.image=productdict[k][i]
+                c.image=computerdict[k][i]
             if k=="name":
-                p.name=productdict[k][i]
-            if k =="type":
-                p.type=productdict[k][i] 
+                c.name=computerdict[k][i]
             if k=="product_code":
-                p.product_code=productdict[k][i]
+                c.product_code=computerdict[k][i]
             if k=="productor":
-                p.productor=productdict[k][i]
+                c.productor=computerdict[k][i]
             if k=="color":
-                p.color=productdict[k][i]
+                c.color=computerdict[k][i]
             if k =="size":
-                p.size=productdict[k][i]
+                c.size=computerdict[k][i]
             if k=="full_price":
-                p.full_price=productdict[k][i]
+                c.full_price=computerdict[k][i]
             if k=="discount":
-                p.discount=productdict[k][i]
-            if k =="available":
-                p.available=productdict[k][i] 
+                c.discount=computerdict[k][i] 
             if k=="quantity":
-                p.quantity=productdict[k][i]
-            if k=="supplier_id":
-                p.supplier=admin_1
+                c.quantity=computerdict[k][i]
             if k=="weight":
-                p.weight=productdict[k][i]
+                c.weight=computerdict[k][i]
 
-        p.final_price= round(p.full_price-((p.full_price/100)*p.discount),2) #Calcolo prezzo finale scontato
+            if k =="display_resolution":
+                c.display_resolution=computerdict[k][i]
+            if k=="cpu":
+                c.cpu=computerdict[k][i]
+            if k=="ram":
+                c.ram=computerdict[k][i]
+            if k=="disk_size":
+                c.disk_size=computerdict[k][i]
+            if k=="disk_type":
+                c.disk_type=computerdict[k][i]
+            if k=="operating_system":
+                c.operating_system=computerdict[k][i]
+            if k=="graphic_card":
+                c.graphic_card=computerdict[k][i]
+            if k=="battery_autonomy":
+                c.battery_autonomy=computerdict[k][i]
+            if k=="additional_function":
+                c.additional_function=computerdict[k][i]
+            if k=="display_size":
+                c.display_size=computerdict[k][i]
 
-        lista_prodotti.append(p)
-        p.save() #Salvo prodotti nel DB
+        c.supplier=admin_1
+        c.type="computer"
+        c.final_price= round(c.full_price-((c.full_price/100)*c.discount),2) #Calcolo prezzo finale scontato
+        c.save() #Salvo prodotti nel DB
+
+    for i in range(2): # 2 prodotti smartphone
+        s =Smartphone() #Oggetto smartphone
+        for k in smartphonedict:
+            if k =="image":
+                s.image=smartphonedict[k][i]
+            if k=="name":
+                s.name=smartphonedict[k][i]
+            if k=="product_code":
+                s.product_code=smartphonedict[k][i]
+            if k=="productor":
+                s.productor=smartphonedict[k][i]
+            if k=="color":
+                s.color=smartphonedict[k][i]
+            if k =="size":
+                s.size=smartphonedict[k][i]
+            if k=="full_price":
+                s.full_price=smartphonedict[k][i]
+            if k=="discount":
+                s.discount=smartphonedict[k][i] 
+            if k=="quantity":
+                s.quantity=smartphonedict[k][i]
+            if k=="supplier_id":
+                s.supplier=admin_1
+            if k=="weight":
+                s.weight=smartphonedict[k][i]
+
+            if k =="cpu":
+                s.cpu=smartphonedict[k][i]
+            if k =="ram":
+                s.ram=smartphonedict[k][i]
+            if k =="disk_size":
+                s.disk_size=smartphonedict[k][i]
+            if k =="battery_autonomy":
+                s.battery_autonomy=smartphonedict[k][i]
+            if k =="operating_system":
+                s.operating_system=smartphonedict[k][i]
+            if k =="camera":
+                s.camera=smartphonedict[k][i]
+            if k =="additional_function":
+                s.additional_function=smartphonedict[k][i]
+            if k =="display_size":
+                s.display_size=smartphonedict[k][i]
+        
+        s.type="smartphone"
+        s.final_price= round(s.full_price-((s.full_price/100)*s.discount),2) #Calcolo prezzo finale scontato
+        s.save()
+
+    print("-- Popolo il DB Product --\n")
+
+def erase_db_Users():
+
+    print("-- Cancello il DB Users --\n")
+    User.objects.all().delete() #Cancello oggetti table users
+
+    cursor = connection.cursor()
+    cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='auth_user'; ''') #Resetta ID table auth_user
+    cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='authentication_client'; ''') #Resetta ID table authentication_client
+
+def init_db_Users():
+
+    if len(User.objects.all()) != 0:
+        return
+    
+    clientdict = {
+        "first_name" : ["Jennifer","Daniele"],
+        "last_name" : ["Reggiani","Zanoli"],
+        "username" : ["Jennifer","Daniele"  ],
+        "email" : ["reggianije@live.it","daniele99@gmail.com"  ],
+        "password" : ["1234","1234"  ],
+
+        "birth_date":[datetime.date(1999,12,30),datetime.date(1999,6,7)],
+        "telephone":["331678923","3393456781"],
+        "address":["via marconi","via san michele"],
+        "house_number":[15,35],
+        "city":["Soliera","Soliera"],
+        "province":["Modena","Modena"],
+        "cap":["41019","41019"]
+    }
+
+    admindict ={
+        "first_name" : ["Filippo","Massimo"],
+        "last_name" : ["Reggiani","Rossi"],
+        "username" : ["Filippo","Massimo"  ],
+        "email" : ["reggianifilippo@live.it","massimorossi@live.it"  ],
+        "password" : ["1234","1234"  ],
+    }
+
+    #Aggiungo oggetti di tipo user (client)
+    for i in range(2): # 1 oggetto user
+        user = User() #Oggetto user
+        client=Client()
+        for k in clientdict:
+            if k =="first_name":
+                first_name=clientdict[k][i]
+            if k=="last_name":
+                last_name=clientdict[k][i]
+            if k=="username":
+                username=clientdict[k][i]
+            if k=="email":
+                email=clientdict[k][i]
+            if k=="password":
+                password=clientdict[k][i]
+
+            if k=="birth_date":
+                client.birth_date=clientdict[k][i]
+            if k=="telephone":
+                client.telephone=clientdict[k][i]
+            if k=="address":
+                client.address=clientdict[k][i]
+            if k=="house_number":
+                client.house_number=clientdict[k][i]
+            if k=="city":
+                client.city=clientdict[k][i]
+            if k=="province":
+                client.province=clientdict[k][i]
+            if k=="cap":
+                client.cap=clientdict[k][i]
+            
+        user=User.objects.create_user(username,email,password)
+        user.first_name=first_name
+        user.last_name=last_name
+        user.is_active=True
+        user.is_staff=False
+        user.is_superuser=False
+        user.save() #Salvo sul DB oggetto user
+        client.user=user
+
+        client.save() #Salvo sul DB oggetto client
+
+        #Creo carrello per utente cliente
+        carrello= Carrello()
+        carrello.user=client
+        carrello.save()
 
 
-    c_computer=0   #Contatore per dizionario computer
-    c_smartphone=0  #Contatore per dizionario smartphone
-
-    for z in lista_prodotti:
-        if z.type==category[1]:
-            s =Smartphone() #Oggetto smartphone
-            for k in smartphonedict:
-                if k =="cpu":
-                    s.cpu=smartphonedict[k][c_smartphone]
-                if k =="ram":
-                    s.ram=smartphonedict[k][c_smartphone]
-                if k =="disk_size":
-                    s.disk_size=smartphonedict[k][c_smartphone]
-                if k =="battery_autonomy":
-                    s.battery_autonomy=smartphonedict[k][c_smartphone]
-                if k =="operating_system":
-                    s.operating_system=smartphonedict[k][c_smartphone]
-                if k =="camera":
-                    s.camera=smartphonedict[k][c_smartphone]
-                if k =="additional_function":
-                    s.additional_function=smartphonedict[k][c_smartphone]
-                if k =="display_size":
-                    s.display_size=smartphonedict[k][c_smartphone]
-
-            s.product=z #Assegno prodotto 
-            c_smartphone=c_smartphone+1
-            s.save()
-
-        if z.type==category[0]:
-            c =Computer() #Oggetto computer
-            for k in computerdict:
-                if k =="display_resolution":
-                    c.display_resolution=computerdict[k][c_computer]
-                if k=="cpu":
-                    c.cpu=computerdict[k][c_computer]
-                if k=="ram":
-                    c.ram=computerdict[k][c_computer]
-                if k=="disk_size":
-                    c.disk_size=computerdict[k][c_computer]
-                if k=="disk_type":
-                    c.disk_type=computerdict[k][c_computer]
-                if k=="operating_system":
-                    c.operating_system=computerdict[k][c_computer]
-                if k=="graphic_card":
-                    c.graphic_card=computerdict[k][c_computer]
-                if k=="battery_autonomy":
-                    c.battery_autonomy=computerdict[k][c_computer]
-                if k=="additional_function":
-                    c.additional_function=computerdict[k][c_computer]
-                if k=="display_size":
-                    c.display_size=computerdict[k][c_computer]
-
-            c.product=z #Assegno il prodotto
-            c_computer=c_computer+1
-            c.save()
-
-    print("-- Popolo il DB --\n")
+    #Aggiungo oggetti di tipo user (admin)
+    for i in range(2): # 1 oggetto user
+        user = User() #Oggetto user
+        for k in admindict:
+            if k =="first_name":
+                first_name=admindict[k][i]
+            if k=="last_name":
+                last_name=admindict[k][i]
+            if k=="username":
+                username=admindict[k][i]
+            if k=="email":
+                email=admindict[k][i]
+            if k=="password":
+                password=admindict[k][i]
+        
+        user=User.objects.create_user(username,email,password)
+        user.first_name=first_name
+        user.last_name=last_name
+        user.is_active=True
+        user.is_staff=True
+        user.is_superuser=True
+        user.save() #Salvo sul DB oggetto user
+    
+    print("-- Popolo il DB User --\n")
+            
 
 
