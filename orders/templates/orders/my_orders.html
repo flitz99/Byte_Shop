@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+
+{% endblock %}
+
+{% block title %}{{title}} {% endblock %}
+
+{% block content %}
+
+{% include "header.html" %}
+
+<!-- Visualizzazione prodotti -->
+<center>
+    I miei ordini sono questi
+</center>
+
+
+{% endblock %}

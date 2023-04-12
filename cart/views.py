@@ -20,10 +20,11 @@ def carrello(request):
         prezzo_totale= prezzo_totale+c.price
 
     ctx= {"listacarrello":carrello.prodotti,"totale":round(prezzo_totale,2)}
-    
+
     if request.method == "POST":
-        quantities=request.POST.getlist('list')
         
+        quantities=request.POST.getlist('list')
+
         cont=0
         prezzo_totale=0
         for c in carrello.prodotti.all():
@@ -35,6 +36,8 @@ def carrello(request):
         
         ctx= {"listacarrello":carrello.prodotti,"totale":round(prezzo_totale,2)}
 
+    
+            
 
     return render(request, template_name=templ, context=ctx) #restituisco il template
 

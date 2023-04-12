@@ -20,21 +20,6 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-#Classe per gli acquisiti effettuati da un utente
-class Ordine(models.Model):
-    id_ordine= models.CharField(max_length=20, unique=True)
-    date = models.DateField(blank=False)
-    product=models.ManyToManyField(Product)
-    client= models.ForeignKey(User, on_delete=models.CASCADE)
-    #quantity=models.PositiveIntegerField(default=0)
-    #total_price=models.FloatField(default=0)
-
-#Classe recensione 
-class Recensione(models.Model):
-    valutation=models.PositiveIntegerField( default=0) # valore tra 0 e 5
-    description = models.CharField( max_length=300) # recensione
-    product= models.ForeignKey(Product, on_delete=models.CASCADE) #Prodotto acquistato
-    client= models.ForeignKey(User,on_delete=models.CASCADE) #cliente che ha acquistato il prodotto
 
 #Classe prodotto della categoria smartphone
 class Smartphone(Product):

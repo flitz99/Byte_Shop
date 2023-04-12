@@ -1,6 +1,5 @@
-from re import template
 from django.shortcuts import render, redirect
-from .models import Smartphone, Computer, Product, Ordine
+from .models import Smartphone, Computer, Product
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from cart.models import *
@@ -10,7 +9,6 @@ from django.contrib.auth.models import User
 
 def home(request):
     return redirect('../')
-
 
 def prodotto(request,prod_code):
 
@@ -73,18 +71,8 @@ def prodotto(request,prod_code):
                 
 
         return render(request,template_name=templ,context=ctx)
-
-def orders(request,client_id):
-
-        templ="products/orders.html"
-
-        lista_ordini=Ordine.objects.filter(client_id=client_id) #Acquisisco lista ordini per dato cliente
-
-        ctx={"client":client_id, "listaordini":lista_ordini}
-
-        return render(request,template_name=templ,context=ctx)
         
-#Aggiunta nuovo Product di tipo Computer
+#Aggiunta nuovo Prodotto
 def add_product(request,category):
     
     templ="products/product_form.html"
@@ -160,7 +148,6 @@ def delete_product(request,prod_code):
         product.delete() #elimina oggetto dal db
 
         return redirect('home')
-
 
 def update_product(request,prod_code):
 
@@ -253,3 +240,4 @@ class SearchView(ListView):
         else:
             result = None
         return result
+
