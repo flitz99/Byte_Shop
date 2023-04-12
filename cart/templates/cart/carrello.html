@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+
+{% endblock %}
+
+{% block title %}{{title}} {% endblock %}
+
+{% block content %}
+
+{% include "header.html" %}
+
+<center>
+    <br> <br>
+    <div class="container text-center">
+        {% if listacarrello.count == 0%}
+            <div class="row justify-content-around">
+                <div class="col-10">
+                    <h3> Nessun oggetto nel carrello </h3> 
+                </div>
+            </div>
+        {% else %}
+        <div class="row justify-content-end" >
+            <div class="col-4">
+                <h3> Totale parziale: <b> {{totale}}€ </b> &nbsp; &nbsp;
+                <button type="submit" name="order" class="btn btn-success"> Acquista </button>
+                </h3>
+            </div>
+        </div>    
+        <br>
+        <form method="post" >
+            {% csrf_token %}
+                {% for l in listacarrello.all %}
+                    <div class="row">
+                        <div class="col-4">
+                            <a href = "../../products/{{l.item.product_code}}"> <img src="{{ l.item.image.url }}" style="width: 100%;">  </a>
+                        </div>
+                        <div class="col-4">
+                            <br> <br>
+                            <h4> <b> Prodotto: </b> {{l.item.name }} </h4>
+                            <h4> <b> Quantità selezionata: </b> {{l.quantity }} </h4>   
+                            <input type="number" name="list" min=1 max={{l.item.quantity}} value={{l.quantity}}> &nbsp; &nbsp; </input>
+                            <button type="submit"  stylevalue="update" name="update" class="btn btn-primary"> Aggiorna </button>
+                            <br><br> 
+                            <h4> <b> Prezzo unitario: </b> {{l.item.final_price }}€  </h4>
+
+                            <button class="btn btn-danger" type="submit"> <a href="delete_item/{{l.item.product_code}}" style="color:white">  Elimina Prodotto</a> </button> 
+                        </div>
+                        <div class="col-4">
+                            <br> <br>
+                            <h4>  Prezzo totale: <b> {{l.price}}€ </b></h4> 
+                        </div>
+                        <br>
+                    </div>
+                    <br> 
+                {% endfor %}
+        </form>
+        {% endif %}
+    </div>
+<br>
+</center>
+
+{% endblock %}

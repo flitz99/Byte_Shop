@@ -32,31 +32,41 @@ def prodotto(request,prod_code):
                 if quantity != '':
 
                         q= int(quantity) #Acquisisco quantità
+
                         #Aggiorno carrello 
                         user=User.objects.get(username=request.user) #acquisisco user
-                        client=Client.objects.get(user=user)
+                        client=Client.objects.get(user=user) #Dallo user acquisisco il client
                         carrello=Carrello.objects.get(user=client) #Acquisisco carrello relativo all'utente loggato
 
-                        if Carrello_Item.objects.filter(item=prodotto).exists():           #Se prodotto esiste già nel carrello aumento quantità
-                                cart_item=Carrello_Item.objects.get(item=prodotto)
-                                cart_item.quantity+=q
-                                cart_item.save()
-
-                                carrello.prodotti.add(cart_item)
-
-                        else:                   #Se prodotto nuovo nel carrello
-                                cart_item_new=Carrello_Item()
-                                #Nuovo prodotto del carrello
-                                cart_item_new.item=prodotto
-                                cart_item_new.quantity=q
-                                cart_item_new.price=prodotto.final_price
-                                cart_item_new.save()
-                                carrello.prodotti.add(cart_item_new) 
+                        exists=False
+                        cart_item= Carrello_Item()
+                        for c in carrello.prodotti.all(): #Controllo prodotti nel carrello dell'utente loggato
+                               if c.item == prodotto: #Se prodotto in questione esiste
+                                   exists=True
+                                   cart_item=c #Acquisisco il prodotto nel carrello
                         
+                        if exists: #Se esiste prodotto nel carrello
+                                
+                                if cart_item.quantity + q > prodotto.quantity:
+                                        messages.error(request,"Raggiunta la quantità massima disponibile per questo prodotto! ")
+                                else:
+                                        cart_item.quantity+=q
+                                        cart_item.price=round(prodotto.final_price*cart_item.quantity,2)
+                                        cart_item.save()
+                                        messages.success(request, "Modificata correttamente quantità nel carrello!")
 
-                        carrello.save()
+                        else:       #Se prodotto non esiste nel carrello
 
-                        messages.success(request, "Prodotto inserito correttamente nel carrello!")
+                                new_cart_item=Carrello_Item()
+                                new_cart_item.item= prodotto
+                                new_cart_item.quantity=q
+                                new_cart_item.price=round(prodotto.final_price*new_cart_item.quantity,2)
+                                new_cart_item.save()
+                                
+                                carrello.prodotti.add(new_cart_item)
+                                
+
+                                messages.success(request, "Prodotto inserito correttamente nel carrello!")
 
                 else:
                         messages.error(request,"selezionare una quantità per inserire il prodotto nel carrello!")
@@ -146,7 +156,7 @@ def add_product(request,category):
 
 def delete_product(request,prod_code):
 
-        product = get_object_or_404(Product, product_code=prod_code) #
+        product = get_object_or_404(Product, product_code=prod_code) 
         product.delete() #elimina oggetto dal db
 
         return redirect('home')

@@ -180,6 +180,8 @@ def erase_db_Users():
     cursor = connection.cursor()
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='auth_user'; ''') #Resetta ID table auth_user
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='authentication_client'; ''') #Resetta ID table authentication_client
+    cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='cart_carrello'; ''') #Resetta ID table cart_carrello
+    cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='cart_carrello_item'; ''') #Resetta ID table cart_carrello_item
 
 def init_db_Users():
 

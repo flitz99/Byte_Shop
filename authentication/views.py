@@ -1,17 +1,11 @@
-from operator import truediv
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
-from django.contrib.sites.shortcuts import get_current_site
-from django.template.loader import render_to_string
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.auth import authenticate, login, logout
-import os
-from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.models import User
 from .models import Client
 from django.shortcuts import get_object_or_404
+from cart.models import *
 
 # Create your views here.
 def home(request):
@@ -78,7 +72,12 @@ def signup(request,user_type):
             #Creo dato cliente
             myclient= Client(user=myuser,telephone=telephone,address=address,house_number=house_number,city=city,province=province,cap=cap,birth_date=birth_date)
             myclient.save() # salvo sul database il cliente
-        
+
+            #Creo carrello per utente cliente
+            carrello= Carrello()
+            carrello.user=myclient
+            carrello.save()
+
         messages.success(request, "il tuo account è stato creato correttamente!")
         
         return redirect('signin',user_type)

@@ -3,7 +3,7 @@ from authentication.models import Client
 from products.models import Product
 
 class Carrello_Item(models.Model):
-    item=models.OneToOneField(Product,on_delete=models.CASCADE)
+    item=models.ForeignKey(Product,on_delete=models.CASCADE)
     quantity=models.PositiveIntegerField(default=1)
     price=models.FloatField(default=0)
 
