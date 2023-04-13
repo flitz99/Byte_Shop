@@ -14,6 +14,7 @@ class Ordine(models.Model):
     date = models.DateField(blank=False)
     prodotti=models.ManyToManyField(Ordine_Item)
     client= models.ForeignKey(Client, on_delete=models.CASCADE)
+    total_price=models.FloatField(default=0)
 
 #Classe recensione 
 class Recensione(models.Model):

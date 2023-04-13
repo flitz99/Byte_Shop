@@ -20,17 +20,12 @@
 
     <div class="container text-center">
         <br> <br>
-
-        <div class="row">
-             <h2> <b> {{prodotto.name}}  </b> </h2> 
-             <br> <br> <br>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6">
-                <img src="{{ prodotto.image.url}}" /> 
-            
-                <div class="text-center">
+        <br>
+        <div class="row align-items-start" style="background-color:white; border-radius: 25px;" >
+            <div class="col-6" >
+                <br>
+                <h3> <b>  {{prodotto.name}}  </b> </h3> 
+                <img src="{{ prodotto.image.url}}" style="width:70%;" /> 
                     <br>
                      <b> Disponibilità: </b>
                         
@@ -65,25 +60,22 @@
                             <br><br> 
                         </form>
 
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags}} alert-dismissible fade show" role="alert">
+                                <strong>Message:</strong> {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+
                     {% endif %}
 
-                </div>
-
-                <br>
-                {% for message in messages %}
-                <div class="alert alert-{{ message.tags}} alert-dismissible fade show" role="alert">
-                    <strong>Message:</strong> {{ message }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% endfor %}
-                <br> <br>   
             </div>
 
-            <div class="col-md-6 ">
-                <br> <br>
-                <h3> <b> Specifiche: </b> </h3>  <br> 
+            <div class="col-4 ">
+                <br> <br> <br>
+                <h4> <b> Specifiche prodotto: </b> </h4>  <br> 
 
                 <b> Produttore: </b> {{prodotto.productor }}  <br>
                 <b> Colore:  </b> {{prodotto.color}} <br>
@@ -119,16 +111,22 @@
             </div>
 
         </div>
-        <div class="row">
-            <br> <br>
+
+
         {% if user.is_authenticated and user.is_staff == 0 %}
-
-            <h3>  <b> Recensioni:  </b> </h3> <br> <br>
-    
+        <br> <br>
+        <div class="row" style="background-color:white; border-radius: 10px;">
+            <br> <br>
+            <div class="col align-self-center">
+                <br> 
+                <h4> <b> Recensioni prodotto: </b> </h4>  <br> 
+                <button type="submit" value="review" name="review" class="btn btn-success"> Recensisci prodotto </button> <br> <br>
+            </div>
+        </div> 
+        
         {% endif %}
-        </div>  
-    <div>
 
+        <br> <br>
 </center>
 
 {% endblock %}

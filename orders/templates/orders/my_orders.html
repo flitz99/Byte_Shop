@@ -15,7 +15,43 @@
 
 <!-- Visualizzazione prodotti -->
 <center>
-    I miei ordini sono questi
+    <br>
+    <div class="container text-center">
+        <h3> I miei ordini: </h3> 
+        <br> 
+        {% if listaordini.count == 0%}
+            <div class="row">
+                    <h3> Nessun ordine presente </h3> 
+            </div>
+        {% else %}
+
+            {% for ordine in listaordini %}
+                <div class="row align-items-start" style="background-color:white;" >
+                    <div class="col-4" >
+                        <br>
+                        <h4> <b> Ordine numero: </b> {{ordine.id_ordine}} </h4>
+                        <h4> <b> Data: </b> {{ordine.date}} </h4>
+                        <h4> <b> Indirizzo di consegna: </b> {{ordine.client.address}} {{ordine.client.house_number}}</h4>
+                        <h4> <b> Stato: </b> Confermato </h4>
+                        <br> <br>
+                        <h4> <b> Importo totale: </b> {{ordine.total_price}}€ </h4>
+                    </div>
+                    {% for l in ordine.prodotti.all  %}
+                        <div class="col-3" style="width=100px;">
+                        <br>
+                            <h4> <b> Prodotto: </b> {{l.item.name}} </h4>
+                            <h4> <b> Quantità: </b> {{l.quantity}} </h4>
+                            <h4> <b> Prezzo: </b> {{l.price}}€ </h4>
+                            <img src="{{ l.item.image.url }}" style="width:50%;">
+                        </div>
+                        
+                    {% endfor %}
+                </div>
+                <br>
+                {% endfor %}
+
+        {% endif %}
+    </div>
 </center>
 
 

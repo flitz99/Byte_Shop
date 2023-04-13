@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from .models import Client
 from django.shortcuts import get_object_or_404
 from cart.models import *
+from orders.views import svuota_carrello
 
 # Create your views here.
 def home(request):
@@ -155,6 +156,15 @@ def profile(request):
 
 
 def signout(request):
+
+    user=User.objects.get(username=request.user) #acquisisco user
+
+    #Se utente cliente svuoto il carrello
+    if user.is_staff == False:
+        client=Client.objects.get(user=user) #acquisisco client
+        carrello=Carrello.objects.get(user=client) #Acquisisco carrello relativo all'utente loggato
+        svuota_carrello(carrello)
+
     logout(request)
     return redirect('home')
 
