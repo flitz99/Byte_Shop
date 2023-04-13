@@ -29,22 +29,23 @@
         <div class="row">
         {% for l in listaprodotti %}
                 <div class="col-3" >
-                    <div class="card">
+                    <div class="card" style="border-radius: 25px;">
                         <br>
                         {% if user.is_authenticated and user.is_staff%}
-                            <p> <h3> <b> {{ l.name }} </b></h3> </p>
-                            <img src="{{ l.image.url }}" style="width:50%;">
-                            <br>
-                            <button type="submit" onclick="location.href='products/update_product/{{l.product_code}}'" class="btn btn-primary btn-sm update"> Modifica </button>
-                            <button class="btn btn-primary btn-sm delete" type="submit" onclick="return confirm('Sei sicuro di voler eliminare il prodotto?')"> <a href="products/delete_product/{{l.product_code}}">  Elimina </a> </button> 
-                        {% else %}
+                            <h3> <b> {{ l.name }} </b></h3> 
+                            <div class="container">
+                                <img src="{{ l.image.url }}" style="width:50%;"> <br>
+                                <button type="submit" onclick="location.href='products/update_product/{{l.product_code}}'" class="btn btn-primary btn-sm update"> Modifica </button>
+                                <button class="btn btn-primary btn-sm delete" type="submit" onclick="return confirm('Sei sicuro di voler eliminare il prodotto?')"> <a href="products/delete_product/{{l.product_code}}">  Elimina </a> </button> 
+                            </div>
+                            {% else %}
                             <a href= "products/{{l.product_code}}" style="color:black;"> <h3> <b> {{ l.name }} </b> </h3> </a>
                             <a href = "products/{{l.product_code}}"> <img src="{{ l.image.url }}" style="width:50%;">  </a>   <!--collegamento a specifiche prodotto -->
                         {% endif %}
                         <br> <br>
+                    </div>
+                    <br>
                 </div>
-                <br>
-            </div>
         {% endfor%}
         </div>
     </div>

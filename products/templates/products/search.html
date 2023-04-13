@@ -16,16 +16,27 @@
 {% include "header.html" %}
 
 <center>
-    <br> <br>
-    <h3> <b> La ricerca ha prodotto {{listaricerca.count}} risultati </b> </h3>
-    <br> <br>
+    <br> 
+    {% if listaricerca.count == 1%}
+        <h3> <b> La ricerca ha prodotto {{listaricerca.count}} risultato </b> </h3>
+        <br> 
+    {% else %}
+        <h3> <b> La ricerca ha prodotto {{listaricerca.count}} risultati </b> </h3>
+        <br>
+    {% endif %}
+    
     {% if listaricerca.count > 0%}
     <div class="container-fluid">
         <div class="row"> 
             {% for l in listaricerca %}
             <div class="col-3">
-                <h3> <b> {{l.name}} </b> </h3> <br>
-                <a href = "../../products/{{l.product_code}}"> <img src="{{ l.image.url }}" style="width: 100%;">  </a>   <!--collegamento a specifiche prodotto -->
+                <div class="card" style="border-radius: 25px;">
+                    <br>
+                    <a href= "../{{l.product_code}}" style="color:black;"> <h3> <b> {{ l.name }} </b> </h3> </a>
+                    <a href = "../{{l.product_code}}"> <img src="{{ l.image.url }}" style="width: 50%;">  </a>   <!--collegamento a specifiche prodotto -->
+                    <br>
+                </div>
+                <br>
             </div>
         <br> <br>     
         {% endfor%}

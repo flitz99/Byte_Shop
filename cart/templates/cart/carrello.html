@@ -14,8 +14,9 @@
 {% include "header.html" %}
 
 <center>
-    <br> <br>
+    <br> 
     <div class="container text-center">
+        <h3> Il mio carrello: </h3> 
         {% if listacarrello.count == 0%}
             <div class="row justify-content-around">
                 <div class="col-10">
@@ -23,20 +24,22 @@
                 </div>
             </div>
         {% else %}
-        <div class="row justify-content-end" >
-            <div class="col-4">
+        <div class="row justify-content-end">
+            <div class="col-4" style="background-color: white; border-radius: 15px;">
+                <br>
                 <h3> Totale parziale: <b> {{totale}}€ </b> &nbsp; &nbsp;
                 <button type="submit" name="order" class="btn btn-success"> <a href="../orders/create_order" style="color:white"> Acquista </a> </button>
                 </h3>
+                <br>
             </div>
         </div>    
         <br>
         <form method="post" >
             {% csrf_token %}
                 {% for l in listacarrello.all %}
-                    <div class="row">
+                    <div class="row" style="background-color: white; border-radius: 25px;">
                         <div class="col-4">
-                            <a href = "../../products/{{l.item.product_code}}"> <img src="{{ l.item.image.url }}" style="width: 100%;">  </a>
+                            <a href = "../../products/{{l.item.product_code}}"> <img src="{{ l.item.image.url }}" style="width: 70%;">  </a>
                         </div>
                         <div class="col-4">
                             <br> <br>
