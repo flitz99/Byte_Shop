@@ -13,5 +13,6 @@ urlpatterns = [
     path("delete_product/<str:prod_code>",delete_product,name="delete_product"), #cancellazione prodotto
     path("update_product/<str:prod_code>",update_product,name="update_product"), #aggiornamento prodotto
     path('results/',views.SearchView.as_view(), name='search'), #Barra di ricerca dell'header
+    path('create_review/<str:prod_code>',create_review,name="create_review")
 
 ]

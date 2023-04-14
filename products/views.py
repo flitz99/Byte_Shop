@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
-from .models import Smartphone, Computer, Product
+from .models import Smartphone, Computer, Product, Recensione
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from cart.models import *
 from django.views.generic.list import ListView
 from django.db.models import Q
 from django.contrib.auth.models import User
+from orders.models import Ordine
+from django.utils.timezone import datetime 
 
 def home(request):
     return redirect('../')
@@ -16,13 +18,34 @@ def prodotto(request,prod_code):
         ctx={}
         prodotto=Product.objects.get(product_code=prod_code) #Acquisisco prodotto dal product code
 
+        #Se utente autenticato controllo se ha acquistato il prodotto in questione
+        #Se il prodotto è stato acquistato, allora l'utente può lasciare una recensione
+        check=False
+        if request.user.is_authenticated:
+                user=User.objects.get(username=request.user) #acquisisco user
+                client=Client.objects.get(user=user) #Dallo user acquisisco il client
+                
+                if Ordine.objects.filter(client=client).exists(): #Se utente ha effettuato ordini
+                        ordini=Ordine.objects.filter(client=client) #Prendo gli ordini fatti dall'utente
+                        for ordine in ordini:
+                          for o in ordine.prodotti.all():
+                             if o.item==prodotto: #Se utente ha acquistato questo prodotto
+                                check=True
+                
+                #Se utente ha già recensito il prodotto (non può recensirlo più volte)
+                if Recensione.objects.filter().exists():
+                       for r in prodotto.recensioni.all():
+                              if r.client==client: 
+                                check=False
+                              
+
         if prodotto.type=="computer": #Se è un computer
                 computer=Computer.objects.get(product_code=prod_code) #Acquisisco computer dal product code
-                ctx={"prodotto":computer}
+                ctx={"prodotto":computer,"check":check}
     
         if prodotto.type=="smartphone": # Se è uno smartphone
                 smartphone=Smartphone.objects.get(product_code=prod_code) #Acquisisco smartphone dal product code
-                ctx={"prodotto":smartphone}
+                ctx={"prodotto":smartphone,"check":check}
         
         #Quando premo pulsante "acquista" inserendo quantità
         if request.method == "POST":
@@ -71,7 +94,36 @@ def prodotto(request,prod_code):
                 
 
         return render(request,template_name=templ,context=ctx)
+
+def create_review(request,prod_code):
         
+        templ="products/create_review.html"
+
+        prodotto=prodotto=Product.objects.get(product_code=prod_code) #Acquisisco prodotto dal product cod
+        
+        user=User.objects.get(username=request.user) #acquisisco user
+        client=Client.objects.get(user=user) #Dallo user acquisisco il client
+
+        ctx={"prodotto":prodotto}
+
+        if request.method=="POST":
+                valutation=request.POST['valutation']
+                description=request.POST['description']
+
+                recensione= Recensione()
+                recensione.valutation=valutation
+                recensione.description=description
+                recensione.date= datetime.today()
+                recensione.client=client
+                recensione.save()
+
+                prodotto.recensioni.add(recensione)
+
+                return redirect("../"+prod_code)
+               
+       
+        return render(request,template_name=templ,context=ctx)
+
 #Aggiunta nuovo Prodotto
 def add_product(request,category):
     

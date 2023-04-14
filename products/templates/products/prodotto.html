@@ -4,7 +4,6 @@
 
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static '/css/stile.css' %}">
 
 {% endblock %}
 
@@ -112,19 +111,45 @@
 
         </div>
 
-
-        {% if user.is_authenticated and user.is_staff == 0 %}
         <br> <br>
-        <div class="row" style="background-color:white; border-radius: 10px;">
-            <br> <br>
-            <div class="col align-self-center">
-                <br> 
+        <div class="container" style="background-color:white; border-radius: 10px;">
+            <br>
+            <div class="row align-self-center">
                 <h4> <b> Recensioni prodotto: </b> </h4>  <br> 
-                <button type="submit" value="review" name="review" class="btn btn-success"> Recensisci prodotto </button> <br> <br>
+                {% if prodotto.recensioni.count == 0%} <!-- Se nessuna recensione per il prodotto -->
+                    <h4> Nessuna recensione disponibile </h4>  <br>
+                    <br>
+                {% else %}
+                    {% for r in prodotto.recensioni.all %}
+                        <div class="card">
+                            <br>
+                            <div>
+                                <img src="../media/{{ r.valutation }}_stars.png" style="width:25%;" /> 
+                            </div>
+                            <div>
+                                <h4> <b> {{r.client.user.first_name}} </b> </h4>  
+                                <h4> {{r.date}} </h4>  
+                            </div>
+                            <div>
+                                <h4> {{r.description}} </h4> 
+                            </div>
+                            <br>
+                        </div>
+                        
+                        
+                    {% endfor %}
+                {% endif %}
             </div>
+                {% if check == True %}
+                <div>
+                    <br> 
+                    <button type="submit" name="review" class="btn btn-success"> <a href="../products/create_review/{{prodotto.product_code}}" style="color:white"> Recensisci prodotto </a> </button>
+                </div>
+                    <br>
+                {% endif %}
+                   
         </div> 
         
-        {% endif %}
 
         <br> <br>
 </center>

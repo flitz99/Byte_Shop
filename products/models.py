@@ -1,6 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
+from authentication.models import Client
 
+#Classe recensione 
+class Recensione(models.Model):
+    valutation=models.PositiveIntegerField( default=1) # valore tra 1 e 5 stelle
+    date = models.DateField(blank=False)
+    description = models.CharField( max_length=300) # recensione
+    client=models.ForeignKey(Client, on_delete=models.CASCADE)
+    
 #Classe prodotto generico
 class Product(models.Model):
     image= models.ImageField(blank=True, null=True)
@@ -16,7 +24,8 @@ class Product(models.Model):
     final_price=models.FloatField(default=0)
     quantity= models.PositiveIntegerField(default=0)
     supplier= models.ForeignKey(User,on_delete=models.CASCADE) #Utente staff che ha inserito il prodotto
-
+    recensioni = models.ManyToManyField(Recensione)
+    
     def __str__(self):
         return self.name
 
