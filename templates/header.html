@@ -29,8 +29,8 @@
 
                         <div class="top_bar_user">
                             <div class="user_icon"><img src="../../static/img/user.svg"  class="img-fluid"></div>
-                            <div><a href="../../authentication/client/signup">Register</a></div>
-                            <div><a href="../../authentication/client/signin">Sign in</a></div>
+                            <div><a href="../../authentication/client/signup">Registrati</a></div>
+                            <div><a href="../../authentication/client/signin">Login</a></div>
                         </div>
                         {%endif%}
                     </div>
@@ -58,7 +58,7 @@
                         <div class="header_search_content">
                             <div class="header_search_form_container">
                                 <form method="GET" action="{% url 'products:search' %}" class="header_search_form clearfix" >
-                                    <input type="search" name="search" required="required" class="header_search_input" placeholder="Search for products...">
+                                    <input type="search" name="search" required="required" class="header_search_input" placeholder="Effettua ricerca...">
                                     <button type="submit" class="header_search_button trans_300" value="Submit"><img src="../../static/img/search.png" class="img-fluid" ></button>
                                 </form>
                             </div>
@@ -134,6 +134,8 @@
                         <div class="main_nav_menu">
                             <ul class="standard_dropdown main_nav_dropdown">
                                 <li><a href="../../ ">Home<i class="fas fa-chevron-down"></i></a></li>
+                                
+                                <li> <a href="../../products/allproducts"> Tutti i Prodotti<i class="fas fa-chevron-down"> </i> </a>  </li>
 
                                 {% if user.is_authenticated and user.is_staff%}
                                 <li class="hassubs">

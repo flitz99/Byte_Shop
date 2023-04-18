@@ -16,19 +16,21 @@
 <center>
     <br>
     {% if listaclients.count > 0 %}
-        <div class="container-fluid">
+        <div class="container-fluid" style="background-color:white;border-radius:25px;">
+            <br>
             <div class="row"> 
 
                 {% if listaclients.count == 1 %}
-                    <h3>  Un solo utente registrato  </h3> 
+                    <h3>  Un solo utente registrato:  </h3> 
                     <br> <br>
                 {% else %}
-                    <h3> <b> {{listaclients.count}} utenti registrati </b> </h3> 
+                    <h3> {{listaclients.count}} utenti registrati: </h3> 
                     <br> <br>
                 {% endif %}
-
+                
                 {% for l in listaclients %}
                     <div class="col-2">
+                        <br>
                         <label for="username"> <b> Username: </b> {{l.user.username}} <br>
                         <label for="name"> <b> Nome: </b> {{l.user.first_name}} <br>
                         <label for="surname"> <b> Cognome: </b> {{l.user.last_name}} <br>
@@ -48,6 +50,7 @@
                 {% endfor %}
             </div>
         </div>
+        <br>
     {% else %}
 
         <h4> <b>Non sono presenti utenti registrati </b> </h4> <br> <br> 

@@ -14,35 +14,44 @@
 {% include "header.html" %}
 
 <center>    
-    <br>
-    {% if title == "client" %}
-        <h3>Già registrato? </h3>
-        Accedi subito. Nuovo cliente? <a href="./signup"> Registrati </a> <br> <br>
-    {% else %}
-        <h3>Effettua il login </h3>
-    {% endif %}
-
-    <form class="login" method="post" style= "width:500px">
-        {% csrf_token %}
-            <label width="10px" for="username">Username</label>
-            <input  type="text" size="50" class="form-control" id="username" name="username" placeholder="Enter Your Username" Required>
-      
-            <label for="pass1">Password</label>
-            <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Enter Your Password" Required>
+    <div class="container">
+        <br>
+        <div class="row justify-content-center">
+        
+            <div class="col-4" style="background-color:white;border-radius:25px;">
             <br>
-            <button type="submit" class="btn btn-primary">Log In</button>
-    </form>
+            {% if title == "client" %}
+                <h3>Già registrato? </h3>
+                Accedi subito. Nuovo cliente? <a href="./signup"> Registrati </a> <br> <br>
+            {% else %}
+                <h3>Effettua il login </h3>
+            {% endif %}
 
-    <br>
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-            <strong>Message:</strong> {{ message }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+            <form class="login" method="post">
+                {% csrf_token %}
+                    <label width="10px" for="username">Username</label>
+                    <input  type="text" size="50" class="form-control" id="username" name="username" placeholder="Enter Your Username" Required>
+            
+                    <label for="pass1">Password</label>
+                    <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Enter Your Password" Required>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Log In</button>
+            </form>
+
+            <br>
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    <strong>Message:</strong> {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+            {% endfor %}
+            <br>
+            </div>
         </div>
-    {% endfor %}
-    <br>
+        <br>
+    </div>
 
 </center>
 

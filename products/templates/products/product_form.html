@@ -14,18 +14,18 @@
 {% include "header.html" %}
 
 <center>
-    <div class="container text-center">
+    <br> <br>
+    <div class="container" style= "background-color:white;border-radius: 25px;">
         <br>
         <h4> Inserimento nuovo prodotto </h4>
         <h4> Categoria selezionata:<b> {{title}} </b> </h4> <br> 
         
-        <div class="row">
-            <div class="col-md-6">
+        <div class="row justify-content-center">
+            <div class="col-4" style= "width:30%;right:+20px;">
+                <h3> <b> Dati prodotto: </b> </h3>
 
-                <form method="post" enctype="multipart/form-data" style= "width:500px">
+                <form method="post" enctype="multipart/form-data" >
                     {% csrf_token %}
-
-                    <h3> <b> Dati prodotto: </b> </h3>
 
                     <label for="image" class="form-label">Immagine: </label>
                     <input type="file" class="form-control" name="image" accept="image/*">
@@ -59,7 +59,7 @@
                 
                     <br> <br>
             </div>
-            <div class="col-md-6" style= "width:500px">
+            <div class="col-4" style= "width:30%;left:+20px;">
                 <h3> <b> Specifiche Tecniche: </b> </h3>
 
                 <!-- Attributi categoria Computer-->
@@ -130,15 +130,16 @@
 
                 <br>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                <button type="submit"  class="btn btn-primary">Aggiungi Prodotto</button>
-                </div>
-            </div>
-            </form>
         </div>
-    </diV>
-</div>
+        <div class="row">
+            <div class="col-12">
+            <button type="submit"  class="btn btn-primary">Aggiungi Prodotto</button>
+            </div>
+        </div>
+            </form>
+            <br>
+        </div>
+
 
 <br> <br>
 </center>

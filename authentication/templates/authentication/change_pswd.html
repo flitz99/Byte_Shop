@@ -14,39 +14,45 @@
 {% include "header.html" %}
 
 <center>
+    <div class="container">
+        <br>
+        <div class="row justify-content-center">
+            <div class="col-4" style="background-color:white;border-radius:25px;">
+                <form method="post">
+                    {% csrf_token %}
+                <br>
+                <h3> Modifica della password: </h3> <br>
+                
+                    <label for="oldpassword">Inserisci vecchia password:</label>
+                    <input type="password" class="form-control" id="oldpassword" name="oldpassword" placeholder:"Insert your old password" Required>
 
-    <form method="post" style= "width:500px">
-        {% csrf_token %}
-    <br>
-    <h3> Modifica della password: </h3> <br>
-    
-        <label for="oldpassword">Inserisci vecchia password:</label>
-        <input type="password" class="form-control" id="oldpassword" name="oldpassword" placeholder:"Insert your old password" Required>
+                    <label for="newpassword1">Inserisci la nuova password:</label>
+                    <input type="password" class="form-control" id="newpassword1" name="newpassword1" placeholder:"Insert your new password" Required>
+                
+                    <label for="newpassword2">Reinserisci la nuova password:</label>
+                    <input type="password" class="form-control" id="newpassword2" name="newpassword2" placeholder:"Reinsert your new password" Required>
+                
+                <br>
+                <button type="submit" class="btn btn-primary update_profile change_password">Modifica Password</button>
+                <br>
 
-        <label for="newpassword1">Inserisci la nuova password:</label>
-        <input type="password" class="form-control" id="newpassword1" name="newpassword1" placeholder:"Insert your new password" Required>
-    
-        <label for="newpassword2">Reinserisci la nuova password:</label>
-        <input type="password" class="form-control" id="newpassword2" name="newpassword2" placeholder:"Reinsert your new password" Required>
-    
-    <br>
-    <button type="submit" class="btn btn-primary update_profile change_password">Modifica Password</button>
-    <br>
-    <br>
+                {% for message in messages %}
 
-    {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    <strong>Message:</strong> {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"> 
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-        <strong>Message:</strong> {{ message }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> 
-        <span aria-hidden="true">&times;</span>
-        </button>
+                {% endfor %}
+                <br>
+
+                </form>
+            </div>
+        </div>
+        <br>
     </div>
-
-    {% endfor %}
-    <br>
-
-    </form>
 
 </center>
 

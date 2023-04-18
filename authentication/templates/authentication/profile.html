@@ -14,78 +14,87 @@
 {% include "header.html" %}
 
 <center>
-
-<form method="post" enctype="multipart/form-data" style= "width:500px">
-    {% csrf_token %}
-
+<div class="container">
     <br>
-    <h3>  Modifica dati del tuo profilo: </h3> <br> 
+    <div class="row justify-content-center">
+        <br>
+        <h3>  Modifica dati del tuo profilo: </h3> <br> 
+        <div class="col-5" style="background-color:white;border-radius:25px;">
 
-    {% if user.is_staff == 0%} <!-- Utente cliente -->
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
 
-    <img src="{{ client.profile_image.url}}" style= "width:300px"/> <br> <br>
-    <label for="image">Carica una nuova immagine: </label> <br>
-    <input type="file" name="image" accept="image/*"> <br>
+                <br>
+                {% if user.is_staff == 0%} <!-- Utente cliente -->
 
-    {% endif %}
+                <img src="{{ client.profile_image.url}}" style= "width:30%"/> <br> <br>
+                <label for="image">Carica una nuova immagine: </label> <br>
+                <input type="file" name="image" accept="image/*"> <br>
 
-        <label for="username">Username</label>
-        <input type="text" class="form-control" id="username" name="username" value={{user.username}} Required>
-    
-        <label for="fname">Nome:</label>
-        <input type="text" class="form-control" id="fname" name="fname" value= {{user.first_name}} Required>
-    
-        <label for="lname">Cognome:</label>
-        <input type="text" class="form-control" id="lname" name="lname" value={{user.last_name}} Required>
-    
-        <label for="email">Email:</label>
-        <input type="email" class="form-control" id="email" name="email" value={{user.email}} Required>
-    
-    {% if user.is_staff == 0 %} <!-- Utente cliente -->
+                {% endif %}
+
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" value={{user.username}} Required>
+                
+                    <label for="fname">Nome:</label>
+                    <input type="text" class="form-control" id="fname" name="fname" value= {{user.first_name}} Required>
+                
+                    <label for="lname">Cognome:</label>
+                    <input type="text" class="form-control" id="lname" name="lname" value={{user.last_name}} Required>
+                
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" value={{user.email}} Required>
+                
+                {% if user.is_staff == 0 %} <!-- Utente cliente -->
+                    
+                    <label for="birth_date">Data di Nascita:</label> <br>
+                    <input type="date" name="birth_date"  class="form-control" id="birth_date" value="{{ client.birth_date|date:'Y-m-d' }}">
         
-        <label for="birth_date">Data di Nascita:</label> <br>
-        <input type="date" name="birth_date" id="birth_date" style= "width:500px; height:40px"  value="{{ client.birth_date|date:'Y-m-d' }}">
-        <br>
-        <label for="telephone">Telefono:</label>
-        <input type="number" class="form-control" id="telephone" name="telephone" value={{client.telephone}} Required>
-    
-        <label for="address">Indirizzo:</label>
-        <input type="text" class="form-control" id="address" name="address" value="{{client.address}}" Required>
-    
-        <label for="house_number">Numero civico:</label>
-        <input type="number" class="form-control" id="house_number" name="house_number" value={{client.house_number}} Required>
-    
-        <label for="city">Città:</label>
-        <input type="text" class="form-control" id="city" name="city" value={{client.city}} Required>
-    
-        <label for="province">Provincia:</label>
-        <input type="text" class="form-control" id="province" name="province" value={{client.province}} Required>
-    
-        <label for="cap">CAP:</label>
-        <input type="number" class="form-control" id="cap" name="cap" value={{client.cap}} Required>
-        
-    {% endif %}
+                    <label for="telephone">Telefono:</label>
+                    <input type="number" class="form-control" id="telephone" name="telephone" value={{client.telephone}} Required>
+                
+                    <label for="address">Indirizzo:</label>
+                    <input type="text" class="form-control" id="address" name="address" value="{{client.address}}" Required>
+                
+                    <label for="house_number">Numero civico:</label>
+                    <input type="number" class="form-control" id="house_number" name="house_number" value={{client.house_number}} Required>
+                
+                    <label for="city">Città:</label>
+                    <input type="text" class="form-control" id="city" name="city" value={{client.city}} Required>
+                
+                    <label for="province">Provincia:</label>
+                    <input type="text" class="form-control" id="province" name="province" value={{client.province}} Required>
+                
+                    <label for="cap">CAP:</label>
+                    <input type="number" class="form-control" id="cap" name="cap" value={{client.cap}} Required>
+                    
+                {% endif %}
 
-        <br>
-        <button type="submit" class="btn btn-primary update_profile">Modifica Profilo</button>
-        <br>
+                    <br>
+                    <button type="submit" class="btn btn-primary update_profile">Modifica Profilo</button>
+                    <br> <br>
 
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                <strong>Message:</strong> {{ message }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        {% endfor %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            <strong> Message:</strong> {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+        </div>
+    </div>
+       <br>             
+    <div class="row justify-content-center" >
+        <div class="col-2" style="background-color:white;border-radius:25px;">
+            <a href="profile/change_password" style="color:red;"><h5 > Modifica la password </h5> </a>
+        </div>
+    </div>
+    <br> <br>
 
-        <br> <a href="profile/change_password"><h5> Modifica la password </h5> </a>
-        <br> <br>
-
-    
-</form>
-
-
+                
+            </form>
+</div>
 
 </center>
 

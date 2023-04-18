@@ -12,6 +12,23 @@ from django.utils.timezone import datetime
 def home(request):
     return redirect('../')
 
+def all_products(request):
+        products= Product.objects.all() #prendo tutti i prodotti
+
+        templ="products/allproducts.html"
+        ctx= {"listaprodotti": products}
+    
+        if request.user.is_authenticated and request.user.is_staff: # Se utente è autenticato ed è amministratore
+                user= request.user # acquisisco utente registrato
+                products= Product.objects.filter(supplier=user.id) #prendo prodotti che hanno tale supplier
+                ctx = { "listaprodotti": products}
+
+        if not request.user.is_authenticated: #Se utente non autenticato
+                products= Product.objects.all() #prendo tutti i prodotti
+                ctx= {"listaprodotti": products}
+
+        return render(request,template_name=templ,context=ctx)  
+
 def prodotto(request,prod_code):
 
         templ="products/prodotto.html"
@@ -119,7 +136,7 @@ def create_review(request,prod_code):
 
                 prodotto.recensioni.add(recensione)
 
-                return redirect("../"+prod_code)
+                return redirect("../id/"+prod_code)
                
        
         return render(request,template_name=templ,context=ctx)
@@ -199,7 +216,7 @@ def delete_product(request,prod_code):
         product = get_object_or_404(Product, product_code=prod_code) 
         product.delete() #elimina oggetto dal db
 
-        return redirect('home')
+        return redirect("../allproducts")
 
 def update_product(request,prod_code):
 
