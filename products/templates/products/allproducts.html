@@ -40,6 +40,7 @@
                                 <button type="submit" onclick="location.href='./update_product/{{l.product_code}}'" class="btn btn-primary btn-sm update"> Modifica </button>
                                 <button class="btn btn-primary btn-sm delete" type="submit" onclick="return confirm('Sei sicuro di voler eliminare il prodotto?')"> <a href="./delete_product/{{l.product_code}}">  Elimina </a> </button> 
                             </div>
+                            <br>
                             {% else %}
                             <a href= "id/{{l.product_code}}" style="color:black;"> <h3> <b> {{ l.name }} </b> </h3> </a>
                             <a href = "id/{{l.product_code}}"> <img src="{{ l.image.url }}" style="width:70%;">  </a>   <!--collegamento a specifiche prodotto -->
