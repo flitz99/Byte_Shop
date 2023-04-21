@@ -2,20 +2,90 @@
 
 {% block head %}
 
+
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
 
 {% endblock %}
 
-{% block title %}{{title}} {% endblock %}
+{% block title %} {% endblock %}
 
 {% block content %}
 
 {% include "header.html" %}
 
-<!-- Visualizzazione prodotti -->
 <center>
-    Prodotti consigliati: 
+
+    <div class="container">
+
+        {% if user.is_staff %} <!-- Se utente amministratore  -->
+            <br>
+            <h3> {{ title }}</h3> <br>
+            
+                {% if check %}
+                <script>
+
+                    let products=JSON.parse('{{ products |escapejs }}');
+                    
+                    const keys = Object.keys(products); //Prodotti
+                    const values =Object.values(products); //Quantità acquistata dei prodotti
+
+                </script>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
+                <div>
+                    <canvas id="chart" width="600" height="400"></canvas>
+                </div>
+                <script>
+
+                    let ctx = document.getElementById("chart").getContext("2d");
+
+                    let chart = new Chart(ctx, {
+                    type: "bar",
+                    data: {
+                        labels: keys,
+                        datasets: [
+                            {
+                            label: "Prodotti venduti",
+                            backgroundColor: "#79AEC8",
+                            borderColor: "#417690",
+                            data: values
+                            }
+                        ]
+                    },
+                    options: {
+                        title: {
+                            text: "Gross Volume in 2020",
+                            display: true
+                        }
+                    }
+                    });
+                    </script>
+                <br>
+                {% else %} <!-- Se amministratore non ha prodotti caricati -->
+                    <h4> Nessun ordine caricato </h4>
+                    <br>
+                {% endif %}
+
+        {% else %} <!-- Se utente amministratore -->
+            <br>
+            <h3> {{ title }}</h3> <br>
+
+            <div class="row">
+                {% for l in listaprodotti %}
+                <div class="col-4">
+                    <div class="card" style="border-radius: 25px;">
+                        <br>
+                        <a href= "products/id/{{l.product_code}}" style="color:black;"> <h3> <b> {{ l.name }} </b> </h3> </a>
+                        <a href = "products/id/{{l.product_code}}"> <img src="{{ l.image.url }}" style="width:70%;">  </a>   <!--collegamento a specifiche prodotto -->
+                    </div>
+                    <br>
+                </div>
+                {% endfor%}
+            </div>
+        {% endif %}
+        
+    </div>
+
     
     
 
