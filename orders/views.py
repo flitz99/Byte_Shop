@@ -14,7 +14,7 @@ def my_orders(request):
     user=User.objects.get(username=request.user) #acquisisco user
     client=Client.objects.get(user=user) #acquisisco client
 
-    ordini= Ordine.objects.filter(client=client) #Acquisisco ordini del cliente
+    ordini= Ordine.objects.filter(client=client).order_by('-date') #Acquisisco ordini del cliente ordinati col più recente
 
     ctx={"listaordini":ordini}
 

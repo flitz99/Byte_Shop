@@ -40,20 +40,23 @@ def prodotto(request,prod_code):
         check=False
         if request.user.is_authenticated:
                 user=User.objects.get(username=request.user) #acquisisco user
-                client=Client.objects.get(user=user) #Dallo user acquisisco il client
-                
-                if Ordine.objects.filter(client=client).exists(): #Se utente ha effettuato ordini
-                        ordini=Ordine.objects.filter(client=client) #Prendo gli ordini fatti dall'utente
-                        for ordine in ordini:
-                          for o in ordine.prodotti.all():
-                             if o.item==prodotto: #Se utente ha acquistato questo prodotto
-                                check=True
-                
-                #Se utente ha già recensito il prodotto (non può recensirlo più volte)
-                if Recensione.objects.filter().exists():
-                       for r in prodotto.recensioni.all():
-                              if r.client==client: 
-                                check=False
+
+                #Se è un cliente
+                if not request.user.is_staff:
+                        client=Client.objects.get(user=user) #Dallo user acquisisco il client
+                        
+                        if Ordine.objects.filter(client=client).exists(): #Se utente ha effettuato ordini
+                                ordini=Ordine.objects.filter(client=client) #Prendo gli ordini fatti dall'utente
+                                for ordine in ordini:
+                                   for o in ordine.prodotti.all():
+                                      if o.item==prodotto: #Se utente ha acquistato questo prodotto
+                                        check=True
+                        
+                        #Se utente ha già recensito il prodotto (non può recensirlo più volte)
+                        if Recensione.objects.filter().exists():
+                           for r in prodotto.recensioni.all():
+                               if r.client==client: 
+                                   check=False
                               
         if prodotto.type=="computer": #Se è un computer
                 computer=Computer.objects.get(product_code=prod_code) #Acquisisco computer dal product code

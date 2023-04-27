@@ -134,9 +134,12 @@
                         <div class="main_nav_menu">
                             <ul class="standard_dropdown main_nav_dropdown">
                                 <li><a href="../../ ">Home<i class="fas fa-chevron-down"></i></a></li>
-                                
-                                <li> <a href="../../products/allproducts"> Tutti i Prodotti<i class="fas fa-chevron-down"> </i> </a>  </li>
 
+                                {% if user.is_authenticated and user.is_staff%}
+                                    <li> <a href="../../products/allproducts">Prodotti inseriti<i class="fas fa-chevron-down"> </i> </a>  </li>
+                                {% else %}
+                                    <li> <a href="../../products/allproducts"> Tutti i Prodotti<i class="fas fa-chevron-down"> </i> </a>  </li>
+                                {% endif %}
                                 {% if user.is_authenticated and user.is_staff%}
                                 <li class="hassubs">
                                         <a href="#">Aggiungi Prodotto<i class="fas fa-chevron-down"></i></a>

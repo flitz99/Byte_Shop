@@ -27,7 +27,7 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 #erase_db_Products() #Cancello DB Product
 #init_db_Products() #Inizializzo DB Product
 
-#Table Orders
+#Table Orders e recensioni
 #erase_db_Orders() #Cancello DB Orders
 #init_db_Orders() #Inizializzo DB Orders
 

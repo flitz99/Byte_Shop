@@ -11,11 +11,8 @@ def erase_db_Products():
 
     cursor = connection.cursor()
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='products_product'; ''') #Resetta ID table products_product
-    cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='products_smartphone'; ''') #Resetta ID table products_smartphone
-    cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='products_computer'; ''') #Resetta ID table products_computer
-    cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='products_televisore'; ''') #Resetta ID table products_televisore
-    cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='products_custodia'; ''') #Resetta ID table products_custodia
-    cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='products_cuffie'; ''') #Resetta ID table products_cuffie
+    cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='products_product_recensioni'; ''') #Resetta ID table products_product_recensioni
+    cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='products_recensione'; ''') #Resetta ID table products_recensione
 
 def init_db_Products():
 
@@ -484,70 +481,115 @@ def erase_db_Orders():
     cursor = connection.cursor()
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='orders_ordine'; ''') #Resetta ID table orders_ordine
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='orders_ordine_item'; ''') #Resetta ID table orders_ordine_item
-    cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='orders_ordine_prodotto'; ''') #Resetta ID table orders_ordine_prodotto
-    
+    cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='orders_ordine_prodotti'; ''') #Resetta ID table orders_ordine_prodotto
+
 def init_db_Orders():
 
-    if len(Ordine.objects.all()) != 0 or len(Ordine_Item.objects.all()!=0):
+    if len(Ordine.objects.all()) != 0 or len(Ordine_Item.objects.all()) !=0:
         return
-
-    order1_itemdict={
-        "quantity":[1,1],
-        "price":[]
-    }
-
-    order2_itemdict={
-        "quantity":[1,1],
-        "price":[]
-    }
-    
-    order3_itemdict={
-        "quantity":[1,1],
-        "price":[]
-    }
-    
-    order4_itemdict={
-        "quantity":[1,1],
-        "price":[]
-    }
-    
-    ordersdict = {
-        "id_ordine" : [''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8)),''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8))],
-        "Date" : [datetime.date(2023,1,15),datetime.date(2023,2,10)],
-        "total_price" : ["Jennifer","Daniele"  ],
-        
-    }
 
     clienti=Client.objects.filter().all() #Acquisisco tutti i clienti
     prodotti=Product.objects.filter().all() #Acquisisco tutti i prodotti
 
+    #Dizionari con gli oggetti per ciascun ordine
+    order1_itemdict={
+        "item":[prodotti[0],prodotti[10]],
+        "quantity":[1,1],
+        "price":[prodotti[0].final_price,prodotti[10].final_price]
+    }
+
+    order2_itemdict={
+        "item":[prodotti[7],prodotti[9]],
+        "quantity":[1,1],
+        "price":[prodotti[7].final_price,prodotti[9].final_price]
+    }
+    
+    order3_itemdict={
+        "item":[prodotti[6],prodotti[8]],
+        "quantity":[1,1],
+        "price":[prodotti[6].final_price,prodotti[8].final_price]
+    }
+    
+    order4_itemdict={
+        "item":[prodotti[5]],
+        "quantity":[2],
+        "price":[prodotti[5].final_price]
+    }
+
+    #Lista coi dizionari degli oggetti di ciascun ordine
+    order_items_list=[order1_itemdict,order2_itemdict,order3_itemdict,order4_itemdict]
+    
+    #Dizionario degli ordini
+    ordersdict = {
+        "id_ordine" : [''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8)),''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8)),''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8)),''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8))],
+        "date": [datetime.date(2023,1,15),datetime.date(2023,2,10),datetime.date(2023,3,8),datetime.date(2023,4,15)],
+        "client":[clienti[0],clienti[0],clienti[1],clienti[1]]
+    }
+
     #Aggiungo oggetti di tipo Ordine e Ordine_Item
-    for i in range(5): # 5 ordini
-        order = Ordine() #Oggetto user
-        for k in admindict:
-            if k =="first_name":
-                first_name=admindict[k][i]
-            if k=="last_name":
-                last_name=admindict[k][i]
-            if k=="username":
-                username=admindict[k][i]
-            if k=="email":
-                email=admindict[k][i]
-            if k=="password":
-                password=admindict[k][i]
+    cont=0
+    for i in range(4): # 4 ordini
+        order = Ordine() #Oggetto ordine
+        for k in ordersdict:
+            if k =="id_ordine":
+                order.id_ordine=ordersdict[k][i]
+            if k=="date":
+                order.date=ordersdict [k][i]
+            if k=="client":
+                order.client=ordersdict[k][i]
+
+        order.save() #Salvo oggetto ordine sul db
+
+        total_price=0
+        for j in range(len(order_items_list[cont]["item"])): #Lunghezza del dizionario che contiene gli oggetti di ciascun ordine
+            order_item=Ordine_Item() #Oggetto ordine_item
+            
+            for z in order_items_list[cont]:
+                if z=="item":
+                    order_item.item=order_items_list[cont][z][j]
+                if z=="quantity":
+                    order_item.quantity=order_items_list[cont][z][j]
+                    q= order_items_list[cont][z][j]
+                if z=="price":
+                    order_item.price=round(order_items_list[cont][z][j]*q,2)
+                
+            order_item.save() #Salvo ordine_item nel database
+            total_price+=order_item.price
+            order.prodotti.add(order_item) #Aggiungo al mio ordine oggetto ordine_item
         
-        user=User.objects.create_user(username,email,password)
-        user.first_name=first_name
-        user.last_name=last_name
-        user.is_active=True
-        user.is_staff=True
-        user.is_superuser=True
-        user.save() #Salvo sul DB oggetto user
+        order.total_price=round(total_price,2)
+        cont+=1
+        order.save() #Risalvo nel database oggetto ordine con gli ordini_item        
     
-    print("-- Popolo il DB User --\n")
+    #Aggiungo recensioni
+    recensionidict={
+        "prodotto":[prodotti[0],prodotti[5],prodotti[7]],
+        "valutation":[4,5,2],
+        "date":[datetime.date(2023,1,19),datetime.date(2023,4,15),datetime.date(2023,2,10)],
+        "description":["ottimo prodotto","Risoluzione incredibile, grandissimo prodotto!","Pensavo meglio"],
+        "client":[clienti[0],clienti[1],clienti[0]]
 
+    }
 
+    for i in range(3):
+        rec= Recensione()
+        prodotto=Product()
+        for k in recensionidict:
+            if k =="prodotto":
+                prodotto=recensionidict[k][i]
+            if k=="valutation":
+                rec.valutation=recensionidict[k][i]
+            if k=="date":
+                rec.date=recensionidict[k][i]
+            if k=="description":
+                rec.description=recensionidict[k][i]
+            if k=="client":
+                rec.client=recensionidict[k][i]
+            
+        rec.save()
+        prodotto.recensioni.add(rec)
     
-
+    print("-- Popolo il DB Orders e recensioni --\n")   
+    
 
 
