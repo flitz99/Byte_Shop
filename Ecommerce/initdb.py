@@ -3,7 +3,7 @@ from authentication.models import *
 from orders.models import Ordine, Ordine_Item
 from cart.models import *
 from django.db import connection
-import datetime
+import datetime, random, string
 
 def erase_db_Products():
     print("-- Cancello il DB Product --\n")
@@ -491,17 +491,39 @@ def init_db_Orders():
     if len(Ordine.objects.all()) != 0 or len(Ordine_Item.objects.all()!=0):
         return
 
+    order1_itemdict={
+        "quantity":[1,1],
+        "price":[]
+    }
 
+    order2_itemdict={
+        "quantity":[1,1],
+        "price":[]
+    }
+    
+    order3_itemdict={
+        "quantity":[1,1],
+        "price":[]
+    }
+    
+    order4_itemdict={
+        "quantity":[1,1],
+        "price":[]
+    }
+    
     ordersdict = {
-        "id_ordine" : ["Jennifer","Daniele"],
-        "Date" : ["Reggiani","Zanoli"],
+        "id_ordine" : [''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8)),''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8))],
+        "Date" : [datetime.date(2023,1,15),datetime.date(2023,2,10)],
         "total_price" : ["Jennifer","Daniele"  ],
         
     }
 
+    clienti=Client.objects.filter().all() #Acquisisco tutti i clienti
+    prodotti=Product.objects.filter().all() #Acquisisco tutti i prodotti
+
     #Aggiungo oggetti di tipo Ordine e Ordine_Item
-    for i in range(2): # 1 oggetto user
-        user = Ordine() #Oggetto user
+    for i in range(5): # 5 ordini
+        order = Ordine() #Oggetto user
         for k in admindict:
             if k =="first_name":
                 first_name=admindict[k][i]
