@@ -53,4 +53,29 @@ class Computer(Product):
     graphic_card= models.CharField(max_length=50) 
     battery_autonomy= models.FloatField(default=0)
     additional_function= models.CharField(max_length=1000)
+
+
+class Televisore(Product):
+    display_size= models.FloatField(default=0)
+    display_resolution= models.CharField(max_length=20)
+    display_technology=models.CharField(max_length=20)
+    display_quality=models.CharField(max_length=20)
+    cpu= models.CharField(max_length=50)
+    frame_frequency=models.IntegerField(default=0)
+    reception_type=models.CharField(max_length=50)
+    additional_function=models.CharField(max_length=1000)
+
+class Cover(Product):
+    compatibilità=models.CharField(max_length=500)
+    caratteristiche=models.CharField(max_length=1000)
+
+class Cuffie(Product):
+    cuffie_type=models.CharField(max_length=50)
+    caratteristiche=models.CharField(max_length=2000)
+
+
+
+
+
+
     

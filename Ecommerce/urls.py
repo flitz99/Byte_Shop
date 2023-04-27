@@ -17,11 +17,18 @@ urlpatterns = [
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-#Inizializzazione del database
+#---- Inizializzazione del database 
+
+#Table User
 #erase_db_Users() #Cancello DB User
 #init_db_Users() #Inizializzo DB User
 
+#Table Products
 #erase_db_Products() #Cancello DB Product
 #init_db_Products() #Inizializzo DB Product
+
+#Table Orders
+#erase_db_Orders() #Cancello DB Orders
+#init_db_Orders() #Inizializzo DB Orders
 
 

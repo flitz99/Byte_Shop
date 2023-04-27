@@ -39,7 +39,8 @@
                 {% for l in listacarrello.all %}
                     <div class="row" style="background-color: white; border-radius: 25px;">
                         <div class="col-4">
-                            <a href = "../../products/{{l.item.product_code}}"> <img src="{{ l.item.image.url }}" style="width: 70%;">  </a>
+                            <br> <br>
+                            <a href = "../../products/{{l.item.product_code}}"> <img src="{{ l.item.image.url }}" style="width:auto;height:170px;">  </a>
                         </div>
                         <div class="col-4">
                             <br> <br>
@@ -50,7 +51,8 @@
                             <br><br> 
                             <h4> <b> Prezzo unitario: </b> {{l.item.final_price }}€  </h4>
 
-                            <button class="btn btn-danger" type="submit"> <a href="delete_item/{{l.item.product_code}}" style="color:white">  Elimina Prodotto</a> </button> 
+                            <button class="btn btn-danger" type="submit"> <a href="delete_item/{{l.item.product_code}}" style="color:white">  Elimina Prodotto</a> </button>
+                            <br> <br> 
                         </div>
                         <div class="col-4">
                             <br> <br>

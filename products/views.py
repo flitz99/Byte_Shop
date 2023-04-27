@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Smartphone, Computer, Product, Recensione
+from .models import Smartphone, Computer, Product, Recensione, Televisore, Cuffie, Cover
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from cart.models import *
@@ -55,7 +55,6 @@ def prodotto(request,prod_code):
                               if r.client==client: 
                                 check=False
                               
-
         if prodotto.type=="computer": #Se è un computer
                 computer=Computer.objects.get(product_code=prod_code) #Acquisisco computer dal product code
                 ctx={"prodotto":computer,"check":check}
@@ -63,6 +62,19 @@ def prodotto(request,prod_code):
         if prodotto.type=="smartphone": # Se è uno smartphone
                 smartphone=Smartphone.objects.get(product_code=prod_code) #Acquisisco smartphone dal product code
                 ctx={"prodotto":smartphone,"check":check}
+        
+        if prodotto.type=="televisore": #Se è un televisore
+               televisore=Televisore.objects.get(product_code=prod_code)
+               ctx={"prodotto":televisore,"check":check}
+
+        if prodotto.type=="cover": #Se è una cover
+               cover=Cover.objects.get(product_code=prod_code)
+               ctx={"prodotto":cover,"check":check}
+
+        if prodotto.type=="cuffie": #Se è un paio di cuffie
+               cuffie=Cuffie.objects.get(product_code=prod_code)
+               ctx={"prodotto":cuffie,"check":check}
+
         
         #Quando premo pulsante "acquista" inserendo quantità
         if request.method == "POST":
@@ -207,6 +219,75 @@ def add_product(request,category):
 
                 s.save() #Salvo smartphone nel database
 
+        if category== "televisore":
+                t= Televisore()
+                t.image=request.FILES['image']
+                t.name= request.POST['name']
+                t.type = "televisore" #pongo categoria
+                t.product_code=request.POST['product_code']
+                t.productor=request.POST['productor']
+                t.color=request.POST['color']
+                t.size=request.POST['size']
+                t.weight=request.POST['weight']
+                t.full_price= float(request.POST['full_price'])
+                t.discount=float(request.POST['discount'])
+                t.quantity= int(request.POST['quantity'])
+                t.final_price=round(t.full_price-((t.full_price/100)*t.discount),2) #Calcolo prezzo finale scontato
+                t.supplier=request.user
+
+                t.display_size=request.POST['display_size']
+                t.display_resolution=request.POST['display_resolution']
+                t.display_technology=request.POST['display_technology']
+                t.display_quality=request.POST['display_quality']
+                t.cpu=request.POST['cpu']
+                t.frame_frequency=request.POST['frame_frequency']
+                t.reception_type=request.POST['reception_type']
+                t.additional_function=request.POST['additional_function']
+
+                t.save() #Salvo televisore nel database
+        
+        if category== "cover":
+                c= Cover()
+                c.image= request.FILES['image']
+                c.name= request.POST['name']
+                c.type = "computer" #pongo categoria
+                c.product_code=request.POST['product_code']
+                c.productor=request.POST['productor']
+                c.color=request.POST['color']
+                c.size=request.POST['size']
+                c.weight=request.POST['weight']
+                c.full_price= float(request.POST['full_price'])
+                c.discount=float(request.POST['discount'])
+                c.quantity= int(request.POST['quantity'])
+                c.final_price=round(c.full_price-((c.full_price/100)*c.discount),2) #Calcolo prezzo finale scontato
+                c.supplier=request.user
+
+                c.compatibilità=request.POST['compatibilità']
+                c.caratteristiche=request.POST['caratteristiche']
+
+                c.save() #Salvo custodia nel database
+
+        if category== "cuffie":
+                c= Cuffie()
+                c.image= request.FILES['image']
+                c.name= request.POST['name']
+                c.type = "computer" #pongo categoria
+                c.product_code=request.POST['product_code']
+                c.productor=request.POST['productor']
+                c.color=request.POST['color']
+                c.size=request.POST['size']
+                c.weight=request.POST['weight']
+                c.full_price= float(request.POST['full_price'])
+                c.discount=float(request.POST['discount'])
+                c.quantity= int(request.POST['quantity'])
+                c.final_price=round(c.full_price-((c.full_price/100)*c.discount),2) #Calcolo prezzo finale scontato
+                c.supplier=request.user
+
+                c.cuffie_type=request.POST['cuffie_type']
+                c.caratteristiche=request.POST['caratteristiche']
+
+                c.save() #Salvo cuffie nel database
+
         return redirect('home')
 
     return render(request,template_name=templ,context=ctx)
@@ -289,6 +370,78 @@ def update_product(request,prod_code):
                         s.save()
 
                 
+                        return redirect('home')
+
+        if p.type == "televisore":
+               t =Televisore.objects.get(product_code=prod_code)
+               ctx={"prodotto":t }
+
+               if request.method =="POST":
+                        t.image = request.FILES.get('image',t.image)
+                        t.name= request.POST.get('name',t.name)
+                        t.product_code=request.POST.get('product_code',t.product_code)
+                        t.productor=request.POST.get('productor',t.productor)
+                        t.color=request.POST.get('color',t.color)
+                        t.size=request.POST.get('size',t.size)
+                        t.weight=request.POST.get('weight',t.weight)
+                        t.full_price= float(request.POST.get('full_price',t.full_price))
+                        t.discount= float(request.POST.get('discount',t.discount))
+                        t.quantity= int(request.POST.get('quantity',t.quantity))
+
+                        t.display_size=request.POST.get('display_size',t.display_size)
+                        t.display_resolution=request.POST.get("display_resolution",t.display_resolution)
+                        t.display_technology=request.POST.get("display_technology",t.display_technology)
+                        t.display_quality=request.POST.get("display_quality",t.display_quality)
+                        t.cpu=request.POST.get("cpu",t.cpu)
+                        t.frame_frequency=int(request.POST.get("frame_frequency",t.frame_frequency))
+                        t.reception_type=request.POST.get("reception_type",t.reception_type)
+                        t.additional_function=request.POST.get("additional_function",t.additional_function)
+                        t.save()
+                        
+                        return redirect('home')
+               
+        if p.type == "cover":
+               c = Cover.objects.get(product_code=prod_code)
+               ctx={"prodotto":c}
+
+               if request.method == "POST":
+                        c.image = request.FILES.get('image',c.image)
+                        c.name= request.POST.get('name',c.name)
+                        c.product_code=request.POST.get('product_code',c.product_code)
+                        c.productor=request.POST.get('productor',c.productor)
+                        c.color=request.POST.get('color',c.color)
+                        c.size=request.POST.get('size',c.size)
+                        c.weight=request.POST.get('weight',c.weight)
+                        c.full_price= float(request.POST.get('full_price',c.full_price))
+                        c.discount= float(request.POST.get('discount',c.discount))
+                        c.quantity= int(request.POST.get('quantity',c.quantity))
+
+                        c.compatibilità=request.POST.get("compatibilità",c.compatibilità)
+                        c.caratteristiche=request.POST.get("caratteristiche",c.caratteristiche)
+                        c.save()
+
+                        return redirect('home')
+        
+        if p.type=="cuffie":
+               c=Cuffie.objects.get(product_code=prod_code)
+               ctx={"prodotto":c}
+
+               if request.method== "POST":
+                        c.image = request.FILES.get('image',c.image)
+                        c.name= request.POST.get('name',c.name)
+                        c.product_code=request.POST.get('product_code',c.product_code)
+                        c.productor=request.POST.get('productor',c.productor)
+                        c.color=request.POST.get('color',c.color)
+                        c.size=request.POST.get('size',c.size)
+                        c.weight=request.POST.get('weight',c.weight)
+                        c.full_price= float(request.POST.get('full_price',c.full_price))
+                        c.discount= float(request.POST.get('discount',c.discount))
+                        c.quantity= int(request.POST.get('quantity',c.quantity))
+
+                        c.cuffie_type=request.POST.get("cuffie_type",c.cuffie_type)
+                        c.caratteristiche=request.POST.get("caratteristiche",c.caratteristiche)
+                        c.save()
+
                         return redirect('home')
 
         return render(request,template_name=templ,context=ctx)

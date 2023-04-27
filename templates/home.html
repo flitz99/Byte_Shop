@@ -73,10 +73,10 @@
             <div class="row">
                 {% for l in listaprodotti %}
                 <div class="col-4">
-                    <div class="card" style="border-radius: 25px;">
+                    <div class="card" style="border-radius:25px;">
                         <br>
                         <a href= "products/id/{{l.product_code}}" style="color:black;"> <h3> <b> {{ l.name }} </b> </h3> </a>
-                        <a href = "products/id/{{l.product_code}}"> <img src="{{ l.image.url }}" style="width:70%;">  </a>   <!--collegamento a specifiche prodotto -->
+                        <a href = "products/id/{{l.product_code}}"> <img src="{{ l.image.url }}" style="width:auto;height:240px">  </a>   <!--collegamento a specifiche prodotto -->
                     </div>
                     <br>
                 </div>

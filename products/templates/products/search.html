@@ -18,10 +18,10 @@
 <center>
     <br> 
     {% if listaricerca.count == 1%}
-        <h3> <b> La ricerca ha prodotto {{listaricerca.count}} risultato </b> </h3>
+        <h3> <b> La ricerca ha prodotto {{listaricerca.count}} risultato: </b> </h3>
         <br> 
     {% else %}
-        <h3> <b> La ricerca ha prodotto {{listaricerca.count}} risultati </b> </h3>
+        <h3> <b> La ricerca ha prodotto {{listaricerca.count}} risultati: </b> </h3>
         <br>
     {% endif %}
     
@@ -33,7 +33,7 @@
                 <div class="card" style="border-radius: 25px;">
                     <br>
                     <a href= "../id/{{l.product_code}}" style="color:black;"> <h3> <b> {{ l.name }} </b> </h3> </a>
-                    <a href = "../id/{{l.product_code}}"> <img src="{{ l.image.url }}" style="width: 50%;">  </a>   <!--collegamento a specifiche prodotto -->
+                    <a href = "../id/{{l.product_code}}"> <img src="{{ l.image.url }}" style="width:auto;height:240px">  </a>   <!--collegamento a specifiche prodotto -->
                     <br>
                 </div>
                 <br>

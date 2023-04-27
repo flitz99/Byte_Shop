@@ -45,10 +45,12 @@
                             <h4> <b> Prodotto: </b> {{l.item.name}} </h4>
                             <h4> <b> Quantità: </b> {{l.quantity}} </h4>
                             <h4> <b> Prezzo: </b> {{l.price}}€ </h4>
-                            <img src="{{ l.item.image.url }}" style="width:50%;">
+                            <img src="{{ l.item.image.url }}" style="width:auto;height:100px">
+                            
                         </div>       
                     {% endfor %}
                     </div> 
+                    <br>
                 </div>
                 <br>
                 {% endfor %}
