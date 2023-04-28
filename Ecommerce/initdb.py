@@ -5,6 +5,7 @@ from cart.models import *
 from django.db import connection
 import datetime, random, string
 
+#Inizializzazione DB prodotti
 def erase_db_Products():
     print("-- Cancello il DB Product --\n")
     Product.objects.all().delete() #Cancello oggetti table products
@@ -14,6 +15,7 @@ def erase_db_Products():
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='products_product_recensioni'; ''') #Resetta ID table products_product_recensioni
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='products_recensione'; ''') #Resetta ID table products_recensione
 
+#Popolamento DB prodotti
 def init_db_Products():
 
     if len(Product.objects.all()) != 0:
@@ -358,6 +360,7 @@ def init_db_Products():
 
     print("-- Popolo il DB Product --\n")
 
+#Inizializzazione DB utenti
 def erase_db_Users():
 
     print("-- Cancello il DB Users --\n")
@@ -370,6 +373,7 @@ def erase_db_Users():
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='cart_carrello_item'; ''') #Resetta ID table cart_carrello_item
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='cart_carrello_prodotto'; ''') #Resetta ID table cart_carrello_item
 
+#Popolamento DB utente
 def init_db_Users():
 
     if len(User.objects.all()) != 0:
@@ -472,6 +476,7 @@ def init_db_Users():
     
     print("-- Popolo il DB User --\n")
 
+#Inizializzazione DB ordini
 def erase_db_Orders():
 
     print("-- Cancello il DB Orders --\n")
@@ -483,6 +488,7 @@ def erase_db_Orders():
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='orders_ordine_item'; ''') #Resetta ID table orders_ordine_item
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='orders_ordine_prodotti'; ''') #Resetta ID table orders_ordine_prodotto
 
+#Popolamento DB ordini 
 def init_db_Orders():
 
     if len(Ordine.objects.all()) != 0 or len(Ordine_Item.objects.all()) !=0:
@@ -591,5 +597,18 @@ def init_db_Orders():
     
     print("-- Popolo il DB Orders e recensioni --\n")   
     
+#Inizializzazione e popolamento tutti i DB
+def erase_init_all():
 
+    #Table User
+    erase_db_Users() #Cancello DB User
+    init_db_Users() #Inizializzo DB User
+
+    #Table Products
+    erase_db_Products() #Cancello DB Product
+    init_db_Products() #Inizializzo DB Product
+
+    #Table Orders e recensioni
+    erase_db_Orders() #Cancello DB Orders
+    init_db_Orders() #Inizializzo DB Orders
 

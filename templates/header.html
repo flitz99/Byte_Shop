@@ -58,8 +58,13 @@
                         <div class="header_search_content">
                             <div class="header_search_form_container">
                                 <form method="GET" action="{% url 'products:search' %}" class="header_search_form clearfix" >
-                                    <input type="search" name="search" required="required" class="header_search_input" placeholder="Effettua ricerca...">
-                                    <button type="submit" class="header_search_button trans_300" value="Submit"><img src="../../static/img/search.png" class="img-fluid" ></button>
+                                    {% if not user.is_staff %}
+                                        <input type="search" name="search" required="required" class="header_search_input" placeholder="Effettua ricerca...">
+                                        <button type="submit" class="header_search_button trans_300" value="Submit"><img src="../../static/img/search.png" class="img-fluid" ></button>
+                                    {% else %}
+                                        <input type="search" name="search" required="required" disabled="disabled" class="header_search_input" placeholder="Effettua ricerca..." >
+                                        <button type="submit" class="header_search_button trans_300" disabled="disabled" value="Submit"> <img src="../../static/img/search.png" class="img-fluid" ></button>
+                                    {% endif %}
                                 </form>
                             </div>
                         </div>
@@ -140,6 +145,7 @@
                                 {% else %}
                                     <li> <a href="../../products/allproducts"> Tutti i Prodotti<i class="fas fa-chevron-down"> </i> </a>  </li>
                                 {% endif %}
+
                                 {% if user.is_authenticated and user.is_staff%}
                                 <li class="hassubs">
                                         <a href="#">Aggiungi Prodotto<i class="fas fa-chevron-down"></i></a>
@@ -160,6 +166,9 @@
                                                 <a href="../../products/add_product/cuffie">Cuffie<i class="fas fa-chevron-down computer"></i></a>
                                             </li>
                                         </ul>
+                                </li>
+                                <li class="hassubs">
+                                    <a href="../../orders/my_orders">Ordini Prodotti<i class="fas fa-chevron-down"></i></a> 
                                 </li>
                                 <li class="hassubs">
                                     <a href="../../authentication/users">Gestisci Utenti<i class="fas fa-chevron-down"></i></a> 

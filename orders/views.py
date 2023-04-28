@@ -5,25 +5,40 @@ from cart.models import *
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 import datetime, random, string
+from django.contrib.auth.decorators import login_required
 
 #View con gli ordini del cliente registrato
+@login_required
 def my_orders(request):
 
     templ="orders/my_orders.html"
 
-    user=User.objects.get(username=request.user) #acquisisco user
-    client=Client.objects.get(user=user) #acquisisco client
+    #Se utente cliente
+    if request.user.is_authenticated and not request.user.is_staff:
+        user=User.objects.get(username=request.user) #acquisisco user
+        client=Client.objects.get(user=user) #acquisisco client
 
-    ordini= Ordine.objects.filter(client=client).order_by('-date') #Acquisisco ordini del cliente ordinati col più recente
+        ordini= Ordine.objects.filter(client=client).order_by('-date') #Acquisisco ordini del cliente ordinati col più recente
 
-    ctx={"listaordini":ordini}
+        ctx={"listaordini":ordini}
 
-    #lista_ordini=Ordine.objects.filter(client_id=client_id) #Acquisisco lista ordini per dato cliente
+    else: #Se utente amministratore
+        
+        ordini_all=Ordine.objects.filter().all() #Acquisisco tutti gli ordini
+        ordini_admin=[] #lista ordini con prodotti inseriti dall'admin
 
+        for ordine in ordini_all:
+            for o in ordine.prodotti.all():
+                if o.item.supplier==request.user: #Se prodotto inserito dall'amministratore
+                    ordini_admin.append(ordine) #salvo ordine in una lista
+
+        ordini_admin=list(set(ordini_admin)) #Rimuovo duplicati (se entrambi i prodotti nell'ordine sono dell'admin me li mette due volte altrimenti)
+        ctx={"listaordini":ordini_admin}
 
     return render(request,template_name=templ,context=ctx)
 
 #Creazione nuovo ordine, modifica quantità del prodotto e cancellazione oggetti nel carrello
+@login_required
 def create_order(request):
     
     #Acquisisco il carrello dell'utente
@@ -71,6 +86,7 @@ def svuota_carrello(carrello):
         c.delete() #elimino oggetti dal carrello
 
 #Modifica le quantità dei prodotti dopo che è stato effettuato un ordine
+@login_required
 def modifica_quantità(carrello):
     for c in carrello.prodotti.all():
         prodotto= Product.objects.get(product_code=c.item.product_code)

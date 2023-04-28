@@ -7,13 +7,16 @@ from .models import Client
 from django.shortcuts import get_object_or_404
 from cart.models import *
 from orders.views import svuota_carrello
+from django.contrib.auth.decorators import login_required
 
-# Create your views here.
+
 def home(request):
     return redirect('../')
 
 def signup(request,user_type):
- if user_type=="admin" or user_type=="client": #check in modo che non si inserisca <str:user_type> diverso da client o admin
+ 
+ #Per evitare che qualsiasi utente possa registrarsi come admin è stata commentata la registrazione come amministratore
+ if user_type=="client": #or user_type=="admin:    #check in modo che non si inserisca <str:user_type> diverso da client o admin
 
     templ="authentication/signup.html"
     ctx={"title":user_type}
@@ -85,9 +88,12 @@ def signup(request,user_type):
  
     return render(request,template_name=templ,context=ctx)
  else:
-    return HttpResponse("ERROR: Page not found")
+    if user_type=="admin":
+        return HttpResponse("ERROR: Tentata registrazione come admin")
+    else:
+        return HttpResponse("ERROR: Pagina non trovata")
 
-
+@login_required
 def profile(request):
     templ="authentication/profile.html"
     user= request.user
@@ -154,7 +160,7 @@ def profile(request):
 
     return render(request,template_name=templ,context=ctx)
 
-
+@login_required
 def signout(request):
 
     user=User.objects.get(username=request.user) #acquisisco user
@@ -169,6 +175,7 @@ def signout(request):
     return redirect('home')
 
 def signin(request,user_type):
+ 
  if user_type=="admin" or user_type=="client": #check in modo che non si inserisca <str:user_type> diverso da client o admin
     templ="authentication/signin.html"
     ctx={"title":user_type}
@@ -195,6 +202,7 @@ def signin(request,user_type):
  else:
     return HttpResponse("ERROR: Page not found")
 
+@login_required
 def users(request):
     templ="authentication/users.html"
     clients=Client.objects.all()
@@ -203,15 +211,22 @@ def users(request):
 
     return render(request,template_name=templ,context=ctx)
 
+@login_required
 def delete_user(request,user_id):
     
-     client = get_object_or_404(Client, id=user_id)
-     user= get_object_or_404(User,id=client.user_id)
-     client.delete() #elimina oggetto dal db
-     user.delete()
+    if Client.objects.filter(id=user_id).exists(): #Controllo che lo user id passato esista
+        client = get_object_or_404(Client, id=user_id)
+        user= get_object_or_404(User,id=client.user_id)
+        client.delete() #elimina oggetto dal db
+        user.delete()
      
-     return redirect('home')
+        return redirect('home')
+    
+    else:
+        return HttpResponse("ERROR: user_id non valido")
 
+
+@login_required
 def change_password(request):
     templ="authentication/change_pswd.html"
     user= request.user

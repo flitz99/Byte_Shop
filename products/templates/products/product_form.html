@@ -148,7 +148,7 @@
                     <input type="text" class="form-control" name="cpu" placeholder="Inserire il processore" Required>
 
                     <label for="frame_frequency" class="form-label">Frequenza frame: </label>
-                    <input type="text" class="form-control" name="frame_frequency" placeholder="Inserire frequenza frame" Required>
+                    <input type="number" class="form-control" name="frame_frequency" placeholder="Inserire frequenza frame" Required>
 
                     <label for="reception_type" class="form-label">Tipo di ricezione: </label>
                     <input type="text" class="form-control" name="reception_type" placeholder="Inserire tipo di ricezione" Required>
@@ -192,6 +192,15 @@
         </div>
             </form>
             <br>
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags}} alert-dismissible fade show" role="alert" style="width:500px;">
+                    <strong>Message:</strong> {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+        {% endfor %}
+        <br> 
         </div>
 
 

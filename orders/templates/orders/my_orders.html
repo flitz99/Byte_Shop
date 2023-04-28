@@ -17,7 +17,13 @@
 <center>
     <br>
     <div class="container text-center">
+       
+        {% if user.is_staff %}
+            <h3> Ordini dei miei prodotti: </h3>
+        {% else %}
         <h3> I miei ordini: </h3> 
+        {% endif %}
+
         {% if listaordini.count == 0%}
             <div class="row">
                     <h3> Nessun ordine presente </h3> 
@@ -30,6 +36,11 @@
                     <div class="row">
                         <div class="row" >
                             <br>
+                            {% if user.is_staff %}
+                                <h4> <b> Nome: </b> {{ordine.client.user.first_name}} </h4>
+                                <h4> <b> Cognome: </b> {{ordine.client.user.last_name}} </h4>
+                                <h4> <b> Email: </b> {{ordine.client.user.email}} </h4>
+                            {% endif %}
                             <h4> <b> Ordine numero: </b> {{ordine.id_ordine}} </h4>
                             <h4> <b> Data: </b> {{ordine.date}} </h4>
                             <h4> <b> Indirizzo di consegna: </b> {{ordine.client.address}} {{ordine.client.house_number}}</h4>
@@ -45,8 +56,11 @@
                             <h4> <b> Prodotto: </b> {{l.item.name}} </h4>
                             <h4> <b> Quantità: </b> {{l.quantity}} </h4>
                             <h4> <b> Prezzo: </b> {{l.price}}€ </h4>
-                            <a href = "../../products/id/{{l.item.product_code}}"> <img src="{{ l.item.image.url }}" style="width:auto;height:100px"> </a>
-                            
+                            {% if not user.is_staff %}
+                                <a href = "../../products/id/{{l.item.product_code}}"> <img src="{{ l.item.image.url }}" style="width:auto;height:100px"> </a>
+                            {% else %}
+                                <img src="{{ l.item.image.url }}" style="width:auto;height:100px">
+                            {% endif %}
                         </div>       
                     {% endfor %}
                     </div> 

@@ -2,7 +2,7 @@ from django.urls import path, include
 from . import views
 from products.apps import ProductsConfig
 from .views import *
-from django.http import HttpResponse
+
 
 app_name="products"
 
