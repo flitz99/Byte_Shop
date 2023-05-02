@@ -39,7 +39,6 @@ def mostpopular(popular,request):
             del popular_ord[p]
 
         popular_ord= dict(list(popular_ord.items())[:9]) #Massimo 6 elementi
-        print(popular_ord)
         return popular_ord
 
     else:
@@ -143,7 +142,7 @@ def home(request):  #View per la Homepage
                 recommended = recommend(client) #Acquisisco prodotti consigliati per l'utente
                 
                 if len(recommended) > 0: #Se ho almeno un prodotto raccomandato
-                    ctx= {"listaprodotti": recommended,'title':"Prodotti consigliati:"} #listaprodotti contiene i prodotti raccomandati
+                    ctx= {"listaprodotti": recommended,'title':"Prodotti consigliati in base ai tuoi acquisti:"} #listaprodotti contiene i prodotti raccomandati
                 
                 else: #Se non ho prodotti da consigliare
 

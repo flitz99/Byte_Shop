@@ -38,7 +38,6 @@ def my_orders(request):
     return render(request,template_name=templ,context=ctx)
 
 #Creazione nuovo ordine, modifica quantità del prodotto e cancellazione oggetti nel carrello
-@login_required
 def create_order(request):
     
     #Acquisisco il carrello dell'utente
@@ -86,7 +85,6 @@ def svuota_carrello(carrello):
         c.delete() #elimino oggetti dal carrello
 
 #Modifica le quantità dei prodotti dopo che è stato effettuato un ordine
-@login_required
 def modifica_quantità(carrello):
     for c in carrello.prodotti.all():
         prodotto= Product.objects.get(product_code=c.item.product_code)

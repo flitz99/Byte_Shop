@@ -50,49 +50,49 @@ def init_db_Products():
 
     #Dizionario contenente i dati degli smartphone
     smartphonedict = {
-        "image" : ["Apple_Iphone_13.jpg","Apple_Iphone_11.jpg"],
-        "name" : ["Iphone 13","Iphone 11"],
-        "product_code" : ["172081","172013"],
-        "productor" : ["Apple","Apple"],
-        "color" : ["Black","Black"],
-        "size" : ["7x14x0.7","7.5x15x0.8" ],
-        "full_price" : [939.00,609.00],
-        "discount":[15,9],
-        "quantity" : [13,0],
-        "weight" : [0.17,0.19],
+        "image" : ["Apple_Iphone_13.jpg","Apple_Iphone_11.jpg","Samsung_Galaxy_S23_Ultra.png"],
+        "name" : ["Iphone 13","Iphone 11","Samsung Galaxy","Samsung Galaxy S23 Ultra"],
+        "product_code" : ["172081","172013","185392"],
+        "productor" : ["Apple","Apple","Samsung"],
+        "color" : ["Black","Black","Green"],
+        "size" : ["7x14x0.7","7.5x15x0.8","7.81x16.3x0.8",  ],
+        "full_price" : [939.00,609.00,1479.00],
+        "discount":[15,9,10],
+        "quantity" : [13,0,3],
+        "weight" : [0.17,0.19,0.23],
 
-        "cpu":["A15 Bionic","A13 Bionic"],
-        "ram":[4,4],
-        "disk_size":[128,128],
-        "operating_system":["IOS","IOS"],
-        "battery_autonomy":[15,12],
-        "camera":[12,12],
-        "additional_function":["Doppia fotocamera","Display LCD"],
-        "display_size":[6.1,6.1]
+        "cpu":["A15 Bionic","A13 Bionic","Qualcomm SM8550"],
+        "ram":[4,4,8],
+        "disk_size":[128,128,256],
+        "operating_system":["IOS","IOS","Android"],
+        "battery_autonomy":[15,12,25],
+        "camera":[12,12,200],
+        "additional_function":["Doppia fotocamera","Display LCD","Display Dynamic AMOLED 2x, pennino incluso"],
+        "display_size":[6.1,6.1,6.8]
 
     }   
 
     #Dizionario contenente i dati dei televisori
     televisoredict={
-        "image" : ["Samsung_UE50AU7170UXZT.png","Samsung_QE85Q950TSTXZT.png",],
-        "name" : ["Samsung UE50AU7170UXZT","Samsung QE85Q950TSTXZT"],
-        "product_code" : ["153372","139572"],
-        "productor" : ["Samsung","Samsung" ],
-        "color" : ["Black","Black" ],
-        "size" : ["116.8x72x25","187.7x113.1x34"],
-        "full_price" : [449.99,8999.99],
-        "discount":[15,0],
-        "quantity" : [10,2 ],
-        "weight" : [11.6,65.8],
+        "image" : ["Samsung_UE50AU7170UXZT.png","Samsung_QE85Q950TSTXZT.png","Sony_XR48A90KAEP.png"],
+        "name" : ["Samsung UE50AU7170UXZT","Samsung QE85Q950TSTXZT","Sony XR48A90KAEP"],
+        "product_code" : ["153372","139572","176064"],
+        "productor" : ["Samsung","Samsung","Sony"],
+        "color" : ["Black","Black","Black" ],
+        "size" : ["116.8x72x25","187.7x113.1x34","106.9x62.9x22.5"],
+        "full_price" : [449.99,8999.99,1949.99],
+        "discount":[15,0,0],
+        "quantity" : [10,2,5 ],
+        "weight" : [11.6,65.8,16.5],
 
-        "display_size":[50,85],
-        "display_resolution":["3840x2160","7680x4320"],
-        "display_technology":["LED","QLED"],
-        "display_quality":["UHD 4K","QLED 8K"],
-        "cpu":["Crystal 4K","Quantum 8K"],
-        "frame_frequency":[60,120],
-        "reception_type":["DVB-T2","DVB-T2"],
-        "additional_function":["Smart TV, 3xHdmi","Smart TV, HDR, 4xHdmi ARC"]
+        "display_size":[50,85,48],
+        "display_resolution":["3840x2160","7680x4320","3840x2160"],
+        "display_technology":["LED","QLED","OLED"],
+        "display_quality":["UHD 4K","QLED 8K","OLED 4K"],
+        "cpu":["Crystal 4K","Quantum 8K","Cognitive Processor XR"],
+        "frame_frequency":[60,120,120],
+        "reception_type":["DVB-T2","DVB-T2","DVB-T2, DVB-C2"],
+        "additional_function":["Smart TV, 3xHdmi","Smart TV, HDR, 4xHdmi ARC","Dolby Atmos"]
 
 
     }
@@ -118,25 +118,25 @@ def init_db_Products():
 
     #Dizionario contenente i dati delle cuffie
     cuffiedict={
-        "image" : ["Airpodsmax_celeste.png","Bose_700_nere.png",],
-        "name" : ["Airpods Max Celeste","Bose 700"],
-        "product_code" : ["172853","108221"],
-        "productor" : ["Apple","Bose" ],
-        "color" : ["Celeste","Black" ],
-        "size" : ["18.7x16.8x8.3","16.5x20.3x5"],
-        "full_price" : [629,329.99],
-        "discount":[0,10],
-        "quantity" : [3,5 ],
-        "weight" : [0.38,0.25],
+        "image" : ["Airpodsmax_celeste.png","Bose_700_nere.png","Airpods_3.png"],
+        "name" : ["Airpods Max Celeste","Bose 700","Airpods 3"],
+        "product_code" : ["172853","108221","179237"],
+        "productor" : ["Apple","Bose","Apple" ],
+        "color" : ["Celeste","Black","White" ],
+        "size" : ["18.7x16.8x8.3","16.5x20.3x5","5x5.3x2.1"],
+        "full_price" : [629,329.99,209.00],
+        "discount":[0,10,10],
+        "quantity" : [3,5,4],
+        "weight" : [0.38,0.25,0.03],
 
-        "cuffie_type":["Bluetooth over-ear","Bluetooth over-ear"],
-        "caratteristiche":["Processore audio: Apple H1, cancellazione del rumore","Facile accesso agli assistenti vocali inclusi Assistente Google e Amazon Alexa. Cancellazione del rumore fino a 11 livelli."]
+        "cuffie_type":["Bluetooth over-ear","Bluetooth over-ear","Auricolari wireless"],
+        "caratteristiche":["Processore audio: Apple H1, cancellazione del rumore","Facile accesso agli assistenti vocali inclusi Assistente Google e Amazon Alexa. Cancellazione del rumore fino a 11 livelli.","Il sensore di pressione ti dà ancora più controllo su quello che ascolti. Ti basta premere per far partire un brano, metterlo in pausa o passare a quello successivo, ma anche per rispondere a una chiamata e riagganciare."]
     }
 
     #Acquisisco i fornitori che inseriscono i prodotti
     admin_1=User.objects.get(username="Filippo") #Acquisisco utente Filippo
     admin_2=User.objects.get(username="Massimo") #Acquisisco utente Massimo
-
+    admin_3=User.objects.get(username="Paolo") #Acquisisco utente Paolo
     
      #-----------       Prodotti Computer -----------------
     for i in range(4): # 4 prodotti computer
@@ -184,14 +184,14 @@ def init_db_Products():
             if k=="display_size":
                 c.display_size=computerdict[k][i]
 
-        c.supplier=admin_2
+        c.supplier=admin_1 
         c.type="computer"
         c.final_price= round(c.full_price-((c.full_price/100)*c.discount),2) #Calcolo prezzo finale scontato
         c.save() #Salvo prodotti nel DB
 
     #-----------       Prodotti Televisore -----------------
 
-    for i in range(2): # 2 prodotti televisore
+    for i in range(3): # 2 prodotti televisore
         t =Televisore() #Oggetto televisore
         for k in televisoredict:
             if k =="image":
@@ -232,7 +232,7 @@ def init_db_Products():
             if k=="additional_function":
                 t.additional_function=televisoredict[k][i]
 
-        t.supplier=admin_2
+        t.supplier=admin_3
         t.type="televisore"
         t.final_price= round(t.full_price-((t.full_price/100)*t.discount),2) #Calcolo prezzo finale scontato
         t.save()
@@ -240,7 +240,7 @@ def init_db_Products():
 
     #-----------       Prodotti Smartphone  -----------------
 
-    for i in range(2): # 2 prodotti smartphone
+    for i in range(3): # 2 prodotti smartphone
         s =Smartphone() #Oggetto smartphone
         for k in smartphonedict:
             if k =="image":
@@ -281,7 +281,7 @@ def init_db_Products():
             if k =="display_size":
                 s.display_size=smartphonedict[k][i]
         
-        s.supplier=admin_1
+        s.supplier=admin_2
         s.type="smartphone"
         s.final_price= round(s.full_price-((s.full_price/100)*s.discount),2) #Calcolo prezzo finale scontato
         s.save()
@@ -318,13 +318,13 @@ def init_db_Products():
             if k=="caratteristiche":
                 c.caratteristiche=coverdict[k][i]
 
-        c.supplier=admin_1
+        c.supplier=admin_2
         c.type="cover"
         c.final_price= round(c.full_price-((c.full_price/100)*c.discount),2) #Calcolo prezzo finale scontato
         c.save()
 
     #-----------       Prodotti Cuffie  -----------------
-    for i in range(2):
+    for i in range(3):
         c=Cuffie()
         for k in cuffiedict:
             if k =="image":
@@ -380,31 +380,31 @@ def init_db_Users():
         return
     
     clientdict = {
-        "first_name" : ["Jennifer","Daniele"],
-        "last_name" : ["Reggiani","Zanoli"],
-        "username" : ["Jennifer","Daniele"  ],
-        "email" : ["reggianije@live.it","daniele99@gmail.com"  ],
-        "password" : ["1234","1234"  ],
+        "first_name" : ["Jennifer","Daniele","Lorenzo"],
+        "last_name" : ["Reggiani","Zanoli","Corradi"],
+        "username" : ["Jennifer","Daniele","Lorenzo"  ],
+        "email" : ["reggianije@live.it","daniele99@gmail.com","lore213@gmail.com"  ],
+        "password" : ["1234","1234","1234"  ],
 
-        "birth_date":[datetime.date(1999,12,30),datetime.date(1999,6,7)],
-        "telephone":["331678923","3393456781"],
-        "address":["via marconi","via san michele"],
-        "house_number":[15,35],
-        "city":["Soliera","Soliera"],
-        "province":["Modena","Modena"],
-        "cap":["41019","41019"]
+        "birth_date":[datetime.date(1999,12,30),datetime.date(1999,6,7),datetime.date(1997,3,4)],
+        "telephone":["3316789232","3393456781","3389076567"],
+        "address":["via marconi","via san michele","via paganini"],
+        "house_number":[15,35,12],
+        "city":["Soliera","Soliera","Soliera"],
+        "province":["Modena","Modena","Modena"],
+        "cap":["41019","41019","41019"]
     }
 
     admindict ={
-        "first_name" : ["Filippo","Massimo"],
-        "last_name" : ["Reggiani","Rossi"],
-        "username" : ["Filippo","Massimo"  ],
-        "email" : ["reggianifilippo@live.it","massimorossi@live.it"  ],
-        "password" : ["1234","1234"  ],
+        "first_name" : ["Filippo","Massimo","Paolo"],
+        "last_name" : ["Reggiani","Rossi","Sidoti"],
+        "username" : ["Filippo","Massimo","Paolo"],
+        "email" : ["reggianifilippo@live.it","massimorossi@live.it","paolosido@gmail.com"  ],
+        "password" : ["1234","1234","1234"],
     }
 
     #Aggiungo oggetti di tipo user (client)
-    for i in range(2): # 1 oggetto user
+    for i in range(3): # 3 oggetti user
         user = User() #Oggetto user
         client=Client()
         for k in clientdict:
@@ -452,7 +452,7 @@ def init_db_Users():
 
 
     #Aggiungo oggetti di tipo user (admin)
-    for i in range(2): # 1 oggetto user
+    for i in range(3): # 1 oggetto user
         user = User() #Oggetto user
         for k in admindict:
             if k =="first_name":
@@ -488,6 +488,9 @@ def erase_db_Orders():
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='orders_ordine_item'; ''') #Resetta ID table orders_ordine_item
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='orders_ordine_prodotti'; ''') #Resetta ID table orders_ordine_prodotto
 
+def create_order_code():
+    return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8))
+
 #Popolamento DB ordini 
 def init_db_Orders():
 
@@ -499,42 +502,72 @@ def init_db_Orders():
 
     #Dizionari con gli oggetti per ciascun ordine
     order1_itemdict={
-        "item":[prodotti[0],prodotti[10]],
+        "item":[prodotti[0],prodotti[12]], #macbook pro e cuffie
         "quantity":[1,1],
-        "price":[prodotti[0].final_price,prodotti[10].final_price]
+        "price":[prodotti[0].final_price,prodotti[12].final_price]
     }
 
     order2_itemdict={
-        "item":[prodotti[7],prodotti[9]],
+        "item":[prodotti[7],prodotti[10]], #Iphone 13 e cover iphone 13
         "quantity":[1,1],
-        "price":[prodotti[7].final_price,prodotti[9].final_price]
+        "price":[prodotti[7].final_price,prodotti[10].final_price]
     }
     
     order3_itemdict={
-        "item":[prodotti[6],prodotti[8]],
+        "item":[prodotti[8],prodotti[11]], #iphone 11 e cover iphone 11
         "quantity":[1,1],
-        "price":[prodotti[6].final_price,prodotti[8].final_price]
+        "price":[prodotti[8].final_price,prodotti[11].final_price]
     }
     
     order4_itemdict={
-        "item":[prodotti[5]],
-        "quantity":[2],
+        "item":[prodotti[5]], #Samsung 85"
+        "quantity":[1],
         "price":[prodotti[5].final_price]
     }
 
+    order5_itemdict={
+        "item":[prodotti[2],prodotti[14]], #Macbook air e airpods
+        "quantity":[1,1],
+        "price":[prodotti[2].final_price,prodotti[14].final_price]
+    }
+
+    order6_itemdict={
+        "item":[prodotti[4],prodotti[13]], #Samsung tv e cuffie bose
+        "quantity":[1,1],
+        "price":[prodotti[4].final_price,prodotti[13].final_price]
+    }
+
+    order7_itemdict={
+        "item":[prodotti[4]], #Samsung tv 
+        "quantity":[2],
+        "price":[prodotti[4].final_price]
+    }
+
+    order8_itemdict={
+        "item":[prodotti[7]], #Iphone 13
+        "quantity":[1],
+        "price":[prodotti[7].final_price]
+    }
+
+    order9_itemdict={
+        "item":[prodotti[14]], #airpods 
+        "quantity":[1],
+        "price":[prodotti[14].final_price]
+    }
+
     #Lista coi dizionari degli oggetti di ciascun ordine
-    order_items_list=[order1_itemdict,order2_itemdict,order3_itemdict,order4_itemdict]
+    order_items_list=[order1_itemdict,order2_itemdict,order3_itemdict,order4_itemdict,order5_itemdict,order6_itemdict,order7_itemdict,order8_itemdict,order9_itemdict]
     
     #Dizionario degli ordini
     ordersdict = {
-        "id_ordine" : [''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8)),''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8)),''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8)),''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8))],
-        "date": [datetime.date(2023,1,15),datetime.date(2023,2,10),datetime.date(2023,3,8),datetime.date(2023,4,15)],
-        "client":[clienti[0],clienti[0],clienti[1],clienti[1]]
+        "id_ordine" : [create_order_code(),create_order_code(),create_order_code(),create_order_code(),create_order_code(),create_order_code(),create_order_code(),create_order_code(),create_order_code()],
+        "date": [datetime.date(2023,1,15),datetime.date(2023,2,10),datetime.date(2022,3,8),datetime.date(2023,4,15),datetime.date(2023,4,12),datetime.date(2023,4,3),datetime.date(2023,4,20),datetime.date(2023,4,28),datetime.date(2023,1,3)],
+        "client":[clienti[0],clienti[0],clienti[1],clienti[1],clienti[2],clienti[2],clienti[0],clienti[1],clienti[0]]
     }
 
     #Aggiungo oggetti di tipo Ordine e Ordine_Item
     cont=0
-    for i in range(4): # 4 ordini
+    for i in range(9): # 9 ordini
         order = Ordine() #Oggetto ordine
         for k in ordersdict:
             if k =="id_ordine":
@@ -569,15 +602,15 @@ def init_db_Orders():
     
     #Aggiungo recensioni
     recensionidict={
-        "prodotto":[prodotti[0],prodotti[5],prodotti[7]],
-        "valutation":[4,5,2],
-        "date":[datetime.date(2023,1,19),datetime.date(2023,4,15),datetime.date(2023,2,10)],
-        "description":["ottimo prodotto","Risoluzione incredibile, grandissimo prodotto!","Pensavo meglio"],
-        "client":[clienti[0],clienti[1],clienti[0]]
+        "prodotto":[prodotti[0],prodotti[12],   prodotti[7],prodotti[10],     prodotti[8],prodotti[11],    prodotti[5],    prodotti[13]],
+        "valutation":[4,4,   5,2,   2,4,   5,    4],
+        "date":[datetime.date(2023,1,19),datetime.date(2023,1,19),   datetime.date(2023,2,20),datetime.date(2023,2,20),      datetime.date(2023,3,11),datetime.date(2023,3,11),      datetime.date(2023,4,17),    datetime.date(2023,4,15)],
+        "description":["ottimo prodotto","Ottime cuffie, grande qualità del suono!",    "Il miglior iphone di sempre!","Pensavo meglio, cover di scarsa qualità",        "Il peggior iphone di sempre!","Cover di ottima qualità",     "Televisore con risoluzione incredibile!",    "Cancellazione del rumore incredibile."   ],
+        "client":[clienti[0],clienti[0],      clienti[0],clienti[0],       clienti[1],clienti[1],   clienti[1],    clienti[2]    ]
 
     }
 
-    for i in range(3):
+    for i in range(8): #8 recensioni
         rec= Recensione()
         prodotto=Product()
         for k in recensionidict:

@@ -41,50 +41,70 @@ def signup(request,user_type):
             messages.error(request, "Lo username deve avere meno di 20 caratteri!")
             return redirect('signup',user_type)
         
-        if pass1 != pass2:
-            messages.error(request, "Le password inserite non corrispondono!")
-            return redirect('signup',user_type)
-        
         if not username.isalnum():
             messages.error(request, "Lo username deve essere alfanumerico!")
             return redirect('signup',user_type)
-
-        # Se tutti i controlli passati, creo l'utente   
-        myuser = User.objects.create_user(username, email, pass1)
-        myuser.first_name = fname
-        myuser.last_name = lname
-
-        myuser.is_active = True
-
-        if user_type=="client": # Se cliente imposto check staff a False
-            myuser.is_staff=False
-        else:
-            myuser.is_staff=True
-            myuser.is_superuser=True
-
-        myuser.save() #Salvo su database l'utente
-
-        if user_type=="client":  # Se utente cliente prendo campi aggiuntivi
-            birth_date=request.POST['birth_date']
-            telephone = request.POST['telephone']
-            address = request.POST['address']
-            house_number=request.POST['house_number']
-            city = request.POST['city']
-            province = request.POST['province']
-            cap = request.POST['cap']
-            
-            #Creo dato cliente
-            myclient= Client(user=myuser,telephone=telephone,address=address,house_number=house_number,city=city,province=province,cap=cap,birth_date=birth_date)
-            myclient.save() # salvo sul database il cliente
-
-            #Creo carrello per utente cliente
-            carrello= Carrello()
-            carrello.user=myclient
-            carrello.save()
-
-        messages.success(request, "il tuo account è stato creato correttamente!")
         
-        return redirect('signin',user_type)
+        #--  Controlli sulla password  --
+
+        #Controllo lunghezza password almeno 8 caratteri
+        if len(pass1) < 8:
+            messages.error(request, "La password deve essere di almeno 8 caratteri!")
+            return redirect('signup',user_type)
+        else:
+            #Controllo password contenga almeno una lettera minuscola
+            if not any(c.islower() for c in pass1):
+                messages.error(request, "La password deve contenere almeno una lettera minuscola!")
+                return redirect('signup',user_type)
+            #Controllo che password contenga almeno una lettera maiuscola
+            elif not any(c.isupper() for c in pass1):
+                messages.error(request, "La password deve contenere almeno una lettera maiuscola!")
+                return redirect('signup',user_type)
+            elif not any(c.isdigit() for c in pass1):
+                messages.error(request, "La password deve contenere almeno un numero!")
+                return redirect('signup',user_type)
+            
+            #Se le due password sono diverse
+            if pass1 != pass2:
+                messages.error(request, "Le password inserite non corrispondono!")
+                return redirect('signup',user_type)
+        
+            # Se tutti i controlli passati, creo l'utente   
+            myuser = User.objects.create_user(username, email, pass1)
+            myuser.first_name = fname
+            myuser.last_name = lname
+
+            myuser.is_active = True
+
+            if user_type=="client": # Se cliente imposto check staff a False
+                myuser.is_staff=False
+            else:
+                myuser.is_staff=True
+                myuser.is_superuser=True
+
+            myuser.save() #Salvo su database l'utente
+
+            if user_type=="client":  # Se utente cliente prendo campi aggiuntivi
+                birth_date=request.POST['birth_date']
+                telephone = request.POST['telephone']
+                address = request.POST['address']
+                house_number=request.POST['house_number']
+                city = request.POST['city']
+                province = request.POST['province']
+                cap = request.POST['cap']
+                
+                #Creo dato cliente
+                myclient= Client(user=myuser,telephone=telephone,address=address,house_number=house_number,city=city,province=province,cap=cap,birth_date=birth_date)
+                myclient.save() # salvo sul database il cliente
+
+                #Creo carrello per utente cliente
+                carrello= Carrello()
+                carrello.user=myclient
+                carrello.save()
+
+            messages.success(request, "il tuo account è stato creato correttamente!")
+            
+            return redirect('signin',user_type)
  
     return render(request,template_name=templ,context=ctx)
  else:
@@ -237,19 +257,41 @@ def change_password(request):
         newpassword= request.POST['newpassword1']
         newpassword2= request.POST['newpassword2']
 
-        if user.check_password(oldpassword):
-            if newpassword == newpassword2:
-                user.set_password(newpassword2)
-                user.save()
-                print(newpassword2)
-                logout(request)
-                return redirect('home')
-            else:
-                messages.error(request, "Le due password non coincidono!")
-                return redirect("change_password")
+        #Controllo lunghezza password almeno 8 caratteri
+        if len(newpassword) < 8:
+            messages.error(request, "La nuova password deve essere di almeno 8 caratteri!")
+            return redirect('change_password')
         else:
-            messages.error(request, "Password vecchia errata!")
-            return redirect("change_password")
+            #Controllo password contenga almeno una lettera minuscola
+            if not any(c.islower() for c in newpassword):
+                messages.error(request, "La nuova password deve contenere almeno una lettera minuscola!")
+                return redirect('change_password')
+            #Controllo che password contenga almeno una lettera maiuscola
+            elif not any(c.isupper() for c in newpassword):
+                messages.error(request, "La nuova password deve contenere almeno una lettera maiuscola!")
+                return redirect('change_password')
+            elif not any(c.isdigit() for c in newpassword):
+                messages.error(request, "La nuova password deve contenere almeno un numero!")
+                return redirect('change_password')
+            
+            #Se le due password sono diverse
+            if newpassword != newpassword2:
+                messages.error(request, "Le password inserite non corrispondono!")
+                return redirect('change_password')
+
+            #Se password vecchia corretta
+            if user.check_password(oldpassword):
+                if newpassword == newpassword2: #Se le due password nuove uguali
+                    user.set_password(newpassword2)
+                    user.save()
+                    logout(request)
+                    return redirect('home')
+                else:
+                    messages.error(request, "Le due password non coincidono!")
+                    return redirect("change_password")
+            else:
+                messages.error(request, "Password vecchia errata!")
+                return redirect("change_password")
 
 
     return render(request,template_name=templ,context=ctx)

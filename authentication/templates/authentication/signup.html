@@ -16,8 +16,8 @@
 <center>
     <br>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-4"  style="background-color:white;border-radius:25px;">
+        <div class="row justify-content-center" style="background-color:white;border-radius:25px;">
+            <div class="col-4"  >
                 <br>
                 <h3>Crea il tuo account</h3>
                 Utente già registrato? Effettua il  <a href="./signin"> Login </a>
@@ -25,16 +25,16 @@
                     {% csrf_token %}
                         <br>
                         <label for="username">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter a Username" Required>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Inserire Username" Required>
 
                         <label for="fname">Nome:</label>
-                        <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter Your First Name" Required>
+                        <input type="text" class="form-control" id="fname" name="fname" placeholder="Inserire nome" Required>
 
                         <label for="lname">Cognome:</label>
-                        <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter Your Last Name" Required>
+                        <input type="text" class="form-control" id="lname" name="lname" placeholder="Inserire cognome" Required>
 
                         <label for="email">Email:</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email Address" Required>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Inserire email" Required>
 
                     {% if title == "client" %}
 
@@ -42,49 +42,51 @@
                         <input type="date" class="form-control" id="birth_date" name="birth_date" Required>
                     
                         <label for="telephone">Telefono:</label>
-                        <input type="number" class="form-control" id="telephone" name="telephone" placeholder="Enter your Telephone" Required>
+                        <input type="number" class="form-control" id="telephone" name="telephone" placeholder="Inserire telefono" Required>
                     
                         <label for="address">Indirizzo:</label>
-                        <input type="text" class="form-control" id="address" name="address" placeholder="Enter your Address" Required>
+                        <input type="text" class="form-control" id="address" name="address" placeholder="Inserire indirizzo" Required>
                     
                         <label for="house_number">Numero civico:</label>
-                        <input type="number" class="form-control" id="house_number" name="house_number" placeholder="Enter your House Number" Required>
+                        <input type="number" class="form-control" id="house_number" name="house_number" placeholder="Inserire numero civico" Required>
                     
                         <label for="city">Città:</label>
-                        <input type="text" class="form-control" id="city" name="city" placeholder="Enter your City" Required>
+                        <input type="text" class="form-control" id="city" name="city" placeholder="Inserire città" Required>
                     
                         <label for="province">Provincia:</label>
-                        <input type="text" class="form-control" id="province" name="province" placeholder="Enter your Province" Required>
+                        <input type="text" class="form-control" id="province" name="province" placeholder="Inserire provincia" Required>
                     
                         <label for="cap">CAP:</label>
-                        <input type="number" class="form-control" id="cap" name="cap" placeholder="Enter your CAP" Required>
+                        <input type="number" class="form-control" id="cap" name="cap" placeholder="Inserire CAP" Required>
                     
                     {% endif %}
                     
                     <label for="pass1">Password:</label>
-                    <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Create Your Password" Required>
+                    <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Inserire password" Required>
                 
                     <label for="pass2">Reinserisci Password:</label>
-                    <input type="password" class="form-control" id="pass2" name="pass2" placeholder="Confirm Your Password" Required>
+                    <input type="password" class="form-control" id="pass2" name="pass2" placeholder="Reinserire la password" Required>
                 
                     <br>
                     <button type="submit" class="btn btn-primary">Registrati</button>
-                    <br>
-                    
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                            <strong>Message:</strong> {{ message }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    {% endfor %}
-                    <br>
+                    <br>   
+            </form>  
 
-                </form>
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    <strong>Message:</strong> {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+            <br> <br>
+
             </div>
+            
         </div>
     </div>
+    <br> <br>
 
 </center>
 
