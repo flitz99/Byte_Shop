@@ -384,7 +384,7 @@ def init_db_Users():
         "last_name" : ["Reggiani","Zanoli","Corradi"],
         "username" : ["Jennifer","Daniele","Lorenzo"  ],
         "email" : ["reggianije@live.it","daniele99@gmail.com","lore213@gmail.com"  ],
-        "password" : ["1234","1234","1234"  ],
+        "password" : ["Je123499","DART_Fener99","Balotelli17"  ],
 
         "birth_date":[datetime.date(1999,12,30),datetime.date(1999,6,7),datetime.date(1997,3,4)],
         "telephone":["3316789232","3393456781","3389076567"],
@@ -400,7 +400,7 @@ def init_db_Users():
         "last_name" : ["Reggiani","Rossi","Sidoti"],
         "username" : ["Filippo","Massimo","Paolo"],
         "email" : ["reggianifilippo@live.it","massimorossi@live.it","paolosido@gmail.com"  ],
-        "password" : ["1234","1234","1234"],
+        "password" : ["F30i12l99","MAX275zp4","274PA59olo"],
     }
 
     #Aggiungo oggetti di tipo user (client)

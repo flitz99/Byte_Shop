@@ -75,6 +75,7 @@
 
             <div class="col-4 ">
                 <br> <br> <br>
+                <!-- DATI GENERICI DEI PRODOTTI -->
                 <h4> <b> Specifiche prodotto: </b> </h4>  <br> 
 
                 <b> Produttore: </b> {{prodotto.productor }}  <br>
@@ -82,9 +83,10 @@
                 <b> Dimensioni: </b> {{prodotto.size}} cm <br>
                 <b> Peso: </b> {{prodotto.weight }} Kg  <br>
             
-            <! Dati tecnici >
+            <!-- DATI TECNICI DEI PRODOTTI -->
 
-                {% if prodotto.type == "computer"%} <!-- Se è un computer-->
+                    <!-- Prodotto di tipo computer-->
+                {% if prodotto.type == "computer"%} 
                     <b> Dimensione display: </b> {{prodotto.display_size}} pollici <br>
                     <b> Risoluzione display: </b> {{prodotto.display_resolution}} pixel <br>
                     <b> Processore:  </b> {{prodotto.cpu}}  <br>
@@ -95,9 +97,9 @@
                     <b> Scheda grafica: </b> {{prodotto.graphic_card}}  <br>
                     <b> Autonomia Batteria: </b> {{prodotto.battery_autonomy}} h <br>
                     <b> Funzioni Aggiuntive: </b> {{prodotto.additional_function }} <br>
-                {% endif %}
 
-                {% if prodotto.type == "smartphone"%} <!-- Se è uno smartphone-->
+                    <!-- Prodotto di tipo smartphone-->
+                {% elif prodotto.type == "smartphone"%} <!-- Se è uno smartphone-->
                     <b> Dimensione display: </b> {{prodotto.display_size}} pollici <br>
                     <b> Processore: </b> {{prodotto.cpu}}  <br>
                     <b> Memoria ram: </b> {{prodotto.ram }} GB  <br>
@@ -107,9 +109,8 @@
                     <b> Fotocamera: </b> {{prodotto.camera}} Mpx <br>
                     <b> Funzioni Aggiuntive: </b> {{prodotto.additional_function }} <br>
 
-                {% endif %}
-
-                {% if prodotto.type == "televisore"%} <!-- Se è uno smartphone-->
+                    <!-- Prodotto di tipo televisore-->
+                {% elif prodotto.type == "televisore"%} <!-- Se è uno smartphone-->
                     <b> Dimensione display: </b> {{prodotto.display_size}} pollici <br>
                     <b> Risoluzione display: </b> {{prodotto.display_resolution}} pixel  <br>
                     <b> Tecnologia display: </b> {{prodotto.display_technology}} <br>
@@ -117,15 +118,14 @@
                     <b> Frequenza frame: </b> {{prodotto.frame_frequency }} Hz<br>
                     <b> Ricezione antenna: </b> {{prodotto.reception_type }} <br>
                     <b> Funzioni aggiuntive: </b> {{prodotto.additional_function }} <br>
-                {% endif %}
 
-                {% if prodotto.type == "cover" %} <!-- Se è una custodia-->
+                    <!-- Prodotto di tipo cover-->
+                {% elif prodotto.type == "cover" %} <!-- Se è una custodia-->
                     <b> Compatibilità: </b> {{prodotto.compatibilità }} <br>
                     <b> Caratteristiche: </b> {{prodotto.caratteristiche }} <br>
 
-                {% endif%}
-
-                {% if prodotto.type == "cuffie" %} <!-- Se è un paio di cuffie -->
+                    <!-- Prodotto di tipo cuffie-->
+                {% elif prodotto.type == "cuffie" %} <!-- Se è un paio di cuffie -->
                     <b> Tipologia: </b> {{prodotto.cuffie_type}} <br>
                     <b> Caratteristiche: </b> {{prodotto.caratteristiche }} <br>
 

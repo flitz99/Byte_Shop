@@ -15,7 +15,7 @@ class Product(models.Model):
     name= models.CharField(max_length=200)
     type=models.CharField(max_length=30)
     product_code=models.CharField(max_length=20, unique=True)
-    productor= models.CharField(max_length=50) #tolto anno uscita....
+    productor= models.CharField(max_length=50) 
     color= models.CharField(max_length=40)
     size=models.CharField(max_length=100)
     weight=models.FloatField(default=0)

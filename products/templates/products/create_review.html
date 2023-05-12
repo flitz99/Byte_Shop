@@ -4,6 +4,7 @@
 
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+{% load crispy_forms_tags %}
 
 {% endblock %}
 
@@ -19,19 +20,15 @@
     <h4> Inserimento nuova recensione: </h4>
     <br>
     <form method="post" enctype="multipart/form-data" style= "width:500px">
-                    {% csrf_token %}
+            {% csrf_token %}
         <div class="container" >
             <div class="row justify-content-center">
                 <h4> <b> Prodotto: </b> {{prodotto.name}} </h4> <br> <br>
-                    <label for="valutation" class="form-label">Valutazione: (Da 1 a 5) </label>
-                    <input type="number" style="width:15%" step="1" min=1 value=3 max=5 class="form-control" name="valutation" Required>
+                    {{ form.valutation | as_crispy_field }}
             </div> 
             <br>
             <div class="row justify-content-center">
-                    <label for="description" class="form-label">Descrizione: </label>
-                    
-                    <textarea rows = "5" cols = "60" name = "description">
-                    </textarea><br>
+                {{ form.description | as_crispy_field }}      
             </div>
             <br> <br>
             <button type="submit" name="review" class="btn btn-success"> Inserisci recensione </button>

@@ -95,8 +95,6 @@ def all_products():
 
     products=Product.objects.filter() #Acquisisco tutti i prodotti
 
-    #Riduco elementi a 6 .....
-
     return products
 
 def home(request):  #View per la Homepage

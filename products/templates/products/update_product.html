@@ -4,6 +4,7 @@
 
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+{% load crispy_forms_tags %}
 
 {% endblock %}
 
@@ -33,40 +34,19 @@
             <h3> <b> Dati prodotto: </b> </h3>
 
                     <form method="post" enctype="multipart/form-data">
-
                         {% csrf_token %}
                         
-                        Immagine attuale: <b> {{prodotto.image}} </b> <br> 
-                        <label for="image" class="form-label">Nuova immagine: </label>
-                        <input type="file" class="form-control" name="image" accept="image/*">
-                    
-                        <label for="name" class="form-label">Nome: </label>
-                        <input type="text"  class="form-control" name="name" value="{{prodotto.name}}" Required>
-
-                        <label for="product_code" class="form-label">Codice Prodotto: </label>
-                        <input type="text" class="form-control" name="product_code" value={{prodotto.product_code}} Required>
-
-                        <label for="productor" class="form-label">Produttore: </label>
-                        <input type="text" class="form-control" name="productor" value= {{prodotto.productor}} Required>
-
-                        <label for="color" class="form-label">Colore: </label>
-                        <input type="text" class="form-control" name="color" value={{prodotto.color}} Required>
-
-                        <label for="size" class="form-label">Dimensione: (L/A/P)</label>
-                        <input type="text" class="form-control" name="size" value={{prodotto.size}} Required>
-                    
-                        <label for="size" class="form-label">Peso: (Kg) </label>
-                        <input type="number" step="0.01" class="form-control" name="weight" value={{prodotto.weight}} Required>
-                    
-                        <label for="full_price" class="form-label">Prezzo Pieno: (€) </label>
-                        <input type="number" step="0.01" class="form-control" name="full_price" value={{prodotto.full_price}} Required>
-
-                        <label for="discount" class="form-label">Sconto: (%) </label>
-                        <input type="number" step="1" class="form-control" name="discount" value={{prodotto.discount}} Required>
-                    
-                        <label for="quantity" class="form-label">Quantità: </label>
-                        <input type="number" class="form-control" name="quantity" value={{prodotto.quantity}} Required>
-
+                        {{ form.image | as_crispy_field }}
+                        {{ form.name | as_crispy_field }}
+                        {{ form.product_code | as_crispy_field }}
+                        {{ form.productor | as_crispy_field }}
+                        {{ form.color | as_crispy_field }}
+                        {{ form.size | as_crispy_field }}
+                        {{ form.weight | as_crispy_field }}
+                        {{ form.full_price | as_crispy_field }}
+                        {{ form.discount | as_crispy_field }}
+                        {{ form.quantity | as_crispy_field }}
+                        
                         <br> <br>
             </div>           
             <div class="col" style= "width:30%;right:10px;">  
@@ -74,113 +54,48 @@
 
                     {% if prodotto.type == "computer" %}
                 
-                        <label for="display_size" class="form-label">Dimensione Display: (pollici)</label>
-                        <input type="number" step="0.01" class="form-control" name="display_size" value={{prodotto.display_size}} Required>
-
-                        <label for="display_resolution" class="form-label">Risoluzione Display: (pixel)</label>
-                        <input type="text" class="form-control" name="display_resolution" value={{prodotto.display_resolution}} Required>    
-                    
-                        <label for="cpu" class="form-label">CPU: </label>
-                        <input type="text" class="form-control" name="cpu" value="{{prodotto.cpu}}" Required>
-                    
-                        <label for="ram" class="form-label">RAM: (GB) </label>
-                        <input type="number" class="form-control" name="ram" value={{prodotto.ram}} Required>
-                    
-                        <label for="disk_size" class="form-label">Dimensione disco: (GB)</label>
-                        <input type="number" step="0.01" class="form-control" name="disk_size" value={{prodotto.disk_size}} Required>
-                    
-                        <label for="display_type" class="form-label">Tipo di disco: </label>
-                        <input type="text" class="form-control" name="disk_type" value="{{prodotto.disk_type}}" Required>
-                    
-                        <label for="operating_system" class="form-label">Sistema Operativo: </label>
-                        <input type="text" class="form-control" name="operating_system" value="{{prodotto.operating_system}}" Required>
-                    
-                        <label for="graphic_card" class="form-label">Scheda Grafica: </label>
-                        <input type="text" class="form-control" name="graphic_card" value="{{prodotto.graphic_card}}" Required>
-                    
-                        <label for="battery_autonomy" class="form-label">Autonomia batteria: (ore) </label>
-                        <input type="number" step="0.01" class="form-control" name="battery_autonomy" value={{prodotto.battery_autonomy}} Required>
-                    
-                        <label for="additional_function" class="form-label">Funzioni aggiuntive: </label>
-                        <textarea type="text" class="form-control" rows = "5" cols = "50" name = "additional_function" Required>{{prodotto.additional_function}}</textarea><br>
-                    
-                    {% endif%}
-
-                    {% if prodotto.type == "smartphone" %}
-
-                        <label for="display_size" class="form-label">Dimensione Display: (pollici)</label>
-                        <input type="number" step="0.01" class="form-control" name="display_size" value={{prodotto.display_size}} Required>
-                    
-                        <label for="cpu" class="form-label">CPU: </label>
-                        <input type="text" class="form-control" name="cpu" value={{prodotto.cpu}} Required>
-                    
-                        <label for="ram" class="form-label">RAM: (GB) </label>
-                        <input type="number" class="form-control" name="ram" value={{prodotto.ram}}  Required>
-                    
-                        <label for="disk_size" class="form-label">Dimensione disco: (GB)</label>
-                        <input type="number" step="0.01" class="form-control" name="disk_size" value={{prodotto.disk_size}}  Required>
-                    
-                        <label for="operating_system" class="form-label">Sistema Operativo: </label>
-                        <input type="text" class="form-control" name="operating_system" value="{{prodotto.operating_system}}"  Required>
-                    
-                        <label for="battery_autonomy" class="form-label">Autonomia batteria: (ore) </label>
-                        <input type="number" step="0.01" class="form-control" name="battery_autonomy" value={{prodotto.battery_autonomy}}  Required>
-                    
-                        <label for="camera" class="form-label">Fotocamera: (Mpx) </label>
-                        <input type="number" step="0.01" class="form-control" name="camera" value={{prodotto.camera}}  Required>
-                    
-                        <label for="additional_function" class="form-label">Funzioni aggiuntive: </label>
-                        <textarea type="text" class="form-control" rows = "5" cols = "50" name = "additional_function" Required>{{prodotto.additional_function}}</textarea><br>
-                    
-                    {% endif%}
-
-                    {% if prodotto.type == "televisore" %}
+                        {{ form.display_size | as_crispy_field }}
+                        {{ form.display_resolution | as_crispy_field }}
+                        {{ form.cpu | as_crispy_field }}
+                        {{ form.ram | as_crispy_field }}
+                        {{ form.disk_size | as_crispy_field }}
+                        {{ form.disk_type | as_crispy_field }}
+                        {{ form.operating_system | as_crispy_field }}
+                        {{ form.graphic_card | as_crispy_field }}
+                        {{ form.battery_autonomy | as_crispy_field }}
+                        {{ form.additional_function | as_crispy_field }}
+                
+                    {% elif prodotto.type == "smartphone" %}
+ 
+                        {{ form.display_size | as_crispy_field }}
+                        {{ form.cpu | as_crispy_field }}
+                        {{ form.ram | as_crispy_field }}
+                        {{ form.disk_size | as_crispy_field }}
+                        {{ form.operating_system | as_crispy_field }}
+                        {{ form.battery_autonomy | as_crispy_field }}
+                        {{ form.camera | as_crispy_field }}
+                        {{ form.additional_function | as_crispy_field }}
+               
+                    {% elif prodotto.type == "televisore" %}
                         
-                        <label for="display_size" class="form-label">Dimensione display: (pollici)</label>
-                        <input type="number" step="0.01" class="form-control" id="display_size" name="display_size" value={{prodotto.display_size }} Required>
+                        {{ form.display_size | as_crispy_field }}
+                        {{ form.display_resolution | as_crispy_field }}
+                        {{ form.display_technology | as_crispy_field }}
+                        {{ form.display_quality | as_crispy_field }}
+                        {{ form.cpu | as_crispy_field }}
+                        {{ form.frame_frequency | as_crispy_field }}
+                        {{ form.reception_type | as_crispy_field }}
+                        {{ form.additional_function | as_crispy_field }}
 
-                        <label for="display_resolution" class="form-label">Risoluzione display: (pixel)</label>
-                        <input type="text" class="form-control" name="display_resolution" value={{prodotto.display_resolution }} Required>
+                    {% elif prodotto.type == "cuffie" %}
 
-                        <label for="display_technology" class="form-label">Tecnologia display: </label>
-                        <input type="text" class="form-control" name="display_technology" value="{{prodotto.display_technology }}" Required>
+                        {{ form.cuffie_type | as_crispy_field }}
+                        {{ form.caratteristiche | as_crispy_field }}
 
-                        <label for="display_quality" class="form-label">Qualità immagini: </label>
-                        <input type="text" class="form-control" name="display_quality" value="{{prodotto.display_quality }}"  Required>
+                    {% elif prodotto.type == "cover" %}
 
-                        <label for="cpu" class="form-label">Processore: </label>
-                        <input type="text" class="form-control" name="cpu" value="{{prodotto.cpu }}" Required>
-
-                        <label for="frame_frequency" class="form-label">Frequenza frame: </label>
-                        <input type="number" class="form-control" name="frame_frequency" value={{prodotto.frame_frequency}} Required>
-
-                        <label for="reception_type" class="form-label">Tipo di ricezione: </label>
-                        <input type="text" class="form-control" name="reception_type" value="{{prodotto.reception_type }}" Required>
-
-                        <label for="additional_function" class="form-label">Funzioni aggiuntive: </label>
-                        <textarea type="text" class="form-control" rows = "5" cols = "50" name = "additional_function" Required>{{prodotto.additional_function}}</textarea><br>
-
-                    
-                        {% endif %}
-
-                    {% if prodotto.type == "cuffie" %}
-
-                        <label for="cuffie_type" class="form-label">Tipologia cuffie: </label>
-                        <input type="text" class="form-control" name="cuffie_type" value="{{prodotto.cuffie_type}}" Required>
-
-                        <label for="caratteristiche" class="form-label">Caratteristiche: </label>
-                        <textarea type="text" class="form-control" rows = "5" cols = "50" name = "caratteristiche" Required>{{prodotto.caratteristiche}}</textarea><br>
-
-                       
-                    {% endif %}
-
-                    {% if prodotto.type == "cover" %}
-
-                        <label for="compatibilità" class="form-label">Compatibilità: </label>
-                        <input type="text" class="form-control" name="compatibilità" value="{{prodotto.compatibilità }}" Required>
-
-                        <label for="caratteristiche" class="form-label">Caratteristiche: </label>
-                        <textarea type="text" class="form-control" rows = "5" cols = "50" name = "caratteristiche" Required>{{prodotto.caratteristiche}}</textarea><br>
+                        {{ form.compatibilità | as_crispy_field }}
+                        {{ form.caratteristiche | as_crispy_field }}
 
                     {% endif %}
             </div>
