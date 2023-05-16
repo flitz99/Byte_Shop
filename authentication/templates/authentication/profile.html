@@ -46,10 +46,17 @@
                     <input type="email" class="form-control" id="email" name="email" value={{user.email}} Required>
                 
                 {% if user.is_staff == 0 %} <!-- Utente cliente -->
-                    
+
                     <label for="birth_date">Data di Nascita:</label> <br>
-                    <input type="date" name="birth_date"  class="form-control" id="birth_date" value="{{ client.birth_date|date:'Y-m-d' }}">
-        
+                    <input type="date" name="birth_date"  class="form-control" id="birth_date" min="1900-01-01" value="{{ client.birth_date|date:'Y-m-d' }}" Required>
+                    
+                    <!-- Imposta data massima di nascita selezionabile ad almeno 14 anni fa -->
+                    <script>
+                        var today = new Date();
+                        var maxDate = new Date(today.getFullYear() - 14, today.getMonth(), today.getDate()).toISOString().split('T')[0];
+                        document.getElementById('birth_date').setAttribute('max', maxDate);
+                    </script>
+
                     <label for="telephone">Telefono:</label>
                     <input type="number" class="form-control" id="telephone" name="telephone" value={{client.telephone}} Required>
                 

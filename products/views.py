@@ -16,9 +16,6 @@ from .forms import *
 from django.views.generic.edit import UpdateView
 from django.http import Http404
 
-def home(request):
-    return redirect('../')
-
 class AllProductsListView(ListView):
       model=Product
       template_name="products/allproducts.html"

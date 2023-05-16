@@ -8,111 +8,106 @@ from django.shortcuts import get_object_or_404
 from cart.models import *
 from orders.views import svuota_carrello
 from django.contrib.auth.decorators import login_required
+from django.views.generic import CreateView
+from django.urls import reverse_lazy
+from .forms import *
+from django.http import Http404
+from django.contrib.auth import get_user_model
+from django.contrib.auth import update_session_auth_hash
+import re
 
+#Createview per la registrazione degli utenti clienti e admin
+class SignupCreateView(CreateView):
+    template_name="authentication/signup.html"
+    success_url= reverse_lazy('authentication:signin',kwargs={'user_type':None})
 
-def home(request):
-    return redirect('../')
+    def get_form_class(self):
+        user_type = self.kwargs.get('user_type')
+        if user_type == 'admin':
+            return CustomUserCreationForm
+        elif user_type=='client':
+            return ClientCreationForm
+        else:
+            raise Http404("Tipologia di utente non valida")  
+        
+    def form_valid(self,form):
+        user_type = self.kwargs.get('user_type')
 
-def signup(request,user_type):
+        if user_type == 'client':
+            User = get_user_model()
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password1'])
+            user.is_staff=False
+            user.save()
+            client = Client.objects.create(
+                user=user,
+                profile_image=form.cleaned_data['profile_image'],
+                telephone=form.cleaned_data['telephone'],
+                address=form.cleaned_data['address'],
+                house_number=form.cleaned_data['house_number'],
+                city=form.cleaned_data['city'],
+                province=form.cleaned_data['province'],
+                birth_date=form.cleaned_data['birth_date'],
+                cap=form.cleaned_data['cap'],
+            )
+            
+            client.save()
+
+            #Creazione carrello del cliente
+            carrello= Carrello()
+            carrello.user=client
+            carrello.save()
+            self.success_url = reverse_lazy("authentication:signin", kwargs={'user_type': "client"}) #Redireziono al login da cliente
+
+        elif user_type == 'admin':
+            User = get_user_model()
+            user = form.save(commit=False)
+            user.is_staff=True
+            user.is_superuser=True
+            user.set_password(form.cleaned_data['password1'])
+
+            user.save()
+            self.success_url = reverse_lazy("authentication:signin", kwargs={'user_type': "admin"}) #Redireziono al login da cliente
+
+        return super().form_valid(form)
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.kwargs['user_type'] #Introduco ctx con tipo utente
+        return context          
+
+#View per il login degli utenti clienti e admin
+def signin(request,user_type):
  
- #Per evitare che qualsiasi utente possa registrarsi come admin è stata commentata la registrazione come amministratore
- if user_type=="client": #or user_type=="admin:    #check in modo che non si inserisca <str:user_type> diverso da client o admin
-
-    templ="authentication/signup.html"
+ if user_type=="admin" or user_type=="client": #check in modo che non si inserisca <str:user_type> diverso da client o admin
+    templ="authentication/signin.html"
     ctx={"title":user_type}
 
-    if request.method == "POST":
+    if request.method == 'POST':
         username = request.POST['username']
-        fname = request.POST['fname']
-        lname = request.POST['lname']
-        email = request.POST['email']
         pass1 = request.POST['pass1']
-        pass2 = request.POST['pass2']
-
-        if User.objects.filter(username=username):
-            messages.error(request, "Username già presente, provare con un altro.")
-            return redirect('signup',user_type)
         
-        if User.objects.filter(email=email).exists():
-            messages.error(request, "Email già registrata! Inserirne un altra!")
-            return redirect('signup',user_type)
+        user = authenticate(username=username, password=pass1)
+
+        #Se utente admin 
+        if user is not None and user_type=="admin" and user.is_staff==True:
+            login(request, user)
+            return redirect('home')
         
-        if len(username)>20:
-            messages.error(request, "Lo username deve avere meno di 20 caratteri!")
-            return redirect('signup',user_type)
-        
-        if not username.isalnum():
-            messages.error(request, "Lo username deve essere alfanumerico!")
-            return redirect('signup',user_type)
-        
-        #--  Controlli sulla password  --
-
-        #Controllo lunghezza password almeno 8 caratteri
-        if len(pass1) < 8:
-            messages.error(request, "La password deve essere di almeno 8 caratteri!")
-            return redirect('signup',user_type)
-        else:
-            #Controllo password contenga almeno una lettera minuscola
-            if not any(c.islower() for c in pass1):
-                messages.error(request, "La password deve contenere almeno una lettera minuscola!")
-                return redirect('signup',user_type)
-            #Controllo che password contenga almeno una lettera maiuscola
-            elif not any(c.isupper() for c in pass1):
-                messages.error(request, "La password deve contenere almeno una lettera maiuscola!")
-                return redirect('signup',user_type)
-            elif not any(c.isdigit() for c in pass1):
-                messages.error(request, "La password deve contenere almeno un numero!")
-                return redirect('signup',user_type)
-            
-            #Se le due password sono diverse
-            if pass1 != pass2:
-                messages.error(request, "Le password inserite non corrispondono!")
-                return redirect('signup',user_type)
-        
-            # Se tutti i controlli passati, creo l'utente   
-            myuser = User.objects.create_user(username, email, pass1)
-            myuser.first_name = fname
-            myuser.last_name = lname
-
-            myuser.is_active = True
-
-            if user_type=="client": # Se cliente imposto check staff a False
-                myuser.is_staff=False
-            else:
-                myuser.is_staff=True
-                myuser.is_superuser=True
-
-            myuser.save() #Salvo su database l'utente
-
-            if user_type=="client":  # Se utente cliente prendo campi aggiuntivi
-                birth_date=request.POST['birth_date']
-                telephone = request.POST['telephone']
-                address = request.POST['address']
-                house_number=request.POST['house_number']
-                city = request.POST['city']
-                province = request.POST['province']
-                cap = request.POST['cap']
-                
-                #Creo dato cliente
-                myclient= Client(user=myuser,telephone=telephone,address=address,house_number=house_number,city=city,province=province,cap=cap,birth_date=birth_date)
-                myclient.save() # salvo sul database il cliente
-
-                #Creo carrello per utente cliente
-                carrello= Carrello()
-                carrello.user=myclient
-                carrello.save()
-
-            messages.success(request, "il tuo account è stato creato correttamente!")
-            
-            return redirect('signin',user_type)
- 
+        #Se utente cliente
+        elif user is not None and user_type=="client" and user.is_staff==False:
+            login(request, user)
+            return redirect('home')
+        else: 
+            messages.error(request, "Credenziali errate!") 
+            return redirect("authentication:signin",user_type)
+    
     return render(request,template_name=templ,context=ctx)
  else:
-    if user_type=="admin":
-        return HttpResponse("ERROR: Tentata registrazione come admin")
-    else:
-        return HttpResponse("ERROR: Pagina non trovata")
-
+    raise Http404("Tipologia di utente non valida") 
+ 
+        
+#View per la modifica dei dati degli utenti admin e client
 @login_required
 def profile(request):
     templ="authentication/profile.html"
@@ -132,21 +127,21 @@ def profile(request):
         lname = request.POST.get('lname',user.last_name)
         email = request.POST.get('email',user.email)   # DA FARE PASSWORD
 
+        #--- Controlli dati dello User ---
+        #Controlle se username già presente
         if username != user.username and User.objects.filter(username=username):
             messages.error(request, "Username già presente, provare con un altro.")
-            return redirect('profile')
+            return redirect('authentication:profile')
         
+        #Controllo se email già presente
         if email != user.email and User.objects.filter(email=email).exists():
             messages.error(request, "Email già registrata! Inserirne un altra!")
-            return redirect('profile')
+            return redirect('authentication:profile')
         
-        if len(username)>20:
-            messages.error(request, "Lo username deve avere meno di 20 caratteri!")
-            return redirect('profile')
-
-        if not username.isalnum():
-            messages.error(request, "Lo username deve essere alfanumerico!")
-            return redirect('profile')
+        #Controllo che nome  e cognome siano composti solo da caratteri
+        if (not re.match(r'^[a-zA-Z\s]+$', fname)) or (not re.match(r'^[a-zA-Z\s]+$', lname)):
+            messages.error(request, "Il nome e il cognome devono contenere solo caratteri.")
+            return redirect('authentication:profile')
 
         user.username=username
         user.email=email
@@ -154,7 +149,9 @@ def profile(request):
         user.last_name=lname
         user.save()
 
-        if user.is_staff==False:
+        user.save() #Salvo lo user nel DB
+
+        if user.is_staff==False: # Se cliente
             image= request.FILES.get('image',client.profile_image)
             birth_date=request.POST.get('birth_date',client.birth_date)
             telephone = request.POST.get('telephone',client.telephone)
@@ -164,6 +161,17 @@ def profile(request):
             province = request.POST.get('province',client.province)
             cap = request.POST.get('cap',client.cap)
 
+            #--- Controlli dati del client ---
+            #Controllo che la città non contenga numeri
+            if any(char.isdigit() for char in city):
+                messages.error(request,"La città può contenere solo caratteri.")
+                return redirect('authentication:profile')
+            
+            #Controllo che provincia non contenga numeri
+            if any(char.isdigit() for char in province):
+                messages.error(request, "La provincia può contenere solo caratteri.")
+                return redirect('authentication:profile')
+            
             client.profile_image=image
             client.birth_date=birth_date
             client.telephone=telephone
@@ -173,13 +181,56 @@ def profile(request):
             client.province=province
             client.cap=cap
             client.save()
+            
+            client.save() #Salvo il cliente nel DB
 
         messages.success(request, "Account aggiornato correttamente!")
-        return redirect ("profile")
+        return redirect ("authentication:profile")
         
+    return render(request,template_name=templ,context=ctx)
+
+#Mostra gli utenti clienti registrati all'amministratore
+@login_required
+def users(request):
+    templ="authentication/users.html"
+    clients=Client.objects.all()
+
+    ctx={"listaclients":clients}
 
     return render(request,template_name=templ,context=ctx)
 
+#Eliminazione degli utenti clienti da parte degli amministratori
+@login_required
+def delete_user(request,user_id):
+    
+    if Client.objects.filter(id=user_id).exists(): #Controllo che lo user id passato esista
+        client = get_object_or_404(Client, id=user_id)
+        user= get_object_or_404(User,id=client.user_id)
+        client.delete() #elimina oggetto dal db
+        user.delete()
+     
+        return redirect('authentication:users')
+    
+    else:
+        return HttpResponse("ERROR: user_id non valido")
+
+#Form per il cambio della password
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = CustomPasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            messages.success(request, 'La password è stata cambiata con successo.')
+            update_session_auth_hash(request, user)  # Aggiorna l'hash della sessione per evitare il logout automatico
+            return redirect('authentication:profile')  # Redirigi l'utente alla home page dopo il cambio password
+        else:
+            messages.error(request, 'Si è verificato un errore. Correggi i seguenti errori:')
+    else:
+        form = CustomPasswordChangeForm(request.user)
+    return render(request, 'authentication/change_pswd.html', {'form': form})
+
+#Logout degli utenti (clienti e admin)
 @login_required
 def signout(request):
 
@@ -194,104 +245,3 @@ def signout(request):
     logout(request)
     return redirect('home')
 
-def signin(request,user_type):
- 
- if user_type=="admin" or user_type=="client": #check in modo che non si inserisca <str:user_type> diverso da client o admin
-    templ="authentication/signin.html"
-    ctx={"title":user_type}
-
-    if request.method == 'POST':
-        username = request.POST['username']
-        pass1 = request.POST['pass1']
-        
-        user = authenticate(username=username, password=pass1)
-
-        if user is not None and user_type=="admin" and user.is_staff==True:
-            login(request, user)
-            # messages.success(request, "Logged In Sucessfully!!")
-            return redirect('home')
-        elif user is not None and user_type=="client" and user.is_staff==False:
-            login(request, user)
-            # messages.success(request, "Logged In Sucessfully!!")
-            return redirect('home')
-        else:
-            messages.error(request, "Credenziali errate!")
-            return redirect("signin",user_type)
-    
-    return render(request,template_name=templ,context=ctx)
- else:
-    return HttpResponse("ERROR: Page not found")
-
-@login_required
-def users(request):
-    templ="authentication/users.html"
-    clients=Client.objects.all()
-
-    ctx={"listaclients":clients}
-
-    return render(request,template_name=templ,context=ctx)
-
-@login_required
-def delete_user(request,user_id):
-    
-    if Client.objects.filter(id=user_id).exists(): #Controllo che lo user id passato esista
-        client = get_object_or_404(Client, id=user_id)
-        user= get_object_or_404(User,id=client.user_id)
-        client.delete() #elimina oggetto dal db
-        user.delete()
-     
-        return redirect('home')
-    
-    else:
-        return HttpResponse("ERROR: user_id non valido")
-
-
-@login_required
-def change_password(request):
-    templ="authentication/change_pswd.html"
-    user= request.user
-    ctx={"user":user}
-
-    if request.method == "POST":
-        oldpassword= request.POST['oldpassword']
-        newpassword= request.POST['newpassword1']
-        newpassword2= request.POST['newpassword2']
-
-        #Controllo lunghezza password almeno 8 caratteri
-        if len(newpassword) < 8:
-            messages.error(request, "La nuova password deve essere di almeno 8 caratteri!")
-            return redirect('change_password')
-        else:
-            #Controllo password contenga almeno una lettera minuscola
-            if not any(c.islower() for c in newpassword):
-                messages.error(request, "La nuova password deve contenere almeno una lettera minuscola!")
-                return redirect('change_password')
-            #Controllo che password contenga almeno una lettera maiuscola
-            elif not any(c.isupper() for c in newpassword):
-                messages.error(request, "La nuova password deve contenere almeno una lettera maiuscola!")
-                return redirect('change_password')
-            elif not any(c.isdigit() for c in newpassword):
-                messages.error(request, "La nuova password deve contenere almeno un numero!")
-                return redirect('change_password')
-            
-            #Se le due password sono diverse
-            if newpassword != newpassword2:
-                messages.error(request, "Le password inserite non corrispondono!")
-                return redirect('change_password')
-
-            #Se password vecchia corretta
-            if user.check_password(oldpassword):
-                if newpassword == newpassword2: #Se le due password nuove uguali
-                    user.set_password(newpassword2)
-                    user.save()
-                    logout(request)
-                    return redirect('home')
-                else:
-                    messages.error(request, "Le due password non coincidono!")
-                    return redirect("change_password")
-            else:
-                messages.error(request, "Password vecchia errata!")
-                return redirect("change_password")
-
-
-    return render(request,template_name=templ,context=ctx)

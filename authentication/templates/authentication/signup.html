@@ -4,6 +4,7 @@
 
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+{% load crispy_forms_tags %}
 
 {% endblock %}
 
@@ -21,56 +22,36 @@
                 <br>
                 <h3>Crea il tuo account</h3>
                 Utente già registrato? Effettua il  <a href="./signin"> Login </a>
-                <form method="post" >
+
+                <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                         <br>
-                        <label for="username">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="Inserire Username" Required>
-
-                        <label for="fname">Nome:</label>
-                        <input type="text" class="form-control" id="fname" name="fname" placeholder="Inserire nome" Required>
-
-                        <label for="lname">Cognome:</label>
-                        <input type="text" class="form-control" id="lname" name="lname" placeholder="Inserire cognome" Required>
-
-                        <label for="email">Email:</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Inserire email" Required>
+                        {{ form.first_name | as_crispy_field }}
+                        {{ form.last_name | as_crispy_field }}
+                        {{ form.email | as_crispy_field }}
 
                     {% if title == "client" %}
 
-                        <label for="birth_date">Data di Nascita:</label>
-                        <input type="date" class="form-control" id="birth_date" name="birth_date" Required>
-                    
-                        <label for="telephone">Telefono:</label>
-                        <input type="number" class="form-control" id="telephone" name="telephone" placeholder="Inserire telefono" Required>
-                    
-                        <label for="address">Indirizzo:</label>
-                        <input type="text" class="form-control" id="address" name="address" placeholder="Inserire indirizzo" Required>
-                    
-                        <label for="house_number">Numero civico:</label>
-                        <input type="number" class="form-control" id="house_number" name="house_number" placeholder="Inserire numero civico" Required>
-                    
-                        <label for="city">Città:</label>
-                        <input type="text" class="form-control" id="city" name="city" placeholder="Inserire città" Required>
-                    
-                        <label for="province">Provincia:</label>
-                        <input type="text" class="form-control" id="province" name="province" placeholder="Inserire provincia" Required>
-                    
-                        <label for="cap">CAP:</label>
-                        <input type="number" class="form-control" id="cap" name="cap" placeholder="Inserire CAP" Required>
+                        {{ form.profile_image | as_crispy_field }}
+                        {{ form.birth_date | as_crispy_field }}
+                        {{ form.telephone | as_crispy_field }}
+                        {{ form.address | as_crispy_field }}
+                        {{ form.house_number | as_crispy_field }}
+                        {{ form.city | as_crispy_field }}
+                        {{ form.province | as_crispy_field }}
+                        {{ form.cap | as_crispy_field }}
                     
                     {% endif %}
+
+                        {{ form.username | as_crispy_field }}
+                        {{ form.password1 | as_crispy_field }}
+                        {{ form.password2 | as_crispy_field }}
                     
-                    <label for="pass1">Password:</label>
-                    <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Inserire password" Required>
-                
-                    <label for="pass2">Reinserisci Password:</label>
-                    <input type="password" class="form-control" id="pass2" name="pass2" placeholder="Reinserire la password" Required>
-                
+                    
                     <br>
                     <button type="submit" class="btn btn-primary">Registrati</button>
                     <br>   
-            </form>  
+                </form>  
 
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">

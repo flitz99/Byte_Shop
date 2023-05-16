@@ -39,9 +39,6 @@ def carrello(request):
         
         ctx= {"listacarrello":carrello.prodotti,"totale":round(prezzo_totale,2)}
 
-    
-            
-
     return render(request, template_name=templ, context=ctx) #restituisco il template
 
 def delete_item(request,prod_code):

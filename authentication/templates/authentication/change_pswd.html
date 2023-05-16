@@ -4,6 +4,7 @@
 
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+{% load crispy_forms_tags %}
 
 {% endblock %}
 
@@ -23,15 +24,7 @@
                 <br>
                 <h3> Modifica della password: </h3> <br>
                 
-                    <label for="oldpassword">Inserisci vecchia password:</label>
-                    <input type="password" class="form-control" id="oldpassword" name="oldpassword" placeholder:"Insert your old password" Required>
-
-                    <label for="newpassword1">Inserisci la nuova password:</label>
-                    <input type="password" class="form-control" id="newpassword1" name="newpassword1" placeholder:"Insert your new password" Required>
-                
-                    <label for="newpassword2">Reinserisci la nuova password:</label>
-                    <input type="password" class="form-control" id="newpassword2" name="newpassword2" placeholder:"Reinsert your new password" Required>
-                
+                    {{ form|crispy }}
                 <br>
                 <button type="submit" class="btn btn-primary update_profile change_password">Modifica Password</button>
                 <br>
