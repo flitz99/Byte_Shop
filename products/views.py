@@ -218,7 +218,7 @@ class ProductCreateView(CreateView):
 class ProductUpdateView(UpdateView):
         model= None
         template_name="products/update_product.html"
-        success_url= reverse_lazy('products:all_products')
+        success_url= reverse_lazy('products:update_product',kwargs={'prod_code': None})
         slug_field='product_code'
         slug_url_kwarg='prod_code'
 
@@ -274,14 +274,16 @@ class ProductUpdateView(UpdateView):
 
        
         def form_valid(self,form,**kwargs):
-              prodotto=form.save(commit=False)
-              prodotto.final_price=round(prodotto.full_price-((prodotto.full_price/100)*prodotto.discount),2) #Calcolo prezzo finale scontato
-              prodotto.save()
-
-              #Ci vorrebbe un messaggio di corretto aggiornamento 
-              #e togliere redirect a pagina all_products
-
-              return super().form_valid(form)
+            prodotto=form.save(commit=False)
+            prodotto.final_price=round(prodotto.full_price-((prodotto.full_price/100)*prodotto.discount),2) #Calcolo prezzo finale scontato
+            prodotto.save()
+            
+            prod_code=self.kwargs['prod_code']
+            product=Product.objects.get(product_code=prod_code)
+            messages.success(self.request, "Dati prodotto aggiornati correttamente!")
+            self.success_url = reverse_lazy("products:update_product", kwargs={'prod_code': product.product_code}) 
+            
+            return super().form_valid(form)
                     
 
 class SearchView(ListView):

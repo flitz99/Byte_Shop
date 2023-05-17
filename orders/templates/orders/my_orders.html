@@ -24,11 +24,7 @@
         <h3> I miei ordini: </h3> 
         {% endif %}
 
-        {% if listaordini.count == 0%}
-            <div class="row">
-                    <h3> Nessun ordine presente </h3> 
-            </div>
-        {% else %}
+        {% if listaordini|length > 0 %}
 
             {% for ordine in listaordini %}
                 <div class="container" style="background-color:white;border-radius: 25px;" >
@@ -68,6 +64,11 @@
                 </div>
                 <br>
                 {% endfor %}
+            
+        {% else  %}
+            <div class="row">
+                    <h5> Nessun ordine presente </h5> 
+            </div>
 
         {% endif %}
     </div>

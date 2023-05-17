@@ -126,7 +126,7 @@ def home(request):  #View per la Homepage
 
             #Se amministratore non ha dei prodotti caricati
             else:
-                ctx={'check':False} #passo lista vuota
+                ctx={'check':False,'title':"Vendite dei prodotti inseriti:"} #passo lista vuota
 
         #---- Se utente loggato è un cliente
         if not request.user.is_staff:

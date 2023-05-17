@@ -33,6 +33,7 @@ def my_orders(request):
                     ordini_admin.append(ordine) #salvo ordine in una lista
 
         ordini_admin=list(set(ordini_admin)) #Rimuovo duplicati (se entrambi i prodotti nell'ordine sono dell'admin me li mette due volte altrimenti)
+        print(type(ordini_admin))
         ctx={"listaordini":ordini_admin}
 
     return render(request,template_name=templ,context=ctx)

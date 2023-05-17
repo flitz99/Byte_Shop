@@ -20,7 +20,7 @@
 
         {% if user.is_staff %} <!-- Se utente amministratore  -->
             <br>
-            <h3> {{ title }}</h3> <br>
+            <h3> {{ title }}</h3>
             
                 {% if check %}
                 <script>
@@ -62,11 +62,10 @@
                     </script>
                 <br>
                 {% else %} <!-- Se amministratore non ha prodotti caricati -->
-                    <h4> Nessun ordine caricato </h4>
-                    <br>
+                    <h5> Nessun ordine caricato </h5>
                 {% endif %}
 
-        {% else %} <!-- Se utente amministratore -->
+        {% else %} <!-- Se utente non è amministratore -->
             <br>
             <h3> {{ title }}</h3> <br>
 
