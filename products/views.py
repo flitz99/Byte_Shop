@@ -263,14 +263,14 @@ class ProductUpdateView(UpdateView):
                 raise Http404("Categoria memorizzata nel prodotto non valida") 
         
         def get_context_data(self, **kwargs):
-                prod_code = self.kwargs['prod_code']
-                context = super().get_context_data(**kwargs)
-                prodotto=self.get_prodotto(prod_code)
-                context['prodotto']=prodotto
-                self.object=prodotto
-                FormClass = self.get_form_class()
-                context['form']=FormClass(instance=prodotto)
-                return context
+            prod_code = self.kwargs['prod_code']
+            context = super().get_context_data(**kwargs)
+            prodotto=self.get_prodotto(prod_code)
+            context['prodotto']=prodotto
+            self.object=prodotto
+            FormClass = self.get_form_class()
+            context['form']=FormClass(instance=prodotto)
+            return context
 
        
         def form_valid(self,form,**kwargs):
@@ -278,13 +278,14 @@ class ProductUpdateView(UpdateView):
             prodotto.final_price=round(prodotto.full_price-((prodotto.full_price/100)*prodotto.discount),2) #Calcolo prezzo finale scontato
             prodotto.save()
             
-            prod_code=self.kwargs['prod_code']
-            product=Product.objects.get(product_code=prod_code)
             messages.success(self.request, "Dati prodotto aggiornati correttamente!")
-            self.success_url = reverse_lazy("products:update_product", kwargs={'prod_code': product.product_code}) 
+            self.success_url = reverse_lazy("products:update_product", kwargs={'prod_code': prodotto.product_code}) 
             
             return super().form_valid(form)
-                    
+        
+        def form_invalid(self,form):
+            messages.error(self.request,"Campi inseriti nel form non validi.")
+            return super().form_invalid(form)
 
 class SearchView(ListView):
     model = Product

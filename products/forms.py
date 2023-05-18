@@ -2,6 +2,7 @@ from django import forms
 from django.urls import reverse_lazy
 from .models import *
 
+
 #Form inserimento campi Product
 class ProductForm(forms.ModelForm):
     image=forms.ImageField(required=True)
@@ -29,10 +30,6 @@ class ProductForm(forms.ModelForm):
         self.fields['discount'].label = 'Sconto (%)'
         self.fields['quantity'].label = 'Quantità'
 
-    def validate_product_code(self, value):
-        if Product.objects.filter(product_code=value).exists():
-            raise forms.ValidationError("Codice prodotto già presente nel sistema, inserirne un altro.")
-        return value
 
 #Form inserimento campi Computer
 class ComputerForm(ProductForm):
@@ -64,6 +61,7 @@ class ComputerForm(ProductForm):
         self.fields['graphic_card'].label = 'Scheda grafica'
         self.fields['battery_autonomy'].label = 'Autonomia batteria (ore)'
         self.fields['additional_function'].label = 'Funzionalità aggiuntive'
+
 
 #Form inserimento campi Smartphone
 class SmartphoneForm(ProductForm):
