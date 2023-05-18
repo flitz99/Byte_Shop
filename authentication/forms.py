@@ -1,10 +1,9 @@
 from django import forms
 from .models import *
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from datetime import date, timedelta
 from django.conf import settings
 import re
-from django.contrib.auth.forms import PasswordChangeForm
 
 #Form per la creazione degli admin
 class CustomUserCreationForm(UserCreationForm):
@@ -13,14 +12,14 @@ class CustomUserCreationForm(UserCreationForm):
     last_name= forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder': 'Inserire cognome'})) 
 
     class Meta(UserCreationForm.Meta):
-        fields = UserCreationForm.Meta.fields + ('email','first_name','last_name' )  # Include il campo email, first_name e last_name nei fields
+        fields = UserCreationForm.Meta.fields + ('email','first_name','last_name' )  
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs['placeholder'] = 'Inserire username'
         self.fields['password1'].widget.attrs['placeholder'] = 'Inserire password'
         self.fields['password2'].widget.attrs['placeholder'] = 'Conferma password'
-        self.fields['email'].label = 'Email'  #Personalizza etichetta dei campi
+        self.fields['email'].label = 'Email'  
         self.fields['first_name'].label ='Nome'
         self.fields['last_name'].label='Cognome'
 
@@ -61,14 +60,14 @@ class ClientCreationForm(UserCreationForm):
     birth_date=forms.DateField(widget=forms.DateInput(attrs={'type':'date','min': '1900-01-01','max':str(date.today() - timedelta(days=14*365))})) #Dal 1900 a 14 anni fa almeno
 
     class Meta(UserCreationForm.Meta):
-        fields = UserCreationForm.Meta.fields + ('email','first_name','last_name','profile_image','telephone','address','house_number','city','province','cap','birth_date' )  # Include i campi nel form
+        fields = UserCreationForm.Meta.fields + ('email','first_name','last_name','profile_image','telephone','address','house_number','city','province','cap','birth_date' )  
         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs['placeholder'] = 'Inserire username'
         self.fields['password1'].widget.attrs['placeholder'] = 'Inserire password'
         self.fields['password2'].widget.attrs['placeholder'] = 'Conferma password'
-        self.fields['email'].label = 'Email'  #Personalizza etichetta dei campi
+        self.fields['email'].label = 'Email'  
         self.fields['first_name'].label ='Nome'
         self.fields['last_name'].label='Cognome'
         self.fields['profile_image'].label='Immagine'
@@ -127,7 +126,6 @@ class CustomPasswordChangeForm(PasswordChangeForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-        # Imposta i placeholder per i campi del form
         self.fields['old_password'].widget.attrs['placeholder'] = 'Inserire vecchia password'
         self.fields['old_password'].label = 'Vecchia password'
         

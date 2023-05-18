@@ -18,10 +18,9 @@ def erase_db_Products():
 #Popolamento DB prodotti
 def init_db_Products():
 
+    #Controllo che non ci siano prodotti
     if len(Product.objects.all()) != 0:
         return
-
-    #Se vuoto lo inizializzo
 
     #Dizionario contenente i dati dei computer
     computerdict = {
@@ -94,10 +93,9 @@ def init_db_Products():
         "reception_type":["DVB-T2","DVB-T2","DVB-T2, DVB-C2"],
         "additional_function":["Smart TV, 3xHdmi","Smart TV, HDR, 4xHdmi ARC","Dolby Atmos"]
 
-
     }
 
-    #Dizionario contenente i dati delle custodie
+    #Dizionario contenente i dati delle cover
     coverdict={
         "image" : ["Custodia_iphone13_rosa.png","Custodia_iphone11_nero.png",],
         "name" : ["Cover Iphone 13","Cover Iphone 11"],
@@ -138,7 +136,7 @@ def init_db_Products():
     admin_2=User.objects.get(username="Massimo") #Acquisisco utente Massimo
     admin_3=User.objects.get(username="Paolo") #Acquisisco utente Paolo
     
-     #-----------       Prodotti Computer -----------------
+    #-----------       Prodotti Computer -----------------
     for i in range(4): # 4 prodotti computer
         c = Computer() #Oggetto prodotto
         for k in computerdict:
@@ -371,14 +369,16 @@ def erase_db_Users():
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='authentication_client'; ''') #Resetta ID table authentication_client
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='cart_carrello'; ''') #Resetta ID table cart_carrello
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='cart_carrello_item'; ''') #Resetta ID table cart_carrello_item
-    cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='cart_carrello_prodotto'; ''') #Resetta ID table cart_carrello_item
+    cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='cart_carrello_prodotto'; ''') #Resetta ID table cart_carrello_prodotto
 
 #Popolamento DB utente
 def init_db_Users():
 
+    #Controllo che non ci siano utenti
     if len(User.objects.all()) != 0:
         return
     
+    #dizionario contenete i dati dei clienti
     clientdict = {
         "first_name" : ["Jennifer","Daniele","Lorenzo"],
         "last_name" : ["Reggiani","Zanoli","Corradi"],
@@ -395,6 +395,7 @@ def init_db_Users():
         "cap":["41019","41019","41019"]
     }
 
+    #Dizionario contenente i dati degli admin
     admindict ={
         "first_name" : ["Filippo","Massimo","Paolo"],
         "last_name" : ["Reggiani","Rossi","Sidoti"],
@@ -488,12 +489,14 @@ def erase_db_Orders():
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='orders_ordine_item'; ''') #Resetta ID table orders_ordine_item
     cursor.execute('''UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='orders_ordine_prodotti'; ''') #Resetta ID table orders_ordine_prodotto
 
+#Metodo per creare il codice dell'ordine
 def create_order_code():
     return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8))
 
 #Popolamento DB ordini 
 def init_db_Orders():
 
+    #Controllo che non ci siano ordini
     if len(Ordine.objects.all()) != 0 or len(Ordine_Item.objects.all()) !=0:
         return
 
@@ -600,7 +603,7 @@ def init_db_Orders():
         cont+=1
         order.save() #Risalvo nel database oggetto ordine con gli ordini_item        
     
-    #Aggiungo recensioni
+    #Dizionario con i dati delle recensioni 
     recensionidict={
         "prodotto":[prodotti[0],prodotti[12],   prodotti[7],prodotti[10],     prodotti[8],prodotti[11],    prodotti[5],    prodotti[13]],
         "valutation":[4,4,   5,2,   2,4,   5,    4],
@@ -609,7 +612,7 @@ def init_db_Orders():
         "client":[clienti[0],clienti[0],      clienti[0],clienti[0],       clienti[1],clienti[1],   clienti[1],    clienti[2]    ]
 
     }
-
+    #Aggiunta delle recensioni al db
     for i in range(8): #8 recensioni
         rec= Recensione()
         prodotto=Product()
@@ -630,7 +633,7 @@ def init_db_Orders():
     
     print("-- Popolo il DB Orders e recensioni --\n")   
     
-#Inizializzazione e popolamento tutti i DB
+#Inizializzazione e popolamento di tutti i DB
 def erase_init_all():
 
     #Table User

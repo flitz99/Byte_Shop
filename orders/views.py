@@ -1,13 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Ordine, Recensione, Ordine_Item
 from authentication.models import Client
 from cart.models import *
-from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 import datetime, random, string
 from django.contrib.auth.decorators import login_required
 
-#View con gli ordini del cliente registrato
+#View con gli ordini del cliente registrato e gli ordini fatti sui suoi prodotti per l'admin
 @login_required
 def my_orders(request):
 
@@ -18,7 +17,7 @@ def my_orders(request):
         user=User.objects.get(username=request.user) #acquisisco user
         client=Client.objects.get(user=user) #acquisisco client
 
-        ordini= Ordine.objects.filter(client=client).order_by('-date') #Acquisisco ordini del cliente ordinati col più recente
+        ordini= Ordine.objects.filter(client=client).order_by('-date') #Acquisisco ordini del cliente ordinati dal più recente
 
         ctx={"listaordini":ordini}
 
@@ -33,7 +32,7 @@ def my_orders(request):
                     ordini_admin.append(ordine) #salvo ordine in una lista
 
         ordini_admin=list(set(ordini_admin)) #Rimuovo duplicati (se entrambi i prodotti nell'ordine sono dell'admin me li mette due volte altrimenti)
-        print(type(ordini_admin))
+        
         ctx={"listaordini":ordini_admin}
 
     return render(request,template_name=templ,context=ctx)

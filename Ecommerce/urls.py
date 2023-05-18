@@ -5,20 +5,28 @@ from django.conf.urls.static import static
 from django.conf import settings
 from .initdb import * #definizione di erase e init_db
 
-
+#Urls
 urlpatterns = [
+    #Urls relativi alla gestione admin di django
     path('admin/', admin.site.urls),
-    re_path(r"^$|^/$|^home/$",views.home,name="home"), #mostra template html per il login
-    path('products/', include('products.urls')),    #aggiungo gli url dell'app products
-    path('authentication/',include('authentication.urls')), #Aggiungo gli url dell'app authentication
-    path('cart/',include('cart.urls')), #Aggiungo gli url dell'app cart
-    path('orders/',include('orders.urls')) #Aggiungo gli url dell'app orders
+    #Url della homepage
+    re_path(r"^$|^/$|^home/$",views.home,name="home"),
+    #Urls dell'applicazione products
+    path('products/', include('products.urls')),
+    #Urls dell'applicazione authentication
+    path('authentication/',include('authentication.urls')),
+    #Urls dell'applicazione cart 
+    path('cart/',include('cart.urls')),
+    #Urls dell'applicazione orders
+    path('orders/',include('orders.urls')) 
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+
 #---- Inizializzazione e popolamento tutti i DB -----
 
+#Metodo per inizializzare il database con utenti, prodotti, ordini e recensioni
 #erase_init_all() 
 
 

@@ -6,9 +6,12 @@ from django.http import HttpResponse
 
 app_name="orders"
 
+#Urls dell'applicazione
 urlpatterns = [
-    path("my_orders",my_orders,name="my_orders"), #ordini di un cliente
-    path("create_order",create_order,name="create_order") #Funzione per la creazione di un nuovo ordine
+    #Url per la visualizzazione degli ordini di un cliente e quelli effettuati sui suoi prodotti per l'admin
+    path("my_orders",my_orders,name="my_orders"), 
+    #Url per la creazione di un ordine di un cliente
+    path("create_order",create_order,name="create_order")
 
     
 ]

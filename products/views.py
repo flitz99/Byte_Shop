@@ -1,21 +1,18 @@
-from typing import Any, Dict
-from django.shortcuts import render, redirect
-from .models import Smartphone, Computer, Product, Recensione, Televisore, Cuffie, Cover
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import *
 from django.contrib import messages
 from cart.models import *
-from django.views.generic import CreateView
-from django.views.generic.list import ListView
+from django.views.generic import CreateView, ListView, UpdateView
 from django.db.models import Q
 from django.contrib.auth.models import User
 from orders.models import Ordine
 from django.utils.timezone import datetime 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from .forms import *
-from django.views.generic.edit import UpdateView
-from django.http import Http404
+from django.contrib.auth.mixins import LoginRequiredMixin
 
+#ListView per la visualizzazione di più prodotti 
 class AllProductsListView(ListView):
       model=Product
       template_name="products/allproducts.html"
@@ -30,6 +27,7 @@ class AllProductsListView(ListView):
                 queryset=queryset.all() #Acquisisco tutti i prodotti
                 return queryset 
 
+#View per la cancellazione di un prodotto da parte dell'admin che lo ha inserito
 @login_required
 def delete_product(request,prod_code):
 
@@ -42,6 +40,8 @@ def delete_product(request,prod_code):
                return HttpResponse("ERROR: product_code non valido")
 
 
+#View per la visualizzazione dei dati relativi ad un prodotto
+#Possibilità di aggiunta al carrello per l'utente registrato e loggato
 def prodotto(request,prod_code):
 
         if Product.objects.filter(product_code=prod_code).exists():
@@ -140,13 +140,14 @@ def prodotto(request,prod_code):
         else:
                return HttpResponse("ERROR: product_code non valido")
         
-#ci vuole login_required
-class RecensioneCreateView(CreateView):
+#Createview per la creazione di una recensione relativa ad un prodotto acquistato dall'utente
+class RecensioneCreateView(LoginRequiredMixin,CreateView):
        model=Recensione
        form_class=RecensioneForm
        template_name="products/create_review.html"
        success_url = reverse_lazy("products:prodotto", kwargs={'product_code': None})  #product_code aggiunto in seguito
-       
+       login_url= '../../authentication/client/signin'
+
        #controlla validità dei campi del form
        def form_valid(self,form):
               recensione=form.save(commit=False)
@@ -179,12 +180,13 @@ class RecensioneCreateView(CreateView):
               prodotto = get_object_or_404(Product, product_code=prod_code)
               return super().dispatch(request, prodotto=prodotto, *args, **kwargs)
 
-#ci va login required   
-class ProductCreateView(CreateView):
+#Createview per l'inserimento di un prodotto da parte dell'admin  
+class ProductCreateView(LoginRequiredMixin,CreateView):
     model = Product
     template_name = 'products/product_form.html'
     success_url = reverse_lazy("products:all_products")
-    
+    login_url= '../../authentication/admin/signin'
+
     def get_context_data(self, **kwargs):
         category = self.kwargs['category']
         context = super().get_context_data(**kwargs)
@@ -214,21 +216,23 @@ class ProductCreateView(CreateView):
         prodotto.save()
         return super().form_valid(form)
 
-#Ci va login required
-class ProductUpdateView(UpdateView):
+#Updateview per l'aggiornamento dei dati di un prodotto già inserito
+class ProductUpdateView(LoginRequiredMixin,UpdateView):
         model= None
         template_name="products/update_product.html"
         success_url= reverse_lazy('products:update_product',kwargs={'prod_code': None})
         slug_field='product_code'
         slug_url_kwarg='prod_code'
+        login_url= '../../authentication/admin/signin'
 
-       #Per usare il prod code 
+       #Seleziono il tipo di Model da usare e il prodotto da usare
         def get_object(self,queryset=None):
                 prod_code=self.kwargs.get(self.slug_url_kwarg)
                 product=self.get_prodotto(prod_code)
                 self.model=type(product)
                 return product
        
+       #Acquisisco il prodotto
         def get_prodotto(self, prod_code):
            try:
                 product= Product.objects.get(product_code=prod_code)
@@ -247,6 +251,7 @@ class ProductUpdateView(UpdateView):
                 raise Http404("Il prodotto con il codice %s non esiste." %prod_code)
            return product
        
+       #Imposto il form da utilizzare
         def get_form_class(self):
            categoria= self.object.type
            if categoria=="computer":
@@ -262,6 +267,7 @@ class ProductUpdateView(UpdateView):
            else:
                 raise Http404("Categoria memorizzata nel prodotto non valida") 
         
+        #Imposto le variabili di context
         def get_context_data(self, **kwargs):
             prod_code = self.kwargs['prod_code']
             context = super().get_context_data(**kwargs)
@@ -272,7 +278,7 @@ class ProductUpdateView(UpdateView):
             context['form']=FormClass(instance=prodotto)
             return context
 
-       
+        #In caso il form sia valido
         def form_valid(self,form,**kwargs):
             prodotto=form.save(commit=False)
             prodotto.final_price=round(prodotto.full_price-((prodotto.full_price/100)*prodotto.discount),2) #Calcolo prezzo finale scontato
@@ -283,15 +289,18 @@ class ProductUpdateView(UpdateView):
             
             return super().form_valid(form)
         
+        #In caso i dati nel form non siano corretti
         def form_invalid(self,form):
             messages.error(self.request,"Campi inseriti nel form non validi.")
             return super().form_invalid(form)
 
+#Ricerca sui prodotti da parte dei clienti e utenti anonimi
 class SearchView(ListView):
     model = Product
     template_name = 'products/search.html'
     context_object_name = 'listaricerca'
 
+    #Acquisisco i risultati della ricerca
     def get_queryset(self):
         result = super(SearchView, self).get_queryset()
         query = self.request.GET.get('search')

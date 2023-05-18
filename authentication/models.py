@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+#Model Client che estende lo User di default di Django con alcuni campi
 class Client (models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_image = models.ImageField(blank=True, null=True, default="unknown.jpeg")

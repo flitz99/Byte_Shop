@@ -1,19 +1,15 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse, Http404
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from .models import Client
-from django.shortcuts import get_object_or_404
 from cart.models import *
 from orders.views import svuota_carrello
-from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from .forms import *
-from django.http import Http404
-from django.contrib.auth import get_user_model
-from django.contrib.auth import update_session_auth_hash
 import re
 
 #Createview per la registrazione degli utenti clienti e admin
@@ -21,6 +17,7 @@ class SignupCreateView(CreateView):
     template_name="authentication/signup.html"
     success_url= reverse_lazy('authentication:signin',kwargs={'user_type':None})
 
+    #Scelta del form da utilizzare
     def get_form_class(self):
         user_type = self.kwargs.get('user_type')
         if user_type == 'admin':
@@ -29,7 +26,8 @@ class SignupCreateView(CreateView):
             return ClientCreationForm
         else:
             raise Http404("Tipologia di utente non valida")  
-        
+    
+    #Se il form è valido
     def form_valid(self,form):
         user_type = self.kwargs.get('user_type')
 
@@ -70,7 +68,8 @@ class SignupCreateView(CreateView):
             self.success_url = reverse_lazy("authentication:signin", kwargs={'user_type': "admin"}) #Redireziono al login da cliente
 
         return super().form_valid(form)
-        
+    
+    #Modifica delle variabili di context
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.kwargs['user_type'] #Introduco ctx con tipo utente

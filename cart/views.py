@@ -5,9 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
-def home(request):
-    return redirect('../')
-
+#VIew per la visualizzazione del carrello dell'utente
 @login_required
 def carrello(request):
     
@@ -41,6 +39,7 @@ def carrello(request):
 
     return render(request, template_name=templ, context=ctx) #restituisco il template
 
+#View per la cancellazione di un prodotto dal carrello dell'utente
 def delete_item(request,prod_code):
 
     if Product.objects.filter(product_code=prod_code).exists():

@@ -2,14 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 from authentication.models import Client
 
-#Classe recensione 
+#Model recensione di un prodotto da parte dei clienti
 class Recensione(models.Model):
     valutation=models.PositiveIntegerField( default=1) # valore tra 1 e 5 stelle
     date = models.DateField(blank=False)
-    description = models.CharField( max_length=300) # recensione
+    description = models.CharField( max_length=300) 
     client=models.ForeignKey(Client, on_delete=models.CASCADE)
     
-#Classe prodotto generico
+#Model prodotto generico
 class Product(models.Model):
     image= models.ImageField(blank=True, null=True)
     name= models.CharField(max_length=200)
@@ -29,8 +29,7 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-
-#Classe prodotto della categoria smartphone
+#Model prodotto della categoria smartphone
 class Smartphone(Product):
     display_size= models.FloatField(default=0)
     cpu= models.CharField(max_length=50)
@@ -41,7 +40,7 @@ class Smartphone(Product):
     camera= models.IntegerField(default=0)
     additional_function= models.CharField(max_length=1000) 
 
-#Classe prodotto della categoria computer
+#Model prodotto della categoria computer
 class Computer(Product):
     display_size= models.FloatField(default=0)
     display_resolution= models.CharField(max_length=20)
@@ -54,7 +53,7 @@ class Computer(Product):
     battery_autonomy= models.FloatField(default=0)
     additional_function= models.CharField(max_length=1000)
 
-
+#Model prodotto della categoria televisore
 class Televisore(Product):
     display_size= models.FloatField(default=0)
     display_resolution= models.CharField(max_length=20)
@@ -65,10 +64,12 @@ class Televisore(Product):
     reception_type=models.CharField(max_length=50)
     additional_function=models.CharField(max_length=1000)
 
+#Model prodotto della categoria cover
 class Cover(Product):
     compatibilità=models.CharField(max_length=500)
     caratteristiche=models.CharField(max_length=1000)
 
+#Model prodotto della categoria cuffie
 class Cuffie(Product):
     cuffie_type=models.CharField(max_length=50)
     caratteristiche=models.CharField(max_length=2000)

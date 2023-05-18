@@ -13,10 +13,8 @@
 
 {% include "header.html" %}
 
-<!-- Visualizzazione prodotti -->
 <center>
 
-    
     {% if user.is_authenticated and user.is_staff%} <!--Se utente autenticato è amministratore -->
         <br>
         <h3> Prodotti che hai inserito: </h3>
