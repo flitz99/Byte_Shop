@@ -1,2 +1,9 @@
 # Byte_Shop
-E-commerce website for tech products
+Progetto di tecnologie Web realizzato da Filippo Reggiani, Matricola 148084
+
+## Run project
+
+```
+python3 manage.py runserver
+```
+
