@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
-#VIew per la visualizzazione del carrello dell'utente
+#View per la visualizzazione del carrello dell'utente
 @login_required
 def carrello(request):
     

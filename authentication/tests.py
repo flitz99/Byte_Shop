@@ -4,7 +4,6 @@ from django.urls import reverse
 from authentication.models import Client
 from cart.models import Carrello
 from .forms import ClientCreationForm, CustomUserCreationForm
-
 from django.contrib.auth import get_user_model
 
 #Test registrazione cliente
@@ -35,6 +34,22 @@ class ClientRegistrationTest(TestCase):
         #Controllo validità dei dati inseriti nel form di registrazione di un cliente
         form = ClientCreationForm(data=user_data)
         self.assertTrue(form.is_valid()) 
+
+        cleaned_data = form.cleaned_data
+        self.assertTrue('username' in cleaned_data)
+        self.assertTrue('email' in cleaned_data)
+        self.assertTrue('first_name' in cleaned_data)
+        self.assertTrue('last_name' in cleaned_data)
+        self.assertTrue('telephone' in cleaned_data)
+        self.assertTrue('address' in cleaned_data)
+        self.assertTrue('house_number' in cleaned_data)
+        self.assertTrue('city' in cleaned_data)
+        self.assertTrue('province' in cleaned_data)
+        self.assertTrue('cap' in cleaned_data)
+        self.assertTrue('birth_date' in cleaned_data)
+        self.assertTrue('password1' in cleaned_data)
+        self.assertTrue('password2' in cleaned_data)
+        self.assertTrue('profile_image' in cleaned_data)
 
         #Verifico condizioni sui campi del form
         self.assertTrue(form.fields['username'].required)
@@ -110,6 +125,14 @@ class AdminRegistrationTest(TestCase):
         #Controllo validità dei dati inseriti nel form di registrazione di un admin
         form = CustomUserCreationForm(data=user_data)
         self.assertTrue(form.is_valid()) 
+
+        cleaned_data = form.cleaned_data
+        self.assertTrue('username' in cleaned_data)
+        self.assertTrue('email' in cleaned_data)
+        self.assertTrue('first_name' in cleaned_data)
+        self.assertTrue('last_name' in cleaned_data)
+        self.assertTrue('password1' in cleaned_data)
+        self.assertTrue('password2' in cleaned_data)
 
         #Verifico condizioni sui campi del form
         self.assertTrue(form.fields['username'].required)
