@@ -110,7 +110,7 @@ class AdminRegistrationTest(TestCase):
         self.user_type = 'admin'  # Imposto il valore di user_type
         self.url = reverse('authentication:signup', kwargs={'user_type': self.user_type}) 
 
-    def test_client_registration(self):
+    def test_admin_registration(self):
         
         #Dati utente cliente di test
         user_data = {

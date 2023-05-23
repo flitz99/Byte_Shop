@@ -9,7 +9,18 @@ class DeleteProductViewTest(TestCase):
     def setUp(self):
         #Dati utente admin e prodotto di test
         self.user = User.objects.create_user(username='testuser', password='testpassword')
-        self.product = Product.objects.create(name='Test Product', type='Test Type', product_code='12345', productor='Test Productor', color='Test Color', size='Test Size', weight=1.0, full_price=10.0, discount=0, final_price=10.0, quantity=1, supplier=self.user)
+        self.product = Product.objects.create(name='Test Product',
+                                              type='Test Type',
+                                              product_code='12345',
+                                              productor='Test Productor',
+                                              color='Test Color', 
+                                              size='Test Size',
+                                              weight=1.0,
+                                              full_price=10.0,
+                                              discount=0,
+                                              final_price=10.0,
+                                              quantity=1,
+                                              supplier=self.user)
 
     def test_delete_product(self):
         self.client.login(username='testuser', password='testpassword') #Effettuo login
